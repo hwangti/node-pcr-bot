@@ -1,0 +1,6 @@
+.backup/
+.vscode/
+config/[0-9]*/
+config/auth.json
+config/credentials.json
+node_modules

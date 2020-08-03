@@ -1,0 +1,15 @@
+{
+  "name": "node-pcr-bot",
+  "version": "1.4.3",
+  "description": "Discord Bot in Priconne by NodeJS",
+  "main": "main.js",
+  "private": true,
+  "author": "HwangTi",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^12.2.0",
+    "form-data": "^3.0.0",
+    "googleapis": "^58.0.0",
+    "node-fetch": "^2.6.0"
+  }
+}

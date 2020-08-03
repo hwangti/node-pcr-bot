@@ -1,0 +1,986 @@
+{
+  "1001": {
+    "unit_id": 1001,
+    "unit_name": "히요리",
+    "unit_kana": "ヒヨリ",
+    "sheet_name": "히요리",
+    "unit_alias": ["히요리", "ヒヨリ"],
+    "search_area_width": 200
+  },
+  "1002": {
+    "unit_id": 1002,
+    "unit_name": "유이",
+    "unit_kana": "ユイ",
+    "sheet_name": "유이",
+    "unit_alias": ["유이", "ユイ"],
+    "search_area_width": 800
+  },
+  "1003": {
+    "unit_id": 1003,
+    "unit_name": "레이",
+    "unit_kana": "レイ",
+    "sheet_name": "레이",
+    "unit_alias": ["레이", "レイ"],
+    "search_area_width": 250
+  },
+  "1004": {
+    "unit_id": 1004,
+    "unit_name": "미소기",
+    "unit_kana": "ミソギ",
+    "sheet_name": "미소기",
+    "unit_alias": ["미소기", "ミソギ"],
+    "search_area_width": 205
+  },
+  "1005": {
+    "unit_id": 1005,
+    "unit_name": "마츠리",
+    "unit_kana": "マツリ",
+    "sheet_name": "마츠리",
+    "unit_alias": ["마츠리", "マツリ"],
+    "search_area_width": 185
+  },
+  "1006": {
+    "unit_id": 1006,
+    "unit_name": "아카리",
+    "unit_kana": "アカリ",
+    "sheet_name": "아카리",
+    "unit_alias": ["아카리", "アカリ"],
+    "search_area_width": 570
+  },
+  "1007": {
+    "unit_id": 1007,
+    "unit_name": "미야코",
+    "unit_kana": "ミヤコ",
+    "sheet_name": "미야코",
+    "unit_alias": ["미야코", "ミヤコ", "푸딩"],
+    "search_area_width": 125
+  },
+  "1008": {
+    "unit_id": 1008,
+    "unit_name": "유키",
+    "unit_kana": "ユキ",
+    "sheet_name": "유키",
+    "unit_alias": ["유키", "ユキ"],
+    "search_area_width": 805
+  },
+  "1009": {
+    "unit_id": 1009,
+    "unit_name": "안나",
+    "unit_kana": "アンナ",
+    "sheet_name": "안나",
+    "unit_alias": ["안나", "アンナ"],
+    "search_area_width": 440
+  },
+  "1010": {
+    "unit_id": 1010,
+    "unit_name": "마호",
+    "unit_kana": "マホ",
+    "sheet_name": "마호",
+    "unit_alias": ["마호", "マホ"],
+    "search_area_width": 795
+  },
+  "1011": {
+    "unit_id": 1011,
+    "unit_name": "리노",
+    "unit_kana": "リノ",
+    "sheet_name": "리노",
+    "unit_alias": ["리노", "リノ"],
+    "search_area_width": 700
+  },
+  "1012": {
+    "unit_id": 1012,
+    "unit_name": "하츠네",
+    "unit_kana": "ハツネ",
+    "sheet_name": "하츠네",
+    "unit_alias": ["하츠네", "ハツネ"],
+    "search_area_width": 755
+  },
+  "1013": {
+    "unit_id": 1013,
+    "unit_name": "나나카",
+    "unit_kana": "ナナカ",
+    "sheet_name": "나나카",
+    "unit_alias": ["나나카", "ナナカ"],
+    "search_area_width": 740
+  },
+  "1014": {
+    "unit_id": 1014,
+    "unit_name": "카스미",
+    "unit_kana": "カスミ",
+    "sheet_name": "카스미",
+    "unit_alias": ["카스미", "カスミ"],
+    "search_area_width": 730
+  },
+  "1015": {
+    "unit_id": 1015,
+    "unit_name": "미사토",
+    "unit_kana": "ミサト",
+    "sheet_name": "미사토",
+    "unit_alias": ["미사토", "ミサト"],
+    "search_area_width": 735
+  },
+  "1016": {
+    "unit_id": 1016,
+    "unit_name": "스즈나",
+    "unit_kana": "スズナ",
+    "sheet_name": "스즈나",
+    "unit_alias": ["스즈나", "スズナ"],
+    "search_area_width": 705
+  },
+  "1017": {
+    "unit_id": 1017,
+    "unit_name": "카오리",
+    "unit_kana": "カオリ",
+    "sheet_name": "카오리",
+    "unit_alias": ["카오리", "カオリ"],
+    "search_area_width": 145
+  },
+  "1018": {
+    "unit_id": 1018,
+    "unit_name": "이오",
+    "unit_kana": "イオ",
+    "sheet_name": "이오",
+    "unit_alias": ["이오", "イオ"],
+    "search_area_width": 715
+  },
+  "1020": {
+    "unit_id": 1020,
+    "unit_name": "미미",
+    "unit_kana": "ミミ",
+    "sheet_name": "미미",
+    "unit_alias": ["미미", "ミミ"],
+    "search_area_width": 360
+  },
+  "1021": {
+    "unit_id": 1021,
+    "unit_name": "쿠루미",
+    "unit_kana": "クルミ",
+    "sheet_name": "쿠루미",
+    "unit_alias": ["쿠루미", "クルミ"],
+    "search_area_width": 240
+  },
+  "1022": {
+    "unit_id": 1022,
+    "unit_name": "요리",
+    "unit_kana": "ヨリ",
+    "sheet_name": "요리",
+    "unit_alias": ["요리", "ヨリ"],
+    "search_area_width": 575
+  },
+  "1023": {
+    "unit_id": 1023,
+    "unit_name": "아야네",
+    "unit_kana": "アヤネ",
+    "sheet_name": "아야네",
+    "unit_alias": ["아야네", "アヤネ"],
+    "search_area_width": 210
+  },
+  "1025": {
+    "unit_id": 1025,
+    "unit_name": "스즈메",
+    "unit_kana": "スズメ",
+    "sheet_name": "스즈메",
+    "unit_alias": ["스즈메", "スズメ"],
+    "search_area_width": 720
+  },
+  "1026": {
+    "unit_id": 1026,
+    "unit_name": "린",
+    "unit_kana": "リン",
+    "sheet_name": "린",
+    "unit_alias": ["린", "リン"],
+    "search_area_width": 550
+  },
+  "1027": {
+    "unit_id": 1027,
+    "unit_name": "에리코",
+    "unit_kana": "エリコ",
+    "sheet_name": "에리코",
+    "unit_alias": ["에리코", "エリコ"],
+    "search_area_width": 230
+  },
+  "1028": {
+    "unit_id": 1028,
+    "unit_name": "사렌",
+    "unit_kana": "サレン",
+    "sheet_name": "사렌",
+    "unit_alias": ["사렌", "サレン"],
+    "search_area_width": 430
+  },
+  "1029": {
+    "unit_id": 1029,
+    "unit_name": "노조미",
+    "unit_kana": "ノゾミ",
+    "sheet_name": "노조미",
+    "unit_alias": ["노조미", "ノゾミ"],
+    "search_area_width": 160
+  },
+  "1030": {
+    "unit_id": 1030,
+    "unit_name": "니논",
+    "unit_kana": "ニノン",
+    "sheet_name": "니논",
+    "unit_alias": ["니논", "ニノン"],
+    "search_area_width": 415
+  },
+  "1031": {
+    "unit_id": 1031,
+    "unit_name": "시노부",
+    "unit_kana": "シノブ",
+    "sheet_name": "시노부",
+    "unit_alias": ["시노부", "シノブ"],
+    "search_area_width": 365
+  },
+  "1032": {
+    "unit_id": 1032,
+    "unit_name": "아키노",
+    "unit_kana": "アキノ",
+    "sheet_name": "아키노",
+    "unit_alias": ["아키노", "アキノ"],
+    "search_area_width": 180
+  },
+  "1033": {
+    "unit_id": 1033,
+    "unit_name": "마히루",
+    "unit_kana": "マヒル",
+    "sheet_name": "마히루",
+    "unit_alias": ["마히루", "マヒル"],
+    "search_area_width": 395
+  },
+  "1034": {
+    "unit_id": 1034,
+    "unit_name": "유카리",
+    "unit_kana": "ユカリ",
+    "sheet_name": "유카리",
+    "unit_alias": ["유카리", "ユカリ"],
+    "search_area_width": 405
+  },
+  "1036": {
+    "unit_id": 1036,
+    "unit_name": "쿄우카",
+    "unit_kana": "キョウカ",
+    "sheet_name": "쿄우카",
+    "unit_alias": ["쿄우카", "キョウカ"],
+    "search_area_width": 810
+  },
+  "1037": {
+    "unit_id": 1037,
+    "unit_name": "토모",
+    "unit_kana": "トモ",
+    "sheet_name": "토모",
+    "unit_alias": ["토모", "トモ"],
+    "search_area_width": 220
+  },
+  "1038": {
+    "unit_id": 1038,
+    "unit_name": "시오리",
+    "unit_kana": "シオリ",
+    "sheet_name": "시오리",
+    "unit_alias": ["시오리", "シオリ"],
+    "search_area_width": 710
+  },
+  "1040": {
+    "unit_id": 1040,
+    "unit_name": "아오이",
+    "unit_kana": "アオイ",
+    "sheet_name": "아오이",
+    "unit_alias": ["아오이", "アオイ", "찐"],
+    "search_area_width": 785
+  },
+  "1042": {
+    "unit_id": 1042,
+    "unit_name": "치카",
+    "unit_kana": "チカ",
+    "sheet_name": "치카",
+    "unit_alias": ["치카", "チカ", "벽"],
+    "search_area_width": 790
+  },
+  "1043": {
+    "unit_id": 1043,
+    "unit_name": "마코토",
+    "unit_kana": "マコト",
+    "sheet_name": "마코토",
+    "unit_alias": ["마코토", "マコト"],
+    "search_area_width": 165
+  },
+  "1044": {
+    "unit_id": 1044,
+    "unit_name": "이리야",
+    "unit_kana": "イリヤ",
+    "sheet_name": "이리야",
+    "unit_alias": ["이리야", "イリヤ"],
+    "search_area_width": 425
+  },
+  "1045": {
+    "unit_id": 1045,
+    "unit_name": "쿠우카",
+    "unit_kana": "クウカ",
+    "sheet_name": "쿠우카",
+    "unit_alias": ["쿠우카", "クウカ"],
+    "search_area_width": 130
+  },
+  "1046": {
+    "unit_id": 1046,
+    "unit_name": "타마키",
+    "unit_kana": "タマキ",
+    "sheet_name": "타마키",
+    "unit_alias": ["타마키", "タマキ"],
+    "search_area_width": 215
+  },
+  "1047": {
+    "unit_id": 1047,
+    "unit_name": "쥰",
+    "unit_kana": "ジュン",
+    "sheet_name": "쥰",
+    "unit_alias": ["쥰", "ジュン"],
+    "search_area_width": 135
+  },
+  "1048": {
+    "unit_id": 1048,
+    "unit_name": "미후유",
+    "unit_kana": "ミフユ",
+    "sheet_name": "미후유",
+    "unit_alias": ["미후유", "ミフユ"],
+    "search_area_width": 420
+  },
+  "1049": {
+    "unit_id": 1049,
+    "unit_name": "시즈루",
+    "unit_kana": "シズル",
+    "sheet_name": "시즈루",
+    "unit_alias": ["시즈루", "シズル"],
+    "search_area_width": 285
+  },
+  "1050": {
+    "unit_id": 1050,
+    "unit_name": "미사키",
+    "unit_kana": "ミサキ",
+    "sheet_name": "미사키",
+    "unit_alias": ["미사키", "ミサキ"],
+    "search_area_width": 760
+  },
+  "1051": {
+    "unit_id": 1051,
+    "unit_name": "미츠키",
+    "unit_kana": "ミツキ",
+    "sheet_name": "미츠키",
+    "unit_alias": ["미츠키", "ミツキ"],
+    "search_area_width": 565
+  },
+  "1052": {
+    "unit_id": 1052,
+    "unit_name": "리마",
+    "unit_kana": "リマ",
+    "sheet_name": "리마",
+    "unit_alias": ["리마", "リマ", "축생", "짐승"],
+    "search_area_width": 105
+  },
+  "1053": {
+    "unit_id": 1053,
+    "unit_name": "모니카",
+    "unit_kana": "モニカ",
+    "sheet_name": "모니카",
+    "unit_alias": ["모니카", "モニカ"],
+    "search_area_width": 410
+  },
+  "1054": {
+    "unit_id": 1054,
+    "unit_name": "츠무기",
+    "unit_kana": "ツムギ",
+    "sheet_name": "츠무기",
+    "unit_alias": ["츠무기", "ツムギ"],
+    "search_area_width": 195
+  },
+  "1055": {
+    "unit_id": 1055,
+    "unit_name": "아유미",
+    "unit_kana": "アユミ",
+    "sheet_name": "아유미",
+    "unit_alias": ["아유미", "アユミ"],
+    "search_area_width": 510
+  },
+  "1056": {
+    "unit_id": 1056,
+    "unit_name": "루카",
+    "unit_kana": "ルカ",
+    "sheet_name": "루카",
+    "unit_alias": ["루카", "ルカ"],
+    "search_area_width": 158
+  },
+  "1057": {
+    "unit_id": 1057,
+    "unit_name": "지타",
+    "unit_kana": "ジータ",
+    "sheet_name": "지타",
+    "unit_alias": ["지타", "ジータ"],
+    "search_area_width": 245
+  },
+  "1058": {
+    "unit_id": 1058,
+    "unit_name": "페코린느",
+    "unit_kana": "ペコリーヌ",
+    "sheet_name": "페코린느",
+    "unit_alias": ["페코린느", "ペコリーヌ", "페코"],
+    "search_area_width": 155
+  },
+  "1059": {
+    "unit_id": 1059,
+    "unit_name": "콧코로",
+    "unit_kana": "コッコロ",
+    "sheet_name": "콧코로",
+    "unit_alias": ["콧코로", "コッコロ"],
+    "search_area_width": 500
+  },
+  "1060": {
+    "unit_id": 1060,
+    "unit_name": "캬루",
+    "unit_kana": "キャル",
+    "sheet_name": "캬루",
+    "unit_alias": ["캬루", "キャル"],
+    "search_area_width": 750
+  },
+  "1061": {
+    "unit_id": 1061,
+    "unit_name": "무이미",
+    "unit_kana": "ムイミ",
+    "sheet_name": "무이미",
+    "unit_alias": ["무이미", "ムイミ"],
+    "search_area_width": 162
+  },
+  "1063": {
+    "unit_id": 1063,
+    "unit_name": "아리사",
+    "unit_kana": "アリサ",
+    "sheet_name": "아리사",
+    "unit_alias": ["아리사", "アリサ"],
+    "search_area_width": 625
+  },
+  "1065": {
+    "unit_id": 1065,
+    "unit_name": "카야",
+    "unit_kana": "カヤ",
+    "sheet_name": "카야",
+    "unit_alias": ["카야", "カヤ"],
+    "search_area_width": 168
+  },
+  "1066": {
+    "unit_id": 1066,
+    "unit_name": "이노리",
+    "unit_kana": "イノリ",
+    "sheet_name": "이노리",
+    "unit_alias": ["이노리", "イノリ"],
+    "search_area_width": 197
+  },
+  "1070": {
+    "unit_id": 1070,
+    "unit_name": "네네카",
+    "unit_kana": "ネネカ",
+    "sheet_name": "네네카",
+    "unit_alias": ["네네카", "ネネカ"],
+    "search_area_width": 660
+  },
+  "1071": {
+    "unit_id": 1071,
+    "unit_name": "크리스티나",
+    "unit_kana": "クリスティーナ",
+    "sheet_name": "크리스",
+    "unit_alias": ["크리스티나", "クリスティーナ", "크리스"],
+    "search_area_width": 290
+  },
+  "1075": {
+    "unit_id": 1075,
+    "unit_name": "페코린느(여름)",
+    "unit_kana": "ペコリーヌ（サマー）",
+    "sheet_name": "수페코",
+    "unit_alias": ["페코린느(여름)", "ペコリーヌ（サマー）", "페코린느(서머)", "페코린느(수영복)", "수페코"],
+    "search_area_width": 235
+  },
+  "1076": {
+    "unit_id": 1076,
+    "unit_name": "콧코로(여름)",
+    "unit_kana": "コッコロ（サマー）",
+    "sheet_name": "수코로",
+    "unit_alias": ["콧코로(여름)", "コッコロ（サマー）", "콧코로(서머)", "콧코로(수영복)", "수코로", "숫코로"],
+    "search_area_width": 535
+  },
+  "1077": {
+    "unit_id": 1077,
+    "unit_name": "스즈메(여름)",
+    "unit_kana": "スズメ（サマー）",
+    "sheet_name": "수즈메",
+    "unit_alias": ["스즈메(여름)", "スズメ（サマー）", "스즈메(서머)", "스즈메(수영복)", "수즈메"],
+    "search_area_width": 775
+  },
+  "1078": {
+    "unit_id": 1078,
+    "unit_name": "캬루(여름)",
+    "unit_kana": "キャル（サマー）",
+    "sheet_name": "수캬루",
+    "unit_alias": ["캬루(여름)", "キャル（サマー）", "캬루(서머)", "캬루(수영복)", "수캬루"],
+    "search_area_width": 780
+  },
+  "1079": {
+    "unit_id": 1079,
+    "unit_name": "타마키(여름)",
+    "unit_kana": "タマキ（サマー）",
+    "sheet_name": "수마키",
+    "unit_alias": ["타마키(여름)", "タマキ（サマー）", "타마키(서머)", "타마키(수영복)", "수마키"],
+    "search_area_width": 225
+  },
+  "1080": {
+    "unit_id": 1080,
+    "unit_name": "미후유(여름)",
+    "unit_kana": "ミフユ（サマー）",
+    "sheet_name": "수후유",
+    "unit_alias": ["미후유(여름)", "ミフユ（サマー）", "미후유(서머)", "미후유(수영복)", "수후유"],
+    "search_area_width": 495
+  },
+  "1081": {
+    "unit_id": 1081,
+    "unit_name": "시노부(할로윈)",
+    "unit_kana": "シノブ（ハロウィン）",
+    "sheet_name": "할노부",
+    "unit_alias": ["시노부(할로윈)", "シノブ（ハロウィン）", "할노부"],
+    "search_area_width": 440
+  },
+  "1082": {
+    "unit_id": 1082,
+    "unit_name": "미야코(할로윈)",
+    "unit_kana": "ミヤコ（ハロウィン）",
+    "sheet_name": "할푸딩",
+    "unit_alias": ["미야코(할로윈)", "ミヤコ（ハロウィン）", "할푸딩"],
+    "search_area_width": 590
+  },
+  "1083": {
+    "unit_id": 1083,
+    "unit_name": "미사키(할로윈)",
+    "unit_kana": "ミサキ（ハロウィン）",
+    "sheet_name": "할사키",
+    "unit_alias": ["미사키(할로윈)", "ミサキ（ハロウィン）", "할사키"],
+    "search_area_width": 815
+  },
+  "1084": {
+    "unit_id": 1084,
+    "unit_name": "치카(크리스마스)",
+    "unit_kana": "チカ（クリスマス）",
+    "sheet_name": "성치카",
+    "unit_alias": ["치카(크리스마스)", "チカ（クリスマス）", "치카(성탄절)", "치카(성탄)", "성벽", "성치카"],
+    "search_area_width": 770
+  },
+  "1085": {
+    "unit_id": 1085,
+    "unit_name": "쿠루미(크리스마스)",
+    "unit_kana": "クルミ（クリスマス）",
+    "sheet_name": "성루미",
+    "unit_alias": ["쿠루미(크리스마스)", "クルミ（クリスマス）", "쿠루미(성탄절)", "쿠루미(성탄)", "성루미"],
+    "search_area_width": 295
+  },
+  "1086": {
+    "unit_id": 1086,
+    "unit_name": "아야네(크리스마스)",
+    "unit_kana": "アヤネ（クリスマス）",
+    "sheet_name": "성야네",
+    "unit_alias": ["아야네(크리스마스)", "アヤネ（クリスマス）", "아야네(성탄절)", "아야네(성탄)", "성야네", "킁야네"],
+    "search_area_width": 190
+  },
+  "1087": {
+    "unit_id": 1087,
+    "unit_name": "히요리(새해)",
+    "unit_kana": "ヒヨリ（ニューイヤー）",
+    "sheet_name": "뉴요리",
+    "unit_alias": ["히요리(새해)", "ヒヨリ（ニューイヤー）", "히요리(뉴이어)", "히요리(신년)", "뉴요리", "신요리"],
+    "search_area_width": 170
+  },
+  "1088": {
+    "unit_id": 1088,
+    "unit_name": "유이(새해)",
+    "unit_kana": "ユイ（ニューイヤー）",
+    "sheet_name": "뉴이",
+    "unit_alias": ["유이(새해)", "ユイ（ニューイヤー）", "유이(뉴이어)", "유이(신년)", "뉴이", "신유이"],
+    "search_area_width": 745
+  },
+  "1089": {
+    "unit_id": 1089,
+    "unit_name": "레이(새해)",
+    "unit_kana": "レイ（ニューイヤー）",
+    "sheet_name": "신레이",
+    "unit_alias": ["레이(새해)", "レイ（ニューイヤー）", "레이(뉴이어)", "레이(신년)", "뉴레이", "신레이"],
+    "search_area_width": 153
+  },
+  "1090": {
+    "unit_id": 1090,
+    "unit_name": "에리코(발렌타인)",
+    "unit_kana": "エリコ（バレンタイン）",
+    "sheet_name": "발리코",
+    "unit_alias": ["에리코(발렌타인)", "エリコ（バレンタイン）", "에리코(발렌)", "발리코"],
+    "search_area_width": 187
+  },
+  "1091": {
+    "unit_id": 1091,
+    "unit_name": "시즈루(발렌타인)",
+    "unit_kana": "シズル（バレンタイン）",
+    "sheet_name": "발즈루",
+    "unit_alias": ["시즈루(발렌타인)", "シズル（バレンタイン）", "시즈루(발렌)", "발즈루"],
+    "search_area_width": 385
+  },
+  "1092": {
+    "unit_id": 1092,
+    "unit_name": "앤",
+    "unit_kana": "アン",
+    "sheet_name": "앤",
+    "unit_alias": ["앤", "アン"],
+    "search_area_width": 630
+  },
+  "1093": {
+    "unit_id": 1093,
+    "unit_name": "루",
+    "unit_kana": "ルゥ",
+    "sheet_name": "루",
+    "unit_alias": ["루", "ルゥ"],
+    "search_area_width": 640
+  },
+  "1094": {
+    "unit_id": 1094,
+    "unit_name": "글레어",
+    "unit_kana": "グレア",
+    "sheet_name": "글레어",
+    "unit_alias": ["글레어", "グレア"],
+    "search_area_width": 525
+  },
+  "1095": {
+    "unit_id": 1095,
+    "unit_name": "쿠우카(오에도)",
+    "unit_kana": "クウカ（オーエド）",
+    "sheet_name": "오우카",
+    "unit_alias": ["쿠우카(오에도)", "クウカ（オーエド）", "오우카"],
+    "search_area_width": 140
+  },
+  "1096": {
+    "unit_id": 1096,
+    "unit_name": "니논(오에도)",
+    "unit_kana": "ニノン（オーエド）",
+    "sheet_name": "오논",
+    "unit_alias": ["니논(오에도)", "ニノン（オーエド）", "닌논", "오니논", "오논"],
+    "search_area_width": 175
+  },
+  "1097": {
+    "unit_id": 1097,
+    "unit_name": "렘",
+    "unit_kana": "レム",
+    "sheet_name": "렘",
+    "unit_alias": ["렘", "レム"],
+    "search_area_width": 540
+  },
+  "1098": {
+    "unit_id": 1098,
+    "unit_name": "람",
+    "unit_kana": "ラム",
+    "sheet_name": "람",
+    "unit_alias": ["람", "ラム"],
+    "search_area_width": 545
+  },
+  "1099": {
+    "unit_id": 1099,
+    "unit_name": "에밀리아",
+    "unit_kana": "エミリア",
+    "sheet_name": "에밀리아",
+    "unit_alias": ["에밀리아", "エミリア", "에밀"],
+    "search_area_width": 725
+  },
+  "1100": {
+    "unit_id": 1100,
+    "unit_name": "스즈나(여름)",
+    "unit_kana": "スズナ（サマー）",
+    "sheet_name": "수즈나",
+    "unit_alias": ["스즈나(여름)", "スズナ（サマー）", "스즈나(서머)", "스즈나(수영복)", "수즈나"],
+    "search_area_width": 705
+  },
+  "1101": {
+    "unit_id": 1101,
+    "unit_name": "이오(여름)",
+    "unit_kana": "イオ（サマー）",
+    "sheet_name": "수이오",
+    "unit_alias": ["이오(여름)", "イオ（サマー）", "이오(서머)", "이오(수영복)", "수이오"],
+    "search_area_width": 715
+  },
+  "1103": {
+    "unit_id": 1103,
+    "unit_name": "사렌(여름)",
+    "unit_kana": "サレン（サマー）",
+    "sheet_name": "수사렌",
+    "unit_alias": ["사렌(여름)", "サレン（サマー）", "사렌(서머)", "사렌(수영복)", "수사렌"],
+    "search_area_width": 585
+  },
+  "1104": {
+    "unit_id": 1104,
+    "unit_name": "마코토(여름)",
+    "unit_kana": "マコト（サマー）",
+    "sheet_name": "수코토",
+    "unit_alias": ["마코토(여름)", "マコト（サマー）", "마코토(서머)", "마코토(수영복)", "수코토"],
+    "search_area_width": 180
+  },
+  "1105": {
+    "unit_id": 1105,
+    "unit_name": "카오리(여름)",
+    "unit_kana": "カオリ（サマー）",
+    "sheet_name": "수오리",
+    "unit_alias": ["카오리(여름)", "カオリ（サマー）", "카오리(서머)", "카오리(수영복)", "수오리"],
+    "search_area_width": 425
+  },
+  "1106": {
+    "unit_id": 1106,
+    "unit_name": "마호(여름)",
+    "unit_kana": "マホ（サマー）",
+    "sheet_name": "수마호",
+    "unit_alias": ["마호(여름)", "マホ（サマー）", "마호(서머)", "마호(수영복)", "수마호"],
+    "search_area_width": 792
+  },
+  "1107": {
+    "unit_id": 1107,
+    "unit_name": "아오이(편입생)",
+    "unit_kana": "アオイ（編入生）",
+    "sheet_name": "편오이",
+    "unit_alias": ["아오이(편입생)", "アオイ（編入生）", "편오이"],
+    "search_area_width": 680
+  },
+  "1108": {
+    "unit_id": 1108,
+    "unit_name": "클로에",
+    "unit_kana": "クロエ",
+    "sheet_name": "클로에",
+    "unit_alias": ["클로에", "クロエ"],
+    "search_area_width": 185
+  },
+  "1109": {
+    "unit_id": 1109,
+    "unit_name": "치엘",
+    "unit_kana": "チエル",
+    "sheet_name": "치엘",
+    "unit_alias": ["치엘", "チエル", "치에루"],
+    "search_area_width": 222
+  },
+  "1110": {
+    "unit_id": 1110,
+    "unit_name": "유니",
+    "unit_kana": "ユニ",
+    "sheet_name": "유니",
+    "unit_alias": ["유니", "ユニ"],
+    "search_area_width": 807
+  },
+  "1111": {
+    "unit_id": 1111,
+    "unit_name": "쿄우카(할로윈)",
+    "unit_kana": "キョウカ（ハロウィン）",
+    "sheet_name": "할쿄카",
+    "unit_alias": ["쿄우카(할로윈)", "キョウカ（ハロウィン）", "할우카", "할쿄카"],
+    "search_area_width": 820
+  },
+  "1112": {
+    "unit_id": 1112,
+    "unit_name": "미소기(할로윈)",
+    "unit_kana": "ミソギ（ハロウィン）",
+    "sheet_name": "할소기",
+    "unit_alias": ["미소기(할로윈)", "ミソギ（ハロウィン）", "할소기"],
+    "search_area_width": 212
+  },
+  "1113": {
+    "unit_id": 1113,
+    "unit_name": "미미(할로윈)",
+    "unit_kana": "ミミ（ハロウィン）",
+    "sheet_name": "할미미",
+    "unit_alias": ["미미(할로윈)", "ミミ（ハロウィン）", "할미미"],
+    "search_area_width": 365
+  },
+  "1114": {
+    "unit_id": 1114,
+    "unit_name": "루나",
+    "unit_kana": "ルナ",
+    "sheet_name": "루나",
+    "unit_alias": ["루나", "ルナ"],
+    "search_area_width": 765
+  },
+  "1115": {
+    "unit_id": 1115,
+    "unit_name": "크리스티나(크리스마스)",
+    "unit_kana": "クリスティーナ（クリスマス）",
+    "sheet_name": "성리스",
+    "unit_alias": ["크리스티나(크리스마스)", "クリスティーナ（クリスマス）", "크리스티나(성탄절)", "크리스(성탄절)", "크리스(성탄)", "성리스"],
+    "search_area_width": 265
+  },
+  "1116": {
+    "unit_id": 1116,
+    "unit_name": "노조미(크리스마스)",
+    "unit_kana": "ノゾミ（クリスマス）",
+    "sheet_name": "성조미",
+    "unit_alias": ["노조미(크리스마스)", "ノゾミ（クリスマス）", "노조미(성탄절)", "노조미(성탄)", "성조미"],
+    "search_area_width": 418
+  },
+  "1117": {
+    "unit_id": 1117,
+    "unit_name": "이리야(크리스마스)",
+    "unit_kana": "イリヤ（クリスマス）",
+    "sheet_name": "성리야",
+    "unit_alias": ["이리야(크리스마스)", "イリヤ（クリスマス）", "이리야(성탄절)", "이리야(성탄)", "성리야", "크리야"],
+    "search_area_width": 255
+  },
+  "1119": {
+    "unit_id": 1119,
+    "unit_name": "콧코로(새해)",
+    "unit_kana": "コッコロ（ニューイヤー）",
+    "sheet_name": "뉴코로",
+    "unit_alias": ["콧코로(새해)", "コッコロ（ニューイヤー）", "콧코로(뉴이어)", "콧코로(신년)", "뉴마망", "뉴코로", "신코로"],
+    "search_area_width": 159
+  },
+  "1120": {
+    "unit_id": 1120,
+    "unit_name": "캬루(새해)",
+    "unit_kana": "キャル（ニューイヤー）",
+    "sheet_name": "뉴캬루",
+    "unit_alias": ["캬루(새해)", "キャル（ニューイヤー）", "캬루(뉴이어)", "캬루(신년)", "냐루", "뉴루", "뉴캬루"],
+    "search_area_width": 690
+  },
+  "1121": {
+    "unit_id": 1121,
+    "unit_name": "스즈메(새해)",
+    "unit_kana": "スズメ（ニューイヤー）",
+    "sheet_name": "뉴즈메",
+    "unit_alias": ["스즈메(새해)", "スズメ（ニューイヤー）", "스즈메(뉴이어)", "스즈메(신년)", "뉴즈메"],
+    "search_area_width": 722
+  },
+  "1122": {
+    "unit_id": 1122,
+    "unit_name": "카스미(매지컬)",
+    "unit_kana": "カスミ（マジカル）",
+    "sheet_name": "마스미",
+    "unit_alias": ["카스미(매지컬)", "カスミ（マジカル）", "마스미", "매스미"],
+    "search_area_width": 730
+  },
+  "1123": {
+    "unit_id": 1123,
+    "unit_name": "시오리(매지컬)",
+    "unit_kana": "シオリ（マジカル）",
+    "sheet_name": "퓨오리",
+    "unit_alias": ["시오리(매지컬)", "シオリ（マジカル）", "마오리", "매오리", "퓨오리"],
+    "search_area_width": 712
+  },
+  "1124": {
+    "unit_id": 1124,
+    "unit_name": "우즈키(데레마스)",
+    "unit_kana": "ウヅキ（デレマス）",
+    "sheet_name": "우즈키",
+    "unit_alias": ["우즈키(데레마스)", "ウヅキ（デレマス）", "우즈키"],
+    "search_area_width": 370
+  },
+  "1125": {
+    "unit_id": 1125,
+    "unit_name": "린(데레마스)",
+    "unit_kana": "リン（デレマス）",
+    "sheet_name": "시부린",
+    "unit_alias": ["린(데레마스)", "リン（デレマス）", "시부린"],
+    "search_area_width": 153
+  },
+  "1126": {
+    "unit_id": 1126,
+    "unit_name": "미오(데레마스)",
+    "unit_kana": "ミオ（デレマス）",
+    "sheet_name": "혼다",
+    "unit_alias": ["미오(데레마스)", "ミオ（デレマス）", "혼다", "미오"],
+    "search_area_width": 695
+  },
+  "1127": {
+    "unit_id": 1127,
+    "unit_name": "린(레인저)",
+    "unit_kana": "リン（レンジャー）",
+    "sheet_name": "레린",
+    "unit_alias": ["린(레인저)", "リン（レンジャー）", "레린", "렌져린"],
+    "search_area_width": 695
+  },
+  "1128": {
+    "unit_id": 1128,
+    "unit_name": "마히루(레인저)",
+    "unit_kana": "マヒル（レンジャー）",
+    "sheet_name": "레히루",
+    "unit_alias": ["마히루(레인저)", "マヒル（レンジャー）", "레히루"],
+    "search_area_width": 422
+  },
+  "1129": {
+    "unit_id": 1129,
+    "unit_name": "리노(원더)",
+    "unit_kana": "リノ（ワンダー）",
+    "sheet_name": "앨리노",
+    "unit_alias": ["리노(원더)", "リノ（ワンダー）", "앨리노", "원리노"],
+    "search_area_width": 730
+  },
+  "1130": {
+    "unit_id": 1130,
+    "unit_name": "아유미(원더)",
+    "unit_kana": "アユミ（ワンダー）",
+    "sheet_name": "원유미",
+    "unit_alias": ["아유미(원더)", "アユミ（ワンダー）", "앨유미", "원유미"],
+    "search_area_width": 508
+  },
+  "1131": {
+    "unit_id": 1131,
+    "unit_name": "루카(여름)",
+    "unit_kana": "ルカ（サマー）",
+    "sheet_name": "수루카",
+    "unit_alias": ["루카(여름)", "ルカ（サマー）", "수루카"],
+    "search_area_width": 192
+  },
+  "1132": {
+    "unit_id": 1132,
+    "unit_name": "안나(여름)",
+    "unit_kana": "アンナ（サマー）",
+    "sheet_name": "수안나",
+    "unit_alias": ["안나(여름)", "アンナ（サマー）", "수안나"],
+    "search_area_width": 256
+  },
+  "1133": {
+    "unit_id": 1133,
+    "unit_name": "나나카(여름)",
+    "unit_kana": "ナナカ（サマー）",
+    "sheet_name": "수나카",
+    "unit_alias": ["나나카(여름)", "ナナカ（サマー）", "수나카"],
+    "search_area_width": 468
+  },
+  "1134": {
+    "unit_id": 1134,
+    "unit_name": "하츠네(여름)",
+    "unit_kana": "ハツネ（サマー）",
+    "sheet_name": "수츠네",
+    "unit_alias": ["하츠네(여름)", "ハツネ（サマー）", "수츠네"],
+    "search_area_width": 567
+  },
+  "1135": {
+    "unit_id": 1135,
+    "unit_name": "미사토(여름)",
+    "unit_kana": "ミサト（サマー）",
+    "sheet_name": "수나카",
+    "unit_alias": ["미사토(여름)", "ミサト（サマー）", "수사토"],
+    "search_area_width": 697
+  },
+  "1802": {
+    "unit_id": 1802,
+    "unit_name": "유이(프린세스)",
+    "unit_kana": "ユイ（プリンセス）",
+    "sheet_name": "프유이",
+    "unit_alias": ["유이(프린세스)", "ユイ（プリンセス）", "프유이"],
+    "search_area_width": 767
+  },
+  "1804": {
+    "unit_id": 1804,
+    "unit_name": "페코린느(프린세스)",
+    "unit_kana": "ペコリーヌ（プリンセス）",
+    "sheet_name": "프페코",
+    "unit_alias": ["페코린느(프린세스)", "ペコリーヌ（プリンセス）", "페코(프린세스)", "프페코"],
+    "search_area_width": 155
+  },
+  "1805": {
+    "unit_id": 1805,
+    "unit_name": "콧코로(프린세스)",
+    "unit_kana": "コッコロ（プリンセス）",
+    "sheet_name": "프코로",
+    "unit_alias": ["콧코로(프린세스)", "コッコロ（プリンセス）", "프나방", "프마망", "프코로"],
+    "search_area_width": 555
+  }
+}

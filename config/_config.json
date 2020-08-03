@@ -1,0 +1,14 @@
+{
+  "prefix": "!",
+  "admin_user_ids": [],
+  "action_channel_ids": [],
+  "action_roles_ids": [],
+  "clanbattle_start_time": null,
+  "clanbattle_duration_day": null,
+  "sheet_type": "NONE",
+  "linked_id": {},
+  "boss_names": [],
+  "boss_state": {},
+  "command_count": 0,
+  "chat_count": 0
+}

@@ -1,0 +1,31 @@
+string name
+string summary
+string description
+
+array aliases
+array usages
+array samples
+
+int cooltime
+int privileges (1111, 왼쪽부터 소유자 관리자 클랜원 누구나)
+
+boolean hasArgument
+boolean checkStrict
+boolean hideCommand
+
+// boolean checkOwner
+// boolean checkAdmin
+// boolean checkMember
+
+
+
+prefix: 명령어 구분자
+token: discord bot 토큰
+super_admin_id: 제작자, 모든 기능 컨트롤 가능
+action_category_id: 봇이 동작할 카테고리 ID
+action_roles_id: 봇이 동작할 권한 ID
+clanbattle_start_time: 클랜전 시작일
+clanbattle_duration_day: 클랜전 기간 (일 수)
+sheet_log_input_type: 기록 시트 유형 ('MOMO', 'RIMA', 'MAHO')
+sheet_log_before_sort: 기록 시트 입력 전에 위치 값으로 정렬 여부
+sheet_log_has_detail: 상세 입력 가능한 시트 여부 (true, false)
