@@ -73,11 +73,9 @@ module.exports = {
     }
     case '로드':
     case 'load': {
-      delete require.cache[require.resolve(`../config/${message.guild.id}/config.json`)];
-      delete require.cache[require.resolve(`../config/${message.guild.id}/sheets.json`)];
-      delete require.cache[require.resolve(`../config/${message.guild.id}/units.json`)];
-
       ['config', 'sheets', 'units'].map(file => {
+        require.cache[require.resolve(`../config/${message.guild.id}/${file}.json`)];
+
         message.client.config.set(
           `${message.guild.id}_${file}`,
           require(`../config/${message.guild.id}/${file}.json`)
@@ -122,7 +120,7 @@ module.exports = {
       const memberId = args.join(' ').trim();
       let match = null;
       if((match = memberId.match(/^<@!?(\d{18,})>$/)) === null)
-        return message.channel.send('오류: 등록할 멤버를 `@멘션`으로 입력해야 합니다.');
+        return message.channel.send('오류: 등록할 멤버를 한 명씩 `@멘션`으로 입력해야 합니다.');
 
       config.admin_user_ids.push(match[1]);
       config.admin_user_ids = [...new Set(config.admin_user_ids)];
@@ -134,7 +132,7 @@ module.exports = {
       const memberId = args.join(' ').trim();
       let match = null;
       if((match = memberId.match(/^<@!?(\d{18,})>$/)) === null)
-        return message.channel.send('오류: 삭제할 멤버를 `@멘션`으로 입력해야 합니다.');
+        return message.channel.send('오류: 삭제할 멤버를 한 명씩 `@멘션`으로 입력해야 합니다.');
 
       config.admin_user_ids = config.admin_user_ids.filter(value => value !== match[1]);
 
@@ -145,8 +143,8 @@ module.exports = {
       if(['등록', '삭제'].includes(args[0]))
         return message.channel.send(
           '채널 등록/삭제 명령어는 다음과 같습니다.\n```\n' +
-          `${config.prefix}${this.name} 채널등록 <@멘션>\n` +
-          `${config.prefix}${this.name} 채널삭제 <@멘션>` + '```\n'
+          `${config.prefix}${this.name} 채널등록 <#채널>\n` +
+          `${config.prefix}${this.name} 채널삭제 <#채널>` + '```\n'
         );
 
       if(config.action_channel_ids.length === 0)
@@ -165,7 +163,7 @@ module.exports = {
       const memberId = args.join(' ').trim();
       let match = null;
       if((match = memberId.match(/^<#(\d{18,})>$/)) === null)
-        return message.channel.send('오류: 등록할 채널을 `#채널`로 입력해야 합니다.');
+        return message.channel.send('오류: 등록할 채널을 하나씩 `#채널`로 입력해야 합니다.');
 
       config.action_channel_ids.push(match[1]);
       config.action_channel_ids = [...new Set(config.action_channel_ids)];
@@ -177,7 +175,7 @@ module.exports = {
       const memberId = args.join(' ').trim();
       let match = null;
       if((match = memberId.match(/^<#(\d{18,})>$/)) === null)
-        return message.channel.send('오류: 삭제할 채널을 `#채널`로 입력해야 합니다.');
+        return message.channel.send('오류: 삭제할 채널을 하나씩 `#채널`로 입력해야 합니다.');
 
       config.action_channel_ids = config.action_channel_ids.filter(value => value !== match[1]);
 

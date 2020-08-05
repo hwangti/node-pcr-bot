@@ -36,6 +36,9 @@ module.exports = {
     let argument = null;
     let errorString = '';
 
+    if(!sheetConfig.spreadsheet_id)
+      return message.channel.send('오류: 클랜 시트가 설정되지 않았습니다.');
+
     // 전달된 매개 변수가 없을 때까지 실행
     while((argument = args.shift()) !== undefined) {
       // 기능 처리

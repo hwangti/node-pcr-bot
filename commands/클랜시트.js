@@ -8,6 +8,9 @@ module.exports = {
     let config = message.client.config.get(`${message.guild.id}_config`);
     let sheetConfig = message.client.config.get(`${message.guild.id}_sheets`);
 
+    if(!sheetConfig.spreadsheet_id)
+      return message.channel.send('오류: 클랜 시트가 설정되지 않았습니다.');
+
     if(/설정/.test(args.join(' ')) === true)
       return message.channel.send(
         '클랜 시트를 변경하려면 아래의 명령어를 실행하세요.\n' +
