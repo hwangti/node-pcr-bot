@@ -36,6 +36,9 @@ module.exports = {
     const units = message.client.config.get(`${message.guild.id}_units`);
     const linked_id = config.linked_id;
 
+    if(!sheetConfig.spreadsheet_id)
+      return message.channel.send('오류: 클랜 시트가 설정되지 않았습니다.');
+
     // 클랜 배틀 몇 일차인지 확인
     const dateObject = new Date();
     if(dateObject.getHours() < 5) dateObject.setDate(dateObject.getDate() - 1);

@@ -20,6 +20,10 @@ module.exports = {
       message.client.user.setUsername(argument);
       break;
     }
+    case 'ping': {
+      message.channel.send(`Time diff: ${Date.now() - message.createdTimestamp}ms`);
+      break;
+    }
     case 'presence': {
       message.client.user.setPresence({ activity: { name: `옴닉 ${message.client.version}` }, status: 'online' });
       break;

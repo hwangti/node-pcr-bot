@@ -100,6 +100,8 @@ module.exports = {
     // 발견된 오류 처리
     if(config.sheet_type !== 'MOMO')
       errorString += '오류: 이 서버에서는 사용할 수 없는 명령어입니다.\n';
+    if(!sheetConfig.spreadsheet_id)
+      errorString += '오류: 클랜 시트가 설정되지 않았습니다.\n';
     if(mode === null)
       errorString += '오류: 작업이 지정되지 않았습니다. (`확인`, `완료`)\n';
     if(mode === SCHEDULE_MODE_CUSTOM && memo === '')

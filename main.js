@@ -50,30 +50,71 @@ function initialConfig(client) {
 }
 
 // Discord 로그인
-client.login(auth.token);
+client.login(process.env.pm_id ? auth.token : auth.token_debug);
 
 
 /* 이벤트 처리 */
 
 
 client.once('ready', () => {
-  initialConfig(client);
-
-  client.version = 'v1.4.3';
-  client.updateTime = parseInt(fs.statSync(__filename).mtimeMs);
-  client.user.setPresence({ activity: { name: `옴닉 ${client.version}` }, status: 'online' });
-
   console.log(dateFormat(), '[INFO] 다음 계정으로 로그인:', client.user.tag);
   console.log(dateFormat(), `[INFO] ${client.guilds.cache.size}개의 서버에서 ${client.users.cache.size}명의 멤버 확인`);
-});
 
-// 채널 가입시 처리
-client.on('guildCreate', guild => {
   initialConfig(client);
 
-  guild.systemChannel.send('초대해 주셔서 감사합니다. `!도움말` 또는 `!설명서` 를 입력하여 사용 방법을 알아보세요.');
+  client.version = 'v1.4.4';
+  client.updateTime = parseInt(fs.statSync(__filename).mtimeMs);
+  client.user.setPresence({ activity: { name: `옴닉 ${client.version}` }, status: 'online' });
+});
+
+// 서버 가입시 처리
+client.on('guildCreate', async guild => {
   client.users.cache.get(auth.owner_id).send(`${dateFormat()} [INFO] 새로운 서버가 추가됨: ${guild.name}`);
   console.log(dateFormat(), '[INFO] 새로운 서버가 추가됨:', guild.name);
+
+  // 봇 초대 메시지를 보낼 채널을 찾음
+  let welcomeChannel = guild.systemChannel;
+  if(welcomeChannel == null || !welcomeChannel.permissionsFor(guild.me).has('SEND_MESSAGES'))
+    welcomeChannel = null;
+  guild.channels.cache.forEach(channel => {
+    if(welcomeChannel == null && channel.type === 'text' && channel.permissionsFor(guild.me).has('SEND_MESSAGES')) {
+      welcomeChannel = channel;
+    }
+  });
+
+  // 메시지를 전송할 채널을 찾을 수 없으면 서버 나가기
+  if(welcomeChannel == null) {
+    guild.leave()
+      .then(g => client.users.cache.get(auth.owner_id).send(`${dateFormat()} [ ERR] 메시지 채널을 찾을 수 없음: ${g.name}`))
+      .catch(`${dateFormat()} [ ERR] ${console.error}`);
+
+    return;
+  }
+
+  welcomeChannel.send('안녕하세요? **미스티★카스미** 봇을 초대해주셔서 고맙습니다.\n봇 초기 설정이 진행중입니다. 잠시만 기다려주세요.');
+
+  // 설정 파일 복사
+  const message = await welcomeChannel.send('설정 파일 복사 중... (1/4)');
+  initialConfig(client);
+
+  // 서버 주인을 봇 관리자로 설정
+  await message.edit('서버 주인을 봇 관리자로 설정 중... (2/4)');
+  const config = client.config.get(`${guild.id}_config`);
+  config.admin_user_ids.push(guild.owner.id);
+
+  // 동작할 채널 설정
+  await message.edit('동작 채널 설정 중... (3/4)');
+  config.action_channel_ids.push(welcomeChannel.id);
+
+  // 변경된 정보 설정 파일에 저장
+  await message.edit('설정 저장 중... (4/4)');
+  fs.writeFileSync(`${__dirname}/config/${guild.id}/config.json`, JSON.stringify(config, null, 2));
+
+  message.edit(
+    '봇 초기 설정이 완료되었습니다.\n' +
+    '예약이나 시트 관련 명령어를 사용하려면 각 멤버마다 별명을 등록해야 합니다.\n' +
+    '자세한 설명은 `!도움말` 또는 `!설명서` 를 참고하세요.'
+  );
 });
 
 // 메시지 처리
