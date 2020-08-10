@@ -74,7 +74,7 @@ module.exports = {
     case '로드':
     case 'load': {
       ['config', 'sheets', 'units'].map(file => {
-        require.cache[require.resolve(`../config/${message.guild.id}/${file}.json`)];
+        delete require.cache[require.resolve(`../config/${message.guild.id}/${file}.json`)];
 
         message.client.config.set(
           `${message.guild.id}_${file}`,
@@ -310,13 +310,7 @@ module.exports = {
     } /* end of switch */
 
     // 변경된 정보 설정 파일에 저장
-    fs.writeFileSync(
-      `${__dirname}/../config/${message.guild.id}/config.json`,
-      JSON.stringify(config, null, 2)
-    );
-    fs.writeFileSync(
-      `${__dirname}/../config/${message.guild.id}/sheets.json`,
-      JSON.stringify(sheetConfig, null, 2)
-    );
+    global.fn.saveConfig(`${__dirname}/../config/${message.guild.id}/config.json`, config);
+    global.fn.saveConfig(`${__dirname}/../config/${message.guild.id}/sheets.json`, sheetConfig);
   } /* end of execute() */
 };

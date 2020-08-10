@@ -22,6 +22,12 @@ module.exports.sortObject = obj => {
   return obj;
 };
 
+module.exports.saveConfig = (file, config) => {
+  require('fs').writeFileSync(file, JSON.stringify(config, null, 2), error => {
+    if(error) console.log(error);
+  });
+};
+
 
 /* 별명 */
 function verifiedName(memberId, message) {

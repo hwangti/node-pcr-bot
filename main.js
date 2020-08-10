@@ -62,7 +62,7 @@ client.once('ready', () => {
 
   initialConfig(client);
 
-  client.version = 'v1.4.4';
+  client.version = 'v1.5.0';
   client.updateTime = parseInt(fs.statSync(__filename).mtimeMs);
   client.user.setPresence({ activity: { name: `옴닉 ${client.version}` }, status: 'online' });
 });
@@ -108,7 +108,7 @@ client.on('guildCreate', async guild => {
 
   // 변경된 정보 설정 파일에 저장
   await message.edit('설정 저장 중... (4/4)');
-  fs.writeFileSync(`${__dirname}/config/${guild.id}/config.json`, JSON.stringify(config, null, 2));
+  global.fn.saveConfig(`${__dirname}/config/${guild.id}/config.json`, config);
 
   message.edit(
     '봇 초기 설정이 완료되었습니다.\n' +

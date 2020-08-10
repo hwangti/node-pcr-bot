@@ -54,7 +54,7 @@ module.exports = {
 
     let server = ['MAHO', 'NONE'].includes(config.sheet_type) ? 'jp' : 'kr';
     let chars = [];
-    let charObject = { id: null, rarity: null, level: null, spec: null, rank: null, unique: null, equip: null, love: null };
+    const charObject = { id: null, rarity: null, level: null, spec: null, rank: null, unique: null, equip: null, love: null };
 
     let mode = STAT_MODE_CALC;
     let argument = null;

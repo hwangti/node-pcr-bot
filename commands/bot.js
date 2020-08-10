@@ -16,6 +16,9 @@ module.exports = {
       message.client.user.setAvatar(link);
       break;
     }
+    case 'kill': {
+      return process.exit(0);
+    }
     case 'nickname': {
       message.client.user.setUsername(argument);
       break;
@@ -34,7 +37,7 @@ module.exports = {
         const config = message.client.config.get(`${s}_config`);
         if(config == null) return;
 
-        fs.writeFileSync(`${__dirname}/../config/${s}/config.json`, JSON.stringify(config, null, 2));
+        global.fn.saveConfig(`${__dirname}/../config/${s}/config.json`, config);
         message.channel.send(`save complete: \`${s}\` (${message.client.guilds.cache.get(s)})`);
       });
       break;

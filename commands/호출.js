@@ -36,7 +36,7 @@ module.exports = {
     const config = message.client.config.get(`${message.guild.id}_config`);
     const linked_id = config.linked_id;
     const bossNames = config.boss_names;
-    let bossState = config.boss_state;
+    let callState = config.call_state;
 
     /* 매개 변수 처리 시작 */
     let mode = null;
@@ -159,15 +159,15 @@ module.exports = {
     case CALL_MODE_CHECK: {
       let callString = '';
 
-      for(const key in bossState) {
+      for(const key in callState) {
         // 네임드 정보가 입력되었다면 해당 정보만 출력
         if(namedNumber !== null && key !== namedNumber) continue;
 
         // 등록된 멤버가 없으면 무시
-        if(bossState[key].length === 0) continue;
+        if(callState[key].length === 0) continue;
 
-        callString += `**\`${key}\`** \`(${bossState[key].length}명)\` - `;
-        callString += bossState[key].map(entry => {
+        callString += `**\`${key}\`** \`(${callState[key].length}명)\` - `;
+        callString += callState[key].map(entry => {
           let string = `<@!${entry.id}>`;
           if(entry.memo !== '') string += `(${entry.memo})`;
           return string;
@@ -187,12 +187,12 @@ module.exports = {
       if(namedNumber === null)
         return message.channel.send('오류: 호출할 네임드 정보가 없습니다. (예: `24-4`)');
 
-      if( Object.keys(bossState).length === 0 ||
-        !bossState[namedNumber] || bossState[namedNumber].length === 0
+      if( Object.keys(callState).length === 0 ||
+        !callState[namedNumber] || callState[namedNumber].length === 0
       )
         return message.channel.send('오류: 호출할 명단이 없습니다.');
 
-      for(const key in bossState) {
+      for(const key in callState) {
         // 특정 네임드 정보가 입력되었다면 그것만 출력하게끔 함
         if(namedNumber !== null && key !== namedNumber) continue;
 
@@ -201,8 +201,8 @@ module.exports = {
           ' (' + (match[2] ? `${match[2]}회차 ` : '') + bossNames[parseInt(match[3])-1] + ')' : '';
 
         return message.channel.send( // embed 에서는 멘션이 가지 않음
-          `**호출: \`${key}\`${namedString}** 명단 (${bossState[key].length}명)\n> ` +
-          bossState[key].map(entry => entry.id).join('  ').replace(/(\d{18,})/g, '<@!$1>')
+          `**호출: \`${key}\`${namedString}** 명단 (${callState[key].length}명)\n> ` +
+          callState[key].map(entry => entry.id).join('  ').replace(/(\d{18,})/g, '<@!$1>')
         );
       }
 
@@ -210,25 +210,25 @@ module.exports = {
     }
     case CALL_MODE_ADD: {
       // 네임드 정보가 존재하지 않으면 등록
-      if((namedNumber in bossState) === false) {
-        bossState[namedNumber] = [];
+      if((namedNumber in callState) === false) {
+        callState[namedNumber] = [];
 
-        if(Object.keys(bossState).length > 1)
-          bossState = global.fn.sortObject(bossState); // 정렬
+        if(Object.keys(callState).length > 1)
+          callState = global.fn.sortObject(callState); // 정렬
       }
 
       let addCount = 0;
       for(const e in entries) {
         let isExists = false;
-        for(const n in bossState[namedNumber]) {
-          if(entries[e].id === bossState[namedNumber][n].id) {
+        for(const n in callState[namedNumber]) {
+          if(entries[e].id === callState[namedNumber][n].id) {
             isExists = true;
             break;
           }
         }
 
         if(isExists === false) {
-          bossState[namedNumber].push(entries[e]);
+          callState[namedNumber].push(entries[e]);
           ++addCount;
         }
       }
@@ -243,19 +243,19 @@ module.exports = {
     }
     case CALL_MODE_DELETE: {
       // 보스가 존재하지 않는 경우
-      if(namedNumber in bossState === false)
+      if(namedNumber in callState === false)
         return message.channel.send('오류: 네임드 정보를 찾을 수 없습니다.');
 
       // 일괄 삭제 기능
       if(deleteAll === true) {
-        delete bossState[namedNumber];
+        delete callState[namedNumber];
         message.channel.send(`일괄 삭제 완료: \`${namedNumber}\``);
         break;
       }
 
       // 호출 정보 삭제
-      let length = bossState[namedNumber].length;
-      bossState[namedNumber] = bossState[namedNumber].filter(entry => {
+      let length = callState[namedNumber].length;
+      callState[namedNumber] = callState[namedNumber].filter(entry => {
         let isExists = false;
         for(const e in entries) {
           if(entries[e].id === entry.id) {
@@ -266,11 +266,11 @@ module.exports = {
         return !isExists; // inverse
       });
 
-      length -= bossState[namedNumber].length;
+      length -= callState[namedNumber].length;
 
       // 삭제 후 엔트리가 없다면 네임드 정보도 제거
-      if(bossState[namedNumber].length === 0)
-        delete bossState[namedNumber];
+      if(callState[namedNumber].length === 0)
+        delete callState[namedNumber];
 
       if(length === 0)
         return message.channel.send('오류: 등록되어 있지 않습니다.');
@@ -282,7 +282,7 @@ module.exports = {
     }
     case CALL_MODE_MEMO: {
       // 보스가 존재하지 않는 경우
-      if(namedNumber in bossState === false)
+      if(namedNumber in callState === false)
         return message.channel.send('오류: 네임드 정보를 찾을 수 없습니다.');
 
       if(entries.length > 1)
@@ -290,8 +290,8 @@ module.exports = {
 
       let modifyCount = 0;
       for(const e in entries) {
-        for(const n in bossState[namedNumber]) {
-          if(entries[e].id === bossState[namedNumber][n].id) {
+        for(const n in callState[namedNumber]) {
+          if(entries[e].id === callState[namedNumber][n].id) {
             if(entries[0].memo === '') {
               return message.channel.send(
                 '변경할 메모를 입력해주세요.\n' +
@@ -306,28 +306,23 @@ module.exports = {
                       return message.channel.send('실행이 취소되었습니다.');
 
                     if(['ㅇㅇ'].includes(messages.first().content.trim())) {
-                      bossState[namedNumber][n].memo = '';
+                      callState[namedNumber][n].memo = '';
                       message.channel.send('메모 삭제 완료');
                     } else {
-                      bossState[namedNumber][n].memo =
+                      callState[namedNumber][n].memo =
                         messages.first().content.replace(/[\n\r"#$'/@\\^|]/g, '').trim();
                       message.channel.send('메모 변경 완료');
                     }
-                    this.execute(message, ['확인', namedNumber]);
 
-                    let json = JSON.stringify(config, null, 2);
-                    require('fs').writeFileSync(
-                      `${__dirname}/../config/${message.guild.id}/config.json`,
-                      json, (error) => {
-                        if(error) console.log(error);
-                    });
+                    this.execute(message, ['확인', namedNumber]);
+                    global.fn.saveConfig(`${__dirname}/../config/${message.guild.id}/config.json`, config);
                   }).catch(() => {
                     message.channel.send('입력 시간이 지났으므로 실행을 취소합니다.');
                   });
               });
             }
 
-            bossState[namedNumber][n].memo = entries[e].memo;
+            callState[namedNumber][n].memo = entries[e].memo;
             ++modifyCount;
             break;
           }
@@ -355,15 +350,10 @@ module.exports = {
             if(messages.first().content.trim() !== '/yes')
               return message.channel.send('실행이 취소되었습니다.');
 
-            for(const n in bossState) delete bossState[n];
+            for(const n in callState) delete callState[n];
             message.channel.send('호출 목록 초기화 완료');
 
-            let json = JSON.stringify(config, null, 2);
-            require('fs').writeFileSync(
-              `${__dirname}/../config/${message.guild.id}/config.json`,
-              json, (error) => {
-                if(error) console.log(error);
-            });
+            global.fn.saveConfig(`${__dirname}/../config/${message.guild.id}/config.json`, config);
           }).catch(() => {
             message.channel.send('입력 시간이 지났으므로 실행을 취소합니다.');
           });
@@ -372,9 +362,6 @@ module.exports = {
     } /* end of switch */
 
     // 변경된 정보 설정 파일에 저장
-    let json = JSON.stringify(config, null, 2);
-    require('fs').writeFileSync(`${__dirname}/../config/${message.guild.id}/config.json`, json, (error) => {
-      if(error) console.log(error);
-    });
+    global.fn.saveConfig(`${__dirname}/../config/${message.guild.id}/config.json`, config);
   }
 };

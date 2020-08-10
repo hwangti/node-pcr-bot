@@ -231,10 +231,7 @@ module.exports = {
     } /* end of switch */
 
     // 변경된 정보 설정 파일에 저장
-    let json = JSON.stringify(config, null, 2);
-    require('fs').writeFileSync(`${__dirname}/../config/${message.guild.id}/config.json`, json, (error) => {
-      if(error) console.log(error);
-    });
+    global.fn.saveConfig(`${__dirname}/../config/${message.guild.id}/config.json`, config);
   }
 };
 
