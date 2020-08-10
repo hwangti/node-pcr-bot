@@ -71,12 +71,12 @@ module.exports = {
       }
 
       // 나머지 문자열은 미인식 처리
-      errorString += `오류: 인식할 수 없는 문자열입니다. \`${argument}\`\n`;
+      errorString += `조수 군! 무슨 말인지 모르겠다네. \`${argument}\`\n`;
     }
 
     // 발견된 오류 처리
     if(mode === null)
-      errorString += '오류: 옵션이 지정되지 않았습니다. (`확인`, `등록`, `변경`, `삭제`)\n';
+      errorString += '조수 군! 옵션을 지정해주게나. (`확인`, `등록`, `변경`, `삭제`)\n';
 
     if(errorString.length > 0)
       return message.channel.send(errorString);
@@ -99,7 +99,7 @@ module.exports = {
       // 별명 모두 출력 확인
       if(modeCheckAll === true) {
         if(Object.keys(linked_id).length === 0)
-          return message.channel.send('별명이 등록된 멤버가 없습니다.');
+          return message.channel.send('별명이 등록된 멤버가 없다네.');
 
         let aliasArray = [];
         Object.keys(linked_id).map(value => {
@@ -131,7 +131,7 @@ module.exports = {
         if(Object.prototype.hasOwnProperty.call(linked_id, confirmId))
           return printNicknames(confirmId, message, linked_id);
 
-        return message.channel.send('오류: 별명이 등록된 멤버가 아닙니다.');
+        return message.channel.send('조수 군! 별명이 등록된 멤버가 아니라네.');
       }
 
       // 여기까지 왔다면 별명을 입력한 경우이므로, 단순 별명 검색
@@ -150,14 +150,14 @@ module.exports = {
       });
 
       if(matchCount === 0)
-        return message.channel.send('오류: 사용 중인 별명이 아닙니다.');
+        return message.channel.send('조수 군! 사용 중인 별명이 아니라네.');
       return;
     }
     case ALIAS_MODE_ADD: {
       if(memberId === null) memberId = message.author.id;
 
       if(nicknames.length === 0)
-        return message.channel.send('오류: 별명을 입력하지 않았습니다.');
+        return message.channel.send('조수 군! 별명을 입력하지 않았다네.');
 
       // 별명 중복 확인
       const matchId = Object.keys(linked_id).find(key => {
@@ -166,7 +166,7 @@ module.exports = {
 
       // 중복일 경우 오류 메시지 출력
       if(matchId !== undefined)
-        return message.channel.send(`오류: **\`${verifiedName(matchId, message)}\`**님이 사용 중인 별명입니다.`);
+        return message.channel.send(`조수 군! **\`${verifiedName(matchId, message)}\`** 군이 사용 중인 별명이라네.`);
 
       // 등록되지 않은 멤버라면 등록
       if(Object.prototype.hasOwnProperty.call(linked_id, memberId) === false) {
@@ -177,22 +177,22 @@ module.exports = {
         linked_id[memberId].aliases = linked_id[memberId].aliases.concat(nicknames);
       }
 
-      printNicknames(memberId, message, linked_id, '별명을 등록했습니다.');
+      printNicknames(memberId, message, linked_id, '별명을 등록했다네.');
       break;
     }
     case ALIAS_MODE_CHANGE: {
       if(memberId === null) memberId = message.author.id;
 
       if(nicknames.length === 0)
-        return message.channel.send('오류: 별명을 입력하지 않았습니다.');
+        return message.channel.send('조수 군! 별명을 입력하지 않았다네.');
 
       if(Object.prototype.hasOwnProperty.call(linked_id, memberId) === false)
-        return message.channel.send('오류: 별명이 등록된 멤버가 아닙니다.');
+        return message.channel.send('조수 군! 별명이 등록된 멤버가 아니라네.');
 
       // 별명 중복 확인
       const matchId = Object.keys(linked_id).find(value => linked_id[value].aliases.includes(nicknames[0]));
       if(matchId !== undefined && matchId !== memberId) // 작성자의 별명 목록에 있다면 바꿔도 됨
-        return message.channel.send(`오류: **\`${verifiedName(matchId, message)}\`**님이 사용 중인 별명입니다.`);
+        return message.channel.send(`조수 군! **\`${verifiedName(matchId, message)}\`** 군이 사용 중인 별명이라네.`);
 
       // 주 닉네임 변경
       linked_id[memberId].primary = nicknames[0];
@@ -201,30 +201,30 @@ module.exports = {
       if(linked_id[memberId].aliases.includes(nicknames[0]) === false)
         linked_id[memberId].aliases.push(nicknames[0]);
 
-      printNicknames(memberId, message, linked_id, '별명을 변경했습니다.');
+      printNicknames(memberId, message, linked_id, '별명을 변경했다네.');
       break;
     }
     case ALIAS_MODE_DELETE: {
       if(memberId === null) memberId = message.author.id;
 
       if(Object.prototype.hasOwnProperty.call(linked_id, memberId) === false)
-        return message.channel.send('오류: 별명이 등록된 멤버가 아닙니다.');
+        return message.channel.send('조수 군! 별명이 등록된 멤버가 아니라네.');
 
       // 닉네임에 입력된 목록이 없으면 초기화
       if(nicknames.length === 0) {
         delete linked_id[memberId];
-        message.channel.send(`**\`${verifiedName(memberId, message)}\`**님의 별명을 모두 삭제했습니다.`);
+        message.channel.send(`**\`${verifiedName(memberId, message)}\`** 군의 별명을 모두 삭제했다네.`);
         // linked_id[memberId].aliases = [linked_id[memberId].primary]; // 변경 닉네임은 삭제 불가
       } else {
         if(nicknames.includes(linked_id[memberId].primary) === true)
-          return message.channel.send('오류: 삭제하려는 별명에 주 닉네임이 포함되어 있습니다.');
+          return message.channel.send('조수 군! 삭제하려는 별명에 주 닉네임이 포함되어 있군.');
 
         // 입력된 별명들을 삭제
         linked_id[memberId].aliases = linked_id[memberId].aliases.filter(value => {
           return value === linked_id[memberId].primary || !nicknames.includes(value);
         });
 
-        printNicknames(memberId, message, linked_id, '별명을 삭제했습니다.');
+        printNicknames(memberId, message, linked_id, '별명을 삭제했다네.');
       }
       break;
     } /* end of case */
@@ -245,7 +245,7 @@ function verifiedName(memberId, message) {
 function printNicknames(memberId, message, linked_id, text) {
   return message.channel.send(text, { embed: {
     color: '#518FF5',
-    title: `\`${verifiedName(memberId, message)}\`님의 별명 목록`,
+    title: `\`${verifiedName(memberId, message)}\` 군의 별명 목록`,
     // .setTitle(`<@!${memberId}>님의 별명 목록`) // 안됨
     fields: [
       {

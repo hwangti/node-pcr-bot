@@ -11,11 +11,11 @@ module.exports = {
     let maxNumber = args[0] || 100;
 
     if(maxNumber === null || !/^\d+$/.test(maxNumber))
-      return message.channel.send('오류: 잘못된 `최대_숫자` 입력입니다.');
+      return message.channel.send('조수 군! `최대_숫자`가 잘못된 것 같네.');
 
     const number = Math.floor(Math.random() * parseInt(maxNumber)) + 1;
     const prefix = /[2459]$/.test(number) ? '가' : '이';
 
-    return message.channel.send(`주사위를 굴려 \`${number}\`${prefix} 나왔습니다. (1-${maxNumber})`);
+    return message.channel.send(`주사위를 굴렸더니 \`${number}\`${prefix} 나왔다네. (1-${maxNumber})`);
   }
 };

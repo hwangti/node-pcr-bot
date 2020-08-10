@@ -62,14 +62,14 @@ module.exports = {
       }
 
       // 나머지 문자열은 미 인식 처리
-      errorString += `오류: 인식할 수 없는 문자열입니다. \`${argument}\`\n`;
+      errorString += `조수 군! 무슨 말인지 모르겠다네. \`${argument}\`\n`;
     }
 
     // 발견된 오류 처리
     if(mode === RECRUIT_MODE_SET && namedNumber === null)
-      errorString += '오류: 네임드 정보가 지정되지 않았습니다. (예: `24-4`)\n';
+      errorString += '조수 군! 네임드 정보를 말해주게나. (예: `24-4`)\n';
     if(mode === RECRUIT_MODE_SET && remainHp === null)
-      errorString += '오류: 잔여 보스 HP 정보가 지정되지 않았습니다. (예: `1200` 또는 `2000만`)\n';
+      errorString += '조수 군! 잔여 보스 HP 정보를 말해주게나. (예: `1200` 또는 `2000만`)\n';
 
     if(errorString.length > 0)
       return message.channel.send(errorString);
@@ -88,7 +88,7 @@ module.exports = {
     }
     case RECRUIT_MODE_MODIFY: {
       if(!bossState.boss_num || !bossState.remain_hp)
-        return message.channel.send('오류: 먼저 네임드 정보를 지정해야 합니다.');
+        return message.channel.send('조수 군! 모집부터 해야하네.');
 
       if(namedNumber != null) bossState.boss_num = namedNumber;
       if(remainHp != null) bossState.remain_hp = remainHp;
@@ -100,7 +100,7 @@ module.exports = {
       delete bossState.boss_num;
       delete bossState.remain_hp;
       delete bossState.entries;
-      message.channel.send('모집 목록 초기화 완료');
+      message.channel.send('모집 목록을 초기화 했다네.');
       break;
     }
 

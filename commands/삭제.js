@@ -12,7 +12,7 @@ module.exports = {
     const sheetConfig = message.client.config.get(`${message.guild.id}_sheets`);
 
     if(!sheetConfig.spreadsheet_id)
-      return message.channel.send('오류: 클랜 시트가 설정되지 않았습니다.');
+      return message.channel.send('조수 군! 먼저 클랜 시트를 설정해주게나.');
 
     // 클랜 배틀 몇 일차인지 확인
     const dateObject = new Date();
@@ -21,7 +21,7 @@ module.exports = {
     if(dateOffset <= 0) dateOffset = 1;
     if(dateOffset > config.clanbattle_duration_day) dateOffset = config.clanbattle_duration_day;
 
-    const botMessage = await message.channel.send('초기화 중... (1/3)');
+    const botMessage = await message.channel.send('초기화 중이라네... (1/3)');
     const authClient = await getAuthClient();
     let getOptions = {
       auth: authClient,
@@ -36,7 +36,7 @@ module.exports = {
     const insertIdx = sheetConfig.log_insert_idx;
     const deletedIdx = sheetConfig.log_deleted_idx;
 
-    await botMessage.edit('시트 정보 불러오는 중... (2/3)');
+    await botMessage.edit('시트 정보를 불러오는 중이라네... (2/3)');
     const logData = (await sheets.spreadsheets.values.get(getOptions)).data.values;
 
     // 정규식으로 시작 행 추출 (기록!B6:AA905 -> 6)
@@ -46,7 +46,7 @@ module.exports = {
       (logData != null ? logData.findIndex(row => row[insertIdx.nickname].length === 0) : 0);
 
     if(startRowNum === lastRowNum)
-      return botMessage.edit('오류: 삭제할 데이터가 없습니다.');
+      return botMessage.edit('조수 군! 삭제할 데이터가 없다네.');
 
 
     // 삭제할 범위를 단일 행으로 변환
@@ -87,7 +87,7 @@ module.exports = {
       });
 
     // 시트 값 삭제 및 초기화
-    await botMessage.edit('전투 기록 삭제 중... (3/3)');
+    await botMessage.edit('전투 기록 삭제 중이라네... (3/3)');
     await sheets.spreadsheets.values.batchClear(clearOptions);
     if(resetOptions.resource.data.length > 0)
       await sheets.spreadsheets.values.batchUpdate(resetOptions);

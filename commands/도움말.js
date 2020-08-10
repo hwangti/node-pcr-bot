@@ -20,7 +20,7 @@ module.exports = {
             if(command.hideCommand) return '';
             return `\`${prefix}${command.name}\` - ${command.summary}\n`;
           }).join('') + '\n' +
-          `\`${prefix}도움말 [명령어_이름]\` 을 입력해서 자세한 설명을 볼 수 있습니다.`
+          `\`${prefix}도움말 [명령어_이름]\` 을 입력해서 자세한 설명을 볼 수 있다네, 조수 군!`
         ,
         footer: {
           text: '최종 업데이트'
@@ -34,7 +34,7 @@ module.exports = {
     const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
 
     if(command === undefined)
-      return message.channel.send('오류: 유효하지 않은 명령어입니다.');
+      return message.channel.send('조수 군! 무슨 말인지 모르겠다네.');
 
     if(command.hideCommand) return;
 

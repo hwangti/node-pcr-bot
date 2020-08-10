@@ -21,7 +21,7 @@ module.exports = {
     const linked_id = config.linked_id;
 
     if(!sheetConfig.spreadsheet_id)
-      return message.channel.send('오류: 클랜 시트가 설정되지 않았습니다.');
+      return message.channel.send('조수 군! 먼저 클랜 시트를 설정해주게나.');
 
     // 클랜 배틀 몇 일차인지 확인
     const dateObject = new Date(); // dateObject.setMonth(2); // @TODO 3월 임시
@@ -86,7 +86,7 @@ module.exports = {
       }
 
       // 나머지 문자열은 미인식 처리
-      errorString += `오류: 인식할 수 없는 문자열입니다. \`${argument}\`\n`;
+      errorString += `조수 군! 무슨 말인지 모르겠다네. \`${argument}\`\n`;
     }
 
     if(errorString.length > 0)
@@ -97,7 +97,7 @@ module.exports = {
     const sheetName   = paramMember != null ? linked_id[paramMember].primary   : null; // 시트 닉네임
 
     // 기록 시트 확인
-    const botMessage = await message.channel.send('초기화 중... (1/3)');
+    const botMessage = await message.channel.send('초기화 중이라네... (1/3)');
     const authClient = await getAuthClient();
     let getOptions = {
       auth: authClient,
@@ -109,7 +109,7 @@ module.exports = {
       getOptions.range = getOptions.range.replace('{offset}', dateOffset);
 
 
-    await botMessage.edit('시트 정보 불러오는 중... (2/3)');
+    await botMessage.edit('시트 정보를 불러오는 중이라네... (2/3)');
     const logData = (await sheets.spreadsheets.values.get(getOptions)).data.values.reverse(); // 주의, Reverse
     const logLength = logData.length;
     let logArray = [];
@@ -118,7 +118,7 @@ module.exports = {
     const fullIdx = sheetConfig.log_full_idx;
 
 
-    await botMessage.edit('조건 검색 중... (3/3)');
+    await botMessage.edit('조건 검색 중이라네... (3/3)');
     for(let i=0; i<logLength; i++) {
       if(matchCount >= paramCount) break;
 
@@ -172,7 +172,7 @@ module.exports = {
     }
 
     if(matchCount === 0)
-      logArray.push('조건과 일치하는 기록이 없습니다.');
+      logArray.push('조수 군! 조건과 일치하는 기록이 없는 것 같다네.');
 
     let conditionText = '';
     conditionText += (paramDate !== null ? `- 날짜: ${global.dateFormat(paramDate, 'dd')}일\n` : '');

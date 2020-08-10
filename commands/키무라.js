@@ -30,6 +30,8 @@ module.exports = {
     const sheetConfig = message.client.config.get(`${message.guild.id}_sheets`);
     const linked_id = config.linked_id;
 
+    const chanceName = /카찬/.test(message.content) ? '카카오 찬스' : '키무라 찬스';
+
     let memberId = null;
 
     let mode = null;
@@ -37,7 +39,7 @@ module.exports = {
     let errorString = '';
 
     if(!sheetConfig.spreadsheet_id)
-      return message.channel.send('오류: 클랜 시트가 설정되지 않았습니다.');
+      return message.channel.send('조수 군! 먼저 클랜 시트를 설정해주게나.');
 
     // 전달된 매개 변수가 없을 때까지 실행
     while((argument = args.shift()) !== undefined) {
@@ -67,16 +69,16 @@ module.exports = {
       }
 
       // 나머지 문자열은 미인식 처리
-      errorString += `오류: 인식할 수 없는 문자열입니다. \`${argument}\`\n`;
+      errorString += `조수 군! 무슨 말인지 모르겠다네. \`${argument}\`\n`;
     }
 
     if(memberId == null) memberId = message.author.id;
 
     // 발견된 오류 처리
     if(mode === null)
-      errorString += '오류: 옵션이 지정되지 않았습니다. (`확인`, `현황`, `사용`, `취소`)\n';
+      errorString += '조수 군! 옵션을 지정해주게나. (`확인`, `현황`, `사용`, `취소`)\n';
     if(linked_id[memberId] == null)
-      errorString += '오류: 별명이 등록된 멤버가 아닙니다.\n';
+      errorString += '조수 군! 별명이 등록된 멤버가 아니라네.\n';
     if(errorString.length > 0)
       return message.channel.send(errorString);
 
@@ -84,7 +86,7 @@ module.exports = {
 
 
     const processTotal = [KMR_MODE_CHECK, KMR_MODE_STATUS].includes(mode) ? 2 : 3;
-    const botMessage = await message.channel.send(`초기화 중... (1/${processTotal})`);
+    const botMessage = await message.channel.send(`초기화 중이라네... (1/${processTotal})`);
 
     // 시트에 데이터 입력
     const authClient = await getAuthClient();
@@ -97,8 +99,8 @@ module.exports = {
     /* 키무라 전체 리셋 처리 시작 */
     if(mode === KMR_MODE_RESET) {
       return botMessage.edit(
-        '경고: 이 옵션은 클랜원 전체의 키무라 상태를 초기화합니다.\n' +
-        '실행하려면 `/yes` 를 입력해주세요. (10초 이내)'
+        `경고: 클랜원 전체의 ${chanceName}를 초기화하려고 하는건가, 조수 군?\n` +
+        '맞으면 10초 이내로 `/yes` 를 입력하게나.'
       ).then(() => {
         const filter = m => message.author.id === m.author.id;
 
@@ -106,7 +108,7 @@ module.exports = {
           .awaitMessages(filter, { time: 10000, max: 1, errors: ['time'] })
           .then(async messages => {
             if(messages.first().content.trim() !== '/yes')
-              return message.channel.send('실행이 취소되었습니다.');
+              return message.channel.send('실행을 취소했다네.');
 
             const rangePattern = /^(.+)!([A-Z]+)(\d+):([A-Z]+)(\d+)+$/;
             const resetRange = getOptions.range.replace(rangePattern, '$1!$4$3:$4$5');
@@ -124,9 +126,9 @@ module.exports = {
             };
             setOptions.resource.values[0] = Array(30).fill(false);
             await sheets.spreadsheets.values.update(setOptions);
-            message.channel.send('키무라 상태 초기화 완료');
+            message.channel.send(`${chanceName} 상태를 초기화 했다네.`);
           }).catch(() => {
-            botMessage.edit('입력 시간이 지났으므로 실행을 취소합니다.');
+            botMessage.edit('입력 시간이 지났으니 실행을 취소하겠네.');
           });
       });
     }
@@ -137,7 +139,7 @@ module.exports = {
     const sheetName = linked_id[memberId].primary;     // 시트 닉네임
     const kmrIdx = sheetConfig.kmr_idx;
 
-    botMessage.edit(`시트 정보 불러오는 중... (2/${processTotal})`);
+    botMessage.edit(`시트 정보를 불러오는 중이라네... (2/${processTotal})`);
     const kmrData = (await sheets.spreadsheets.values.get(getOptions)).data.values;
 
     const findRowNum = Object.keys(kmrData).findIndex(
@@ -158,7 +160,7 @@ module.exports = {
         }
       });
       if(useArray.length === 0)
-        return botMessage.edit('키무라 찬스를 사용한 사람이 없습니다.');
+        return botMessage.edit(`${chanceName}를 사용한 사람이 없다네.`);
 
       useArray.sort((a, b) => {
         const aa = message.guild.member(a.slice(3, -1));
@@ -173,7 +175,7 @@ module.exports = {
       return botMessage.edit('', { embed: {
         color: '#0F9D58',
         author: {
-          name: `키무라 찬스 사용자 목록 (${useArray.length}명)`,
+          name: `${chanceName} 사용자 목록 (${useArray.length}명)`,
           icon_url: 'https://www.gstatic.com/images/branding/product/1x/sheets_16dp.png'
         },
         description: useArray.join(', '),
@@ -183,12 +185,12 @@ module.exports = {
     }
     case KMR_MODE_CHECK: {
       if(findRowNum === -1)
-        return botMessage.edit(`오류: 시트에서 \`${sheetName}\`님을 찾을 수 없습니다.`);
+        return botMessage.edit(`조수 군! 시트에서 \`${sheetName}\` 군을 찾을 수 없었다네.`);
 
       const kmrState = kmrData[findRowNum][kmrIdx.kmr_state] === 'TRUE' ? true : false;
 
       return botMessage.edit(
-        `${getDecoratedName(displayName, sheetName)}님은 키무라 찬스를 ` + (kmrState ? '사용했습니다.' : '사용하지 않았습니다.')
+        `${getDecoratedName(displayName, sheetName)} 군은 ${chanceName}를 ` + (kmrState ? '사용했다네.' : '사용하지 않았다네.')
       );
     }
     case KMR_MODE_USE:
@@ -197,11 +199,11 @@ module.exports = {
 
       // 키무라 썼는데 또 사용하려고 하면 오류
       if(mode === KMR_MODE_USE && kmrState === true)
-        return botMessage.edit(`오류: ${getDecoratedName(displayName, sheetName)}님은 키무라 찬스를 이미 사용했습니다.`);
+        return botMessage.edit(`${getDecoratedName(displayName, sheetName)} 군은 ${chanceName}를 이미 사용했다네.`);
 
       // 키무라 안썼는데 해제하려고 하면 오류
       if(mode === KMR_MODE_CANCEL && kmrState === false)
-        return botMessage.edit(`오류: ${getDecoratedName(displayName, sheetName)}님은 키무라 찬스를 사용하지 않았습니다.`);
+        return botMessage.edit(`${getDecoratedName(displayName, sheetName)} 군은 ${chanceName}를 사용하지 않았다네.`);
 
       const rangePattern = /^(.+)!([A-Z]+)(\d+):([A-Z]+)(\d+)+$/;
       const startRowNum = parseInt(getOptions.range.replace(rangePattern, '$3'));
@@ -220,11 +222,11 @@ module.exports = {
       setOptions.resource.values[0] = Array(kmrIdx.kmr_state+1).fill(null);
       setOptions.resource.values[0][kmrIdx.kmr_state] = !kmrState;
 
-      botMessage.edit(`키무라 상태 적용 중... (3/${processTotal})`);
+      botMessage.edit(`${chanceName} 상태 적용 중... (3/${processTotal})`);
       const responseData = (await sheets.spreadsheets.values.update(setOptions)).data.updatedData.values;
 
       return botMessage.edit(
-        `${getDecoratedName(displayName, sheetName)}님의 키무라 상태 변경 완료: ` +
+        `${getDecoratedName(displayName, sheetName)} 군의 ${chanceName} 상태를 변경했다네: ` +
         `**\`${responseData[0][kmrIdx.kmr_state]}\`**`);
     } /* end of case */
     } /* end of switch */

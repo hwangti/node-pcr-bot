@@ -82,7 +82,7 @@ module.exports = {
 
     // 발견된 오류 처리
     if(bossState.boss_num == null)
-        return message.channel.send('오류: 진행중인 모집 정보가 없습니다.');
+        return message.channel.send('조수 군! 진행중인 모집 정보가 없다네.');
 
     /* 매개 변수 처리 완료 */
 
@@ -143,7 +143,7 @@ module.exports = {
         name:
           '참여자 목록 ' +
           `(${enterCount+pauseCount+rescueCount+exitCount}/${handCount+enterCount+pauseCount+rescueCount+exitCount})`,
-        value: embedString.trim() != '' ? embedString: '참여자 목록이 없습니다.'
+        value: embedString.trim() != '' ? embedString: '참여자 목록이 없다네.'
       });
 
       return message.channel.send({ embed: embed });
@@ -151,7 +151,7 @@ module.exports = {
     case BATTLE_MODE_HAND: {
       if(Object.prototype.hasOwnProperty.call(bossState.entries, account.owner_id))
         return message.channel.send(
-          `오류: \`\`${verifiedName(bossState.entries[account.owner_id].chess_id, message)}\`\`님이 대기중인 계정입니다.`
+          `조수 군! \`\`${verifiedName(bossState.entries[account.owner_id].chess_id, message)}\`\` 군이 대기중인 계정이라네.`
         );
 
       bossState.entries[account.owner_id] = account;
@@ -166,14 +166,14 @@ module.exports = {
         // 계정 사용자가 일치하지 않는 경우
         if(bossState.entries[account.owner_id].chess_id !== account.chess_id)
           return message.channel.send(
-            `오류: \`\`${verifiedName(bossState.entries[account.owner_id].chess_id, message)}\`\`님이 실전중인 계정입니다.`
+            `조수 군! \`\`${verifiedName(bossState.entries[account.owner_id].chess_id, message)}\`\` 군이 실전중인 계정이라네.`
           );
 
         // 대기 모드라면 실전 모드로 변경
         if(bossState.entries[account.owner_id].state === BATTLE_MODE_HAND)
           bossState.entries[account.owner_id].state = BATTLE_MODE_ENTER;
         else
-          return message.channel.send('오류: 준비중인 계정이 아닙니다.');
+          return message.channel.send('조수 군! 준비중인 계정이 아니라네.');
       }
 
       // 계정 정보가 없는 경우
@@ -186,18 +186,18 @@ module.exports = {
     case BATTLE_MODE_PAUSE: {
       // 실전 정보가 없는 경우
       if(Object.prototype.hasOwnProperty.call(bossState.entries, account.owner_id) === false)
-        return message.channel.send('오류: 실전중인 계정이 아닙니다.');
+        return message.channel.send('조수 군! 실전중인 계정이 아니라네.');
 
       // 계정 사용자가 일치하지 않는 경우
       if(bossState.entries[account.owner_id].chess_id !== account.chess_id)
         return message.channel.send(
-          `오류: \`\`${verifiedName(bossState.entries[account.owner_id].chess_id, message)}\`\`님이 실전중인 계정입니다.`
+          `조수 군! \`\`${verifiedName(bossState.entries[account.owner_id].chess_id, message)}\`\` 군이 실전중인 계정이라네.`
         );
 
       switch(bossState.entries[account.owner_id].state) {
       case BATTLE_MODE_ENTER: // 가장 일반적인 경우 (실전 모드에서 딜량 보고 후 퍼즈 모드)
         if(account.damage == null)
-          return message.channel.send('오류: 딜량 정보가 없습니다.');
+          return message.channel.send('조수 군! 딜량 정보가 없다네.');
 
         bossState.entries[account.owner_id].state  = BATTLE_MODE_PAUSE;
         bossState.entries[account.owner_id].damage = account.damage;
@@ -216,7 +216,7 @@ module.exports = {
         break;
 
       default:
-        return message.channel.send('오류: 실전중인 계정만 정보를 변경할 수 있습니다.');
+        return message.channel.send('조수 군! 실전중인 계정만 정보를 변경할 수 있다네');
       }
 
       this.execute(message, ['확인']);
@@ -225,12 +225,12 @@ module.exports = {
     case BATTLE_MODE_RESCUE: {
       // 실전 정보가 없는 경우
       if(Object.prototype.hasOwnProperty.call(bossState.entries, account.owner_id) === false)
-        return message.channel.send('오류: 실전중인 계정이 아닙니다.');
+        return message.channel.send('조수 군! 실전중인 계정이 아니라네.');
 
       // 계정 사용자가 일치하지 않는 경우
       if(bossState.entries[account.owner_id].chess_id !== account.chess_id)
         return message.channel.send(
-          `오류: \`\`${verifiedName(bossState.entries[account.owner_id].chess_id, message)}\`\`님이 실전중인 계정입니다.`
+          `조수 군! \`\`${verifiedName(bossState.entries[account.owner_id].chess_id, message)}\`\` 군이 실전중인 계정이라네.`
         );
 
       switch(bossState.entries[account.owner_id].state) {
@@ -252,7 +252,7 @@ module.exports = {
         break;
 
       default:
-        return message.channel.send('오류: 실전중인 계정만 정보를 변경할 수 있습니다.');
+        return message.channel.send('조수 군! 실전중인 계정만 정보를 변경할 수 있다네.');
       }
 
       this.execute(message, ['확인']);
@@ -261,19 +261,19 @@ module.exports = {
     case BATTLE_MODE_EXIT: {
       // 실전 정보가 없는 경우
       if(Object.prototype.hasOwnProperty.call(bossState.entries, account.owner_id) === false)
-        return message.channel.send('오류: 실전중인 계정이 아닙니다.');
+        return message.channel.send('조수 군! 실전중인 계정이 아니라네.');
 
       // 계정 사용자가 일치하지 않는 경우
       if(bossState.entries[account.owner_id].chess_id !== account.chess_id)
         return message.channel.send(
-          `오류: \`\`${verifiedName(bossState.entries[account.owner_id].chess_id, message)}\`\`님이 실전중인 계정입니다.`
+          `조수 군! \`\`${verifiedName(bossState.entries[account.owner_id].chess_id, message)}\`\`님이 실전중인 계정이라네.`
         );
 
       switch(bossState.entries[account.owner_id].state) {
       case BATTLE_MODE_PAUSE:
       case BATTLE_MODE_RESCUE:
         if(account.damage == null)
-          return message.channel.send('오류: 딜량 정보가 없습니다.');
+          return message.channel.send('조수 군! 딜량 정보가 없다네.');
 
         bossState.remain_hp -= account.damage < 10000 ? account.damage * 10000 : account.damage;
         bossState.remain_hp = bossState.remain_hp < 0 ? 0 : bossState.remain_hp;
@@ -282,7 +282,7 @@ module.exports = {
         break;
 
       default:
-        return message.channel.send('오류: 실전중인 계정만 정보를 변경할 수 있습니다.');
+        return message.channel.send('조수 군! 실전중인 계정만 정보를 변경할 수 있다네.');
       }
 
       this.execute(message, ['확인']);
@@ -291,12 +291,12 @@ module.exports = {
     case BATTLE_MODE_DELETE: {
       // 실전 정보가 없는 경우
       if(Object.prototype.hasOwnProperty.call(bossState.entries, account.owner_id) === false)
-        return message.channel.send('오류: 실전중인 계정이 아닙니다.');
+        return message.channel.send('조수 군! 실전중인 계정이 아니라네.');
 
       // 계정 사용자가 일치하지 않는 경우
       if(bossState.entries[account.owner_id].chess_id !== account.chess_id)
         return message.channel.send(
-          `오류: \`\`${verifiedName(bossState.entries[account.owner_id].chess_id, message)}\`\`님이 실전중인 계정입니다.`
+          `조수 군! \`\`${verifiedName(bossState.entries[account.owner_id].chess_id, message)}\`\` 군이 실전중인 계정이라네.`
         );
 
       // 계정 정보 삭제

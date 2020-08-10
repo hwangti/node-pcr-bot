@@ -14,7 +14,7 @@ module.exports = {
       || message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
     if(!command)
-      return message.channel.send(`오류: \`${commandName}\` 명령어 또는 별칭이 없습니다.`);
+      return message.channel.send(`조수 군! \`${commandName}\` 명령어 또는 별칭이 없다네!`);
 
     try {
       delete require.cache[require.resolve(`./${command.name}.js`)];
@@ -24,11 +24,11 @@ module.exports = {
     } catch(error) {
       console.log(error);
       return message.channel.send(
-        `\`${command.name}\` 명령어를 다시 불러오는 도중에 오류가 발생했습니다:\n` +
+        `조수 군, \`${command.name}\` 명령어를 다시 불러오는 중에 오류가 발생한 것 같다네.\n` +
         `\`\`\`\n${error.message}\`\`\``
       );
     }
 
-    return message.channel.send(`\`${command.name}\` 명령어를 다시 불러왔습니다.`);
+    return message.channel.send(`\`${command.name}\` 명령어를 다시 불러왔다네.`);
   }
 };

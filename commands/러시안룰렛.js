@@ -39,9 +39,9 @@ module.exports = {
     switch(mode) {
     case '시작': {
       if(roulette.state === RUSSIAN_ROULETTE_READY)
-        return message.channel.send('오류: 준비중인 게임이 있습니다.');
+        return message.channel.send('조수 군! 준비중인 게임이 있다네.');
       if(roulette.state === RUSSIAN_ROULETTE_PLAYING)
-        return message.channel.send('오류: 이미 게임이 진행중입니다.');
+        return message.channel.send('조수 군! 이미 게임이 진행중이라네.');
 
       // 기본 설정 값
       roulette.state = RUSSIAN_ROULETTE_READY;
@@ -79,14 +79,14 @@ module.exports = {
         }
 
         // 나머지 문자열은 미인식 처리
-        errorString += `오류: 인식할 수 없는 문자열입니다. \`${argument}\`\n`;
+        errorString += `조수 군! 무슨 말인지 모르겠다네. \`${argument}\`\n`;
       }
 
       if(errorString !== '')
         return message.channel.send(errorString);
 
       return message.channel.send(
-        `러시안 룰렛을 시작합니다. \`${config.prefix}${this.name} 참가\`를 입력해서 참가할 수 있습니다.`,
+        `러시안 룰렛을 시작해볼까나? \`${config.prefix}${this.name} 참가\`를 입력해서 참가하게나.`,
         {
           embed: {
             title: '룰렛 설정 확인',
@@ -106,7 +106,7 @@ module.exports = {
           }).catch(async () => {
             if(roulette.members.length < 2) {
               roulette.state = RUSSIAN_ROULETTE_END;
-              return message.channel.send('참여 인원이 없으므로 게임을 종료합니다.');
+              return message.channel.send('조수 군! 게임에 참여한 인원이 없으니 종료하겠네.');
             }
 
             // 게임 중이거나 이미 종료됐으면 무시
@@ -115,8 +115,8 @@ module.exports = {
 
             await this.execute(message, ['GAME_START']);
 
-            return message.channel.send('모집 시간이 지났습니다. 게임을 시작합니다.', { embed: {
-              description: `<@!${roulette.members[roulette.memberIndex]}>님의 차례입니다.`
+            return message.channel.send('모집 시간이 지난 것 같네. 게임을 시작해볼까, 조수 군!', { embed: {
+              description: `<@!${roulette.members[roulette.memberIndex]}> 군의 차례라네!`
             }});
           });
       });
@@ -124,16 +124,16 @@ module.exports = {
     case '참가':
     case '참여': {
       if(roulette == null || roulette.state == null || roulette.state == RUSSIAN_ROULETTE_END)
-        return message.channel.send('오류: 진행중인 게임이 없습니다.');
+        return message.channel.send('조수 군! 진행중인 게임이 없다네.');
 
       if(roulette.STATE == RUSSIAN_ROULETTE_PLAYING)
-        return message.channel.send('오류: 이미 게임이 진행중입니다.');
+        return message.channel.send('조수 군! 이미 게임이 진행중이라네.');
 
       if(roulette.members.includes(message.author.id))
-        return message.channel.send('오류: 이미 참여했습니다.');
+        return message.channel.send('조수 군! 조수 군은 이미 참여했다네.');
 
       if(roulette.memberCount <= roulette.members.length)
-        return message.channel.send('오류: 더 이상 참여할 수 없습니다.');
+        return message.channel.send('조수 군! 더 이상 참여할 수 없다네.');
 
       roulette.members.push(message.author.id);
       message.channel.send('참가 완료', { embed: {
@@ -144,8 +144,8 @@ module.exports = {
       if(roulette.memberCount <= roulette.members.length) {
         await this.execute(message, ['GAME_START']);
 
-        return message.channel.send('모집이 마감되었습니다. 게임을 시작합니다.', { embed: {
-          description: `<@!${roulette.members[roulette.memberIndex]}>님의 차례입니다.`
+        return message.channel.send('모집을 마감하겠네, 자 게임을 시작해볼까?', { embed: {
+          description: `<@!${roulette.members[roulette.memberIndex]}> 군의 차례라네!`
         }});
       }
       return;
@@ -153,11 +153,11 @@ module.exports = {
     case '당겨':
     case '쏘기': {
       if(roulette == null || roulette.state == null || roulette.state != RUSSIAN_ROULETTE_PLAYING)
-        return message.channel.send('오류: 진행중인 게임이 없습니다.');
+        return message.channel.send('조수 군! 진행중인 게임이 없다네.');
 
       if( roulette.state == RUSSIAN_ROULETTE_PLAYING &&
         roulette.members[roulette.memberIndex] !== message.author.id)
-        return message.reply('오류: 방아쇠를 당길 순서가 아닙니다. 차례를 기다려주세요.');
+        return message.reply('조수 군! 아직 방아쇠를 당길 순서가 아니니까 기다려주게나.');
 
       // R.I.P
       if(roulette.bullets[roulette.memberIndex] === 1) {
@@ -169,21 +169,21 @@ module.exports = {
       if(roulette.memberIndex === roulette.members.length) {
         await this.execute(message, ['GAME_START']);
 
-        return message.channel.send('마지막 탄환이었지만 불발탄이었습니다! 총알을 다시 장전합니다.', { embed: {
+        return message.channel.send('마지막 탄환이었지만 불발탄이었다구! 총알을 다시 장전하겠네', { embed: {
           description: `<@!${roulette.members[roulette.memberIndex]}>님의 차례입니다.`
         }});
       }
 
-      return message.channel.send('방아쇠를 당겼지만 아무 일도 일어나지 않았습니다.', { embed: {
-        description: `<@!${roulette.members[roulette.memberIndex]}>님의 차례입니다.`
+      return message.channel.send('방아쇠를 당겼지만 아무 일도 일어나지 않았네.', { embed: {
+        description: `<@!${roulette.members[roulette.memberIndex]}> 군의 차례라네!`
       }});
     }
     case '종료': {
       // if(roulette.state != RUSSIAN_ROULETTE_END)
-      //   return message.channel.send('오류: 진행중인 게임이 없습니다.');
+      //   return message.channel.send('조수 군! 진행중인 게임이 없다네.');
 
       roulette.state = RUSSIAN_ROULETTE_END;
-      return message.channel.send('진행중인 게임을 종료했습니다.');
+      return message.channel.send('진행중인 게임을 종료하겠네.');
     }
     case 'GAME_START': {
       // 총알 장전

@@ -39,7 +39,7 @@ module.exports = {
         let unitId = Object.keys(units).find(id => units[id].unit_alias.includes(argument));
 
         if(unitId == null) {
-          errorString += `오류: 캐릭터 정보를 찾을 수 없습니다. \`${argument}\`\n`;
+          errorString += `조수 군! 캐릭터 정보를 찾을 수 없다네. \`${argument}\`\n`;
           break;
         }
 
@@ -52,14 +52,14 @@ module.exports = {
       }
 
       // 나머지 문자열은 미인식 처리
-      errorString += `오류: 인식할 수 없는 문자열입니다. \`${argument}\`\n`;
+      errorString += `조수 군! 무슨 말인지 모르겠다네. \`${argument}\`\n`;
     }
 
     // 발견된 오류 처리
     if(chars.length === 0)
-      errorString += '오류: 캐릭터를 입력하지 않았습니다.\n';
+      errorString += '조수 군! 캐릭터를 입력하지 않았다네.\n';
     if(chars.length > 5)
-      errorString += '오류: 캐릭터를 5개 이하로 입력해주세요.\n';
+      errorString += '조수 군! 캐릭터를 5개 이하로 입력해주게나.\n';
     if(errorString.length > 0)
       return message.channel.send(errorString);
 
@@ -74,7 +74,7 @@ module.exports = {
       description: '** 🔹방어 대상 캐릭터 ** \n- ' + chars.map(value => value.name_kor).join(' ') + '\n\n ** 🔹검색 결과 **',
       fields: []
     };
-    const botMessage = await message.channel.send('요청 중... (서버 상황에 따라 지연될 수 있음)');
+    const botMessage = await message.channel.send('조수 군의 요청을 알아보고 있다네...');
 
 
     switch(server) {
@@ -109,14 +109,14 @@ module.exports = {
         .catch(err => {
           hasError = true;
           console.error(err);
-          return botMessage.edit(`해당 명령어를 실행하는 중에 오류가 발생했습니다.\n\`\`\`${err.name + ' ' + err.type}\`\`\``);
+          return botMessage.edit(`조수 군, 명령어를 실행하는 중에 오류가 발생한 것 같다네...\n\`\`\`${err.name + ' ' + err.type}\`\`\``);
         });
 
       if(hasError) return;
       if(response.code !== 0)
-        return botMessage.edit(`오류: 서버에서 오류가 발생했습니다.\n\`\`\`${response.message}\`\`\``);
+        return botMessage.edit(`조수 군! 서버에서 오류가 발생했다네.\n\`\`\`${response.message}\`\`\``);
       if(response.data.result.length === 0)
-        return botMessage.edit('검색 결과가 없습니다.');
+        return botMessage.edit('조수 군! 검색 결과가 없다고 하네.');
 
       response.data.result.map(value => {
         let embedName = '';
@@ -161,15 +161,15 @@ module.exports = {
               '現在、アクセスが集中しています。時間を置き、再度お試しください。');
           else {
             console.error(err);
-            return botMessage.edit(`해당 명령어를 실행하는 중에 오류가 발생했습니다.\n\`\`\`${err.name + ' ' + err.type}\`\`\``);
+            return botMessage.edit(`조수 군, 명령어를 실행하는 중에 오류가 발생한 것 같다네...\n\`\`\`${err.name + ' ' + err.type}\`\`\``);
           }
         });
 
       if(hasError) return;
       if(response.msg)
-        return botMessage.edit(`오류: 서버에서 오류가 발생했습니다.\n\`\`\`${response.msg}\`\`\``);
+        return botMessage.edit(`조수 군! 서버에서 오류가 발생했다네.\n\`\`\`${response.msg}\`\`\``);
       if(response.length === 0)
-        return botMessage.edit('검색 결과가 없습니다.');
+        return botMessage.edit('조수 군! 검색 결과가 없다고 하네.');
 
       response.map(value => {
         const charStr = value.atk.split('/');

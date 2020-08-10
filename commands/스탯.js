@@ -79,7 +79,7 @@ module.exports = {
         let unitId = Object.keys(units).find(id => units[id].unit_alias.includes(argument));
 
         if(unitId == null) {
-          errorString += `오류: 캐릭터 정보를 찾을 수 없습니다. \`${argument}\`\n`;
+          errorString += `조수 군! 캐릭터 정보를 찾을 수 없다네. \`${argument}\`\n`;
           break;
         }
 
@@ -170,12 +170,12 @@ module.exports = {
       }
 
       // 나머지 문자열은 미인식 처리
-      errorString += `오류: 인식할 수 없는 문자열입니다. \`${argument}\`\n`;
+      errorString += `조수 군! 무슨 말인지 모르겠다네. \`${argument}\`\n`;
     }
 
     // 발견된 오류 처리
     if(mode === STAT_MODE_DIFF && chars.length != 2)
-      errorString += '스테이터스를 비교하려면 캐릭터 정보를 2개 입력해야합니다.\n';
+      errorString += '조수 군! 스테이터스를 비교하려면 캐릭터 정보를 2개 입력해야한다네.\n';
     if(errorString.length > 0)
       return message.channel.send(errorString);
 
@@ -201,12 +201,12 @@ module.exports = {
       .catch(err => {
         hasError = true;
         console.error(err);
-        return botMessage.edit(`해당 명령어를 실행하는 중에 오류가 발생했습니다.\n\`\`\`${err.type}\`\`\``);
+        return botMessage.edit(`조수 군, 명령어를 실행하는 중에 오류가 발생한 것 같다네...\n\`\`\`${err.type}\`\`\``);
       });
 
     if(hasError) return;
     if(response.error)
-      return botMessage.edit(`오류: 입력 데이터가 올바르지 않습니다.\n\`\`\`${response.error}\`\`\``);
+      return botMessage.edit(`조수 군! 입력 데이터가 올바르지 않다네.\n\`\`\`${response.error}\`\`\``);
 
     const embed = {
       title: '스테이터스 계산',

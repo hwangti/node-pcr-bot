@@ -1,5 +1,3 @@
-const fs = require('fs');
-
 module.exports = {
   name: '설정',
   summary: '봇 설정을 관리합니다.',
@@ -68,7 +66,7 @@ module.exports = {
     }
     case '저장':
     case 'save': {
-      message.channel.send('설정을 저장했습니다.');
+      message.channel.send('설정을 저장했다네.');
       break;
     }
     case '로드':
@@ -83,7 +81,7 @@ module.exports = {
       });
 
       console.log(`${global.dateFormat()} [INFO] 설정 로드`);
-      return message.channel.send('설정을 불러왔습니다.');
+      return message.channel.send('설정을 불러왔다네.');
     }
     case '접두사': {
       if(args[0] === undefined || args[0] === '확인')
@@ -95,7 +93,7 @@ module.exports = {
 
       const prefix = args.join(' ').trim();
       if(prefix.length > 2)
-        return message.channel.send('오류: 접두사는 2글자 이내여야 합니다.');
+        return message.channel.send('조수 군! 접두사는 2글자 이내로 입력해주게나.');
 
       config.prefix = prefix;
       message.channel.send('설정된 접두사: `' + config.prefix + '`');
@@ -110,7 +108,7 @@ module.exports = {
         );
 
       if(config.admin_user_ids.length === 0)
-        return message.channel.send('등록된 관리자가 없습니다.');
+        return message.channel.send('조수 군! 등록된 관리자가 없다네.');
       return message.channel.send({ embed: {
         color: '#F4B400',
         title: '관리자 목록',
@@ -120,7 +118,7 @@ module.exports = {
       const memberId = args.join(' ').trim();
       let match = null;
       if((match = memberId.match(/^<@!?(\d{18,})>$/)) === null)
-        return message.channel.send('오류: 등록할 멤버를 한 명씩 `@멘션`으로 입력해야 합니다.');
+        return message.channel.send('조수 군! 등록할 멤버를 한 명씩 `@멘션`으로 입력해주게나.');
 
       config.admin_user_ids.push(match[1]);
       config.admin_user_ids = [...new Set(config.admin_user_ids)];
@@ -132,7 +130,7 @@ module.exports = {
       const memberId = args.join(' ').trim();
       let match = null;
       if((match = memberId.match(/^<@!?(\d{18,})>$/)) === null)
-        return message.channel.send('오류: 삭제할 멤버를 한 명씩 `@멘션`으로 입력해야 합니다.');
+        return message.channel.send('조수 군! 삭제할 멤버를 한 명씩 `@멘션`으로 입력해주게나.');
 
       config.admin_user_ids = config.admin_user_ids.filter(value => value !== match[1]);
 
@@ -142,13 +140,13 @@ module.exports = {
     case '채널':
       if(['등록', '삭제'].includes(args[0]))
         return message.channel.send(
-          '채널 등록/삭제 명령어는 다음과 같습니다.\n```\n' +
+          '채널 등록/삭제 명령어는 다음과 같다네.\n```\n' +
           `${config.prefix}${this.name} 채널등록 <#채널>\n` +
           `${config.prefix}${this.name} 채널삭제 <#채널>` + '```\n'
         );
 
       if(config.action_channel_ids.length === 0)
-        return message.channel.send('등록된 채널이 없습니다.');
+        return message.channel.send('조수 군! 등록된 채널이 없다네.');
       return message.channel.send({ embed: {
         color: '#F4B400',
         title: '채널 목록',
@@ -163,7 +161,7 @@ module.exports = {
       const memberId = args.join(' ').trim();
       let match = null;
       if((match = memberId.match(/^<#(\d{18,})>$/)) === null)
-        return message.channel.send('오류: 등록할 채널을 하나씩 `#채널`로 입력해야 합니다.');
+        return message.channel.send('조수 군! 등록할 채널을 하나씩 `#채널`로 입력해주게나.');
 
       config.action_channel_ids.push(match[1]);
       config.action_channel_ids = [...new Set(config.action_channel_ids)];
@@ -175,7 +173,7 @@ module.exports = {
       const memberId = args.join(' ').trim();
       let match = null;
       if((match = memberId.match(/^<#(\d{18,})>$/)) === null)
-        return message.channel.send('오류: 삭제할 채널을 하나씩 `#채널`로 입력해야 합니다.');
+        return message.channel.send('조수 군! 삭제할 채널을 하나씩 `#채널`로 입력해주게나.');
 
       config.action_channel_ids = config.action_channel_ids.filter(value => value !== match[1]);
 
@@ -185,13 +183,13 @@ module.exports = {
     case '역할':
       if(['등록', '삭제'].includes(args[0]))
         return message.channel.send(
-          '역할 등록/삭제 명령어는 다음과 같습니다.\n```\n' +
+          '역할 등록/삭제 명령어는 다음과 같다네.\n```\n' +
           `${config.prefix}${this.name} 역할등록 <@멘션>\n` +
           `${config.prefix}${this.name} 역할삭제 <@멘션>` + '```\n'
         );
 
       if(config.action_roles_ids.length === 0)
-        return message.channel.send('등록된 역할이 없습니다.');
+        return message.channel.send('등록된 역할이 없다네.');
       return message.channel.send({ embed: {
         color: '#F4B400',
         title: '역할 목록',
@@ -201,7 +199,7 @@ module.exports = {
       const memberId = args.join(' ').trim();
       let match = null;
       if((match = memberId.match(/^<@&(\d{18,})>$/)) === null)
-        return message.channel.send('오류: 등록할 역할을 `@역할`로 입력해야 합니다.');
+        return message.channel.send('조수 군! 등록할 역할을 하나씩 `@역할`로 입력해주게나.');
 
       config.action_roles_ids.push(match[1]);
       config.action_roles_ids = [...new Set(config.action_roles_ids)];
@@ -213,7 +211,7 @@ module.exports = {
       const memberId = args.join(' ').trim();
       let match = null;
       if((match = memberId.match(/^<@&(\d{18,})>$/)) === null)
-        return message.channel.send('오류: 삭제할 역할을 `@역할`로 입력해야 합니다.');
+        return message.channel.send('조수 군! 삭제할 역할을 하나씩 `@역할`로 입력해주게나.');
 
       config.action_roles_ids = config.action_roles_ids.filter(value => value !== match[1]);
 
@@ -232,7 +230,7 @@ module.exports = {
       const datetime = new Date(args.join(' ').trim());
       if(!(datetime instanceof Date) || isNaN(datetime.getTime()))
         return message.channel.send(
-          '오류: 날짜 형식이 잘못되었습니다.\n' +
+          '조수 군! 날짜 형식이 잘못되었다네.\n' +
           '예: `2020-03-23 15:00:00` (JavaScript 날짜 형식)'
         );
 
@@ -253,7 +251,7 @@ module.exports = {
       const duration = parseInt(args.join(' ').trim());
       if(duration <= 4 || duration >= 12)
         return message.channel.send(
-          '오류: 클랜전 기간이 잘못되었습니다. (5 ~ 12)\n' +
+          '조수 군! 클랜전 기간이 잘못되었다네. (5 ~ 12)\n' +
           '예: `8`'
         );
 
@@ -274,7 +272,7 @@ module.exports = {
       const bossArray = args.join(' ').trim().split(',').map(value => value.trim());
       if(bossArray.length !== 5)
         return message.channel.send(
-          '오류: 보스명이 올바르지 않습니다. 각 보스는 `,`로 구분해야 합니다.\n' +
+          '조수 군! 보스명이 올바르지 않다네. 각 보스를 `,`로 구분해주게나.\n' +
           '예: `고블린 그레이트, 라이라이, 무슈후슈, 무버, 메사르팀`'
         );
 
@@ -297,7 +295,7 @@ module.exports = {
         .match(/^(https?:\/\/docs\.google\.com\/spreadsheets\/d\/)?([_\-0-9A-Za-z]{44})/);
       if(match === null)
         return message.channel.send(
-          '오류: 클랜 시트 주소가 잘못되었습니다.\n{시트 ID} 혹은 {주소 전체}를 입력해주세요.\n```\n' +
+          '조수 군! 클랜 시트 주소가 이상하다네.\n{시트 ID} 혹은 {주소 전체}를 입력해주게나.\n```\n' +
           '- 시트 ID: ...spreadsheets/d/{시트 ID}/edit...\n' +
           '- 또는 클랜 시트 주소 전체\n```'
         );

@@ -135,7 +135,7 @@ module.exports = {
       }
 
       // 나머지 문자열은 미 인식 처리
-      errorString += `오류: 인식할 수 없는 문자열입니다. \`${argument}\`\n`;
+      errorString += `조수 군! 무슨 말인지 모르겠다네. \`${argument}\`\n`;
     }
 
     // 작업이 지정되지 않았으면 호출 명령으로 설정
@@ -146,9 +146,9 @@ module.exports = {
 
     // 발견된 오류 처리
     if(mode === null)
-      errorString += '오류: 작업이 지정되지 않았습니다. (`확인`, `호출`, `등록`, `삭제`)\n';
+      errorString += '조수 군! 옵션을 입력해주게나. (`확인`, `호출`, `등록`, `삭제`)\n';
     if([CALL_MODE_CHECK, CALL_MODE_RESET].includes(mode) === false && namedNumber === null)
-      errorString += '오류: 네임드 정보가 지정되지 않았습니다. (예: `24-4`)\n';
+      errorString += '조수 군! 네임드 정보를 입력해주게나. (예: `24-4`)\n';
 
     if(errorString.length > 0)
       return message.channel.send(errorString);
@@ -175,7 +175,7 @@ module.exports = {
       }
 
       if(callString.length < 10)
-        return message.channel.send('호출 등록된 멤버가 없습니다.');
+        return message.channel.send('호출 등록된 멤버가 없다네.');
 
       return message.channel.send({ embed: {
         color: '#518FF5',
@@ -185,12 +185,12 @@ module.exports = {
     }
     case CALL_MODE_CALL: {
       if(namedNumber === null)
-        return message.channel.send('오류: 호출할 네임드 정보가 없습니다. (예: `24-4`)');
+        return message.channel.send('조수 군! 호출할 네임드 정보가 없다네. (예: `24-4`)');
 
       if( Object.keys(callState).length === 0 ||
         !callState[namedNumber] || callState[namedNumber].length === 0
       )
-        return message.channel.send('오류: 호출할 명단이 없습니다.');
+        return message.channel.send('조수 군! 호출할 명단이 없다네.');
 
       for(const key in callState) {
         // 특정 네임드 정보가 입력되었다면 그것만 출력하게끔 함
@@ -206,7 +206,7 @@ module.exports = {
         );
       }
 
-      return message.channel.send('오류: 호출할 명단이 없습니다. (ERR 1)');
+      return message.channel.send('조수 군! 호출할 명단이 없다네. (ERR 1)');
     }
     case CALL_MODE_ADD: {
       // 네임드 정보가 존재하지 않으면 등록
@@ -234,7 +234,7 @@ module.exports = {
       }
 
       if(addCount === 0)
-        return message.channel.send('오류: 이미 등록되어 있습니다.');
+        return message.channel.send('조수 군! 이미 등록되어 있다네.');
 
       message.channel.send('등록 완료' +
         (entries.length > 1 ? ` (${entries.length}명 중 ${addCount}명)` : ''));
@@ -244,7 +244,7 @@ module.exports = {
     case CALL_MODE_DELETE: {
       // 보스가 존재하지 않는 경우
       if(namedNumber in callState === false)
-        return message.channel.send('오류: 네임드 정보를 찾을 수 없습니다.');
+        return message.channel.send('조수 군! 네임드 정보를 찾을 수 없다네.');
 
       // 일괄 삭제 기능
       if(deleteAll === true) {
@@ -273,7 +273,7 @@ module.exports = {
         delete callState[namedNumber];
 
       if(length === 0)
-        return message.channel.send('오류: 등록되어 있지 않습니다.');
+        return message.channel.send('조수 군! 호출 명단에 등록되어 있지 않다네.');
 
       message.channel.send('삭제 완료' +
         (entries.length > 1 ? ` (${entries.length}명 중 ${length}명)` : ''));
@@ -283,10 +283,10 @@ module.exports = {
     case CALL_MODE_MEMO: {
       // 보스가 존재하지 않는 경우
       if(namedNumber in callState === false)
-        return message.channel.send('오류: 네임드 정보를 찾을 수 없습니다.');
+        return message.channel.send('조수 군! 네임드 정보를 찾을 수 없다네.');
 
       if(entries.length > 1)
-        return message.channel.send('오류: 메모는 한 명씩 변경 가능합니다. (오조작 방지)');
+        return message.channel.send('조수 군! 메모는 한 명씩 변경 가능하다네. (오조작 방지)');
 
       let modifyCount = 0;
       for(const e in entries) {
@@ -294,8 +294,8 @@ module.exports = {
           if(entries[e].id === callState[namedNumber][n].id) {
             if(entries[0].memo === '') {
               return message.channel.send(
-                '변경할 메모를 입력해주세요.\n' +
-                '메모를 삭제하려면 `ㅇㅇ`, 실행을 취소하려면 `ㄴㄴ` 를 입력해주세요. (30초 이내)')
+                '변경할 메모를 입력해주게, 조수 군!\n' +
+                '메모를 삭제하려면 `ㅇㅇ`, 실행을 취소하려면 `ㄴㄴ` 를 쓰면 된다네. (30초 이내)')
               .then(() => {
                 const filter = m => message.author.id === m.author.id;
 
@@ -303,21 +303,21 @@ module.exports = {
                   .awaitMessages(filter, { time: 30000, max: 1, errors: ['time'] })
                   .then(async messages => {
                     if(['ㄴㄴ'].includes(messages.first().content.trim()))
-                      return message.channel.send('실행이 취소되었습니다.');
+                      return message.channel.send('실행을 취소했다네.');
 
                     if(['ㅇㅇ'].includes(messages.first().content.trim())) {
                       callState[namedNumber][n].memo = '';
-                      message.channel.send('메모 삭제 완료');
+                      message.channel.send('메모를 삭제했다네.');
                     } else {
                       callState[namedNumber][n].memo =
                         messages.first().content.replace(/[\n\r"#$'/@\\^|]/g, '').trim();
-                      message.channel.send('메모 변경 완료');
+                      message.channel.send('메모를 변경했다네.');
                     }
 
                     this.execute(message, ['확인', namedNumber]);
                     global.fn.saveConfig(`${__dirname}/../config/${message.guild.id}/config.json`, config);
                   }).catch(() => {
-                    message.channel.send('입력 시간이 지났으므로 실행을 취소합니다.');
+                    message.channel.send('입력 시간이 지났으니 실행을 취소하겠네.');
                   });
               });
             }
@@ -330,7 +330,7 @@ module.exports = {
       }
 
       if(modifyCount === 0)
-        return message.channel.send('오류: 등록되어 있지 않습니다.');
+        return message.channel.send('조수 군! 호출 명단에 등록되어 있지 않다네.');
 
       message.channel.send('메모 변경 완료' +
         (entries.length > 1 ? ` (${entries.length}명 중 ${modifyCount}명)` : ''));
@@ -339,8 +339,8 @@ module.exports = {
     }
     case CALL_MODE_RESET: {
       return message.channel.send(
-        '경고: 이 옵션은 모든 호출 목록을 초기화합니다.\n' +
-        '실행하려면 `/yes` 를 입력해주세요. (10초 이내)'
+        '경고: 모든 호출 목록을 초기화하려고 하는건가, 조수 군?\n' +
+        '맞으면 10초 이내로 `/yes` 를 입력하게나. (10초 이내)'
       ).then(() => {
         const filter = m => message.author.id === m.author.id;
 
@@ -348,14 +348,14 @@ module.exports = {
           .awaitMessages(filter, { time: 10000, max: 1, errors: ['time'] })
           .then(async messages => {
             if(messages.first().content.trim() !== '/yes')
-              return message.channel.send('실행이 취소되었습니다.');
+              return message.channel.send('실행을 취소했다네.');
 
             for(const n in callState) delete callState[n];
-            message.channel.send('호출 목록 초기화 완료');
+            message.channel.send('호출 목록을 초기화했다네.');
 
             global.fn.saveConfig(`${__dirname}/../config/${message.guild.id}/config.json`, config);
           }).catch(() => {
-            message.channel.send('입력 시간이 지났으므로 실행을 취소합니다.');
+            message.channel.send('입력 시간이 지났으니 실행을 취소하겠네.');
           });
       });
     } /* end of case */

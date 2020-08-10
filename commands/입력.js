@@ -37,7 +37,7 @@ module.exports = {
     const linked_id = config.linked_id;
 
     if(!sheetConfig.spreadsheet_id)
-      return message.channel.send('오류: 클랜 시트가 설정되지 않았습니다.');
+      return message.channel.send('조수 군! 먼저 클랜 시트를 설정해주게나.');
 
     // 클랜 배틀 몇 일차인지 확인
     const dateObject = new Date();
@@ -79,12 +79,12 @@ module.exports = {
         let damage = parseInt(match[2]);
 
         if(unitId == null || isNaN(damage) === true) {
-          errorString += `오류: 딜량 정보를 인식할 수 없습니다. \`${argument}\`\n`;
+          errorString += `조수 군! 딜량 정보가 이상한 것 같다네. \`${argument}\`\n`;
           break;
         }
 
         if(charLength !== dealLength) {
-          errorString += '오류: 딜량 정보를 혼용해서 입력할 수 없습니다.\n';
+          errorString += '조수 군! 딜량 정보를 혼용해서 입력하지 말아주게나.\n';
           break;
         }
         dealSum += damage;
@@ -101,12 +101,12 @@ module.exports = {
         let damage = parseInt(match[1]);
 
         if(unitId == null || isNaN(damage) === true) {
-          errorString += `오류: 딜량 정보를 인식할 수 없습니다. \`${argument}\`\n`;
+          errorString += `조수 군! 딜량 정보가 이상한 것 같다네. \`${argument}\`\n`;
           break;
         }
 
         if(charLength !== dealLength) {
-          errorString += '오류: 딜량 정보를 혼용해서 입력할 수 없습니다.\n';
+          errorString += '조수 군! 딜량 정보를 혼용해서 입력하지 말아주게나.\n';
           break;
         }
         dealSum += damage;
@@ -122,7 +122,7 @@ module.exports = {
         let unitId = Object.keys(units).find(id => units[id].unit_alias.includes(argument));
 
         if(unitId == null) {
-          errorString += `오류: 캐릭터 정보를 찾을 수 없습니다. \`${argument}\`\n`;
+          errorString += `조수 군! 캐릭터 정보를 찾을 수 없다네. \`${argument}\`\n`;
           break;
         }
 
@@ -153,11 +153,11 @@ module.exports = {
     }
 
     if(dealLength === 0)
-      errorString += '오류: 딜량 정보가 입력되지 않았습니다.\n';
+      errorString += '조수 군! 딜량 정보가 없는 것 같다네.\n';
     if(charLength > 0 && charLength !== dealLength)
-      errorString += '오류: 딜량 정보가 모두 입력되지 않았습니다.\n';
+      errorString += '조수 군! 빠뜨린 딜량 정보가 있는 것 같다네.\n';
     if(charLength > 1 && sheetConfig.has_detail === false)
-      errorString += '오류: 상세 입력은 지원하지 않습니다.\n';
+      errorString += '조수 군! 상세 입력을 지원하지 않는 시트라네.\n';
 
     if(errorString.length > 0)
       return message.channel.send(errorString);
@@ -184,7 +184,7 @@ module.exports = {
     if(charLength === 0 && dealLength === 1)
       chars[0].sheetName = null;
 
-    const botMessage = await message.channel.send('초기화 중... (1/3)');
+    const botMessage = await message.channel.send('초기화 중이라네... (1/3)');
     const authClient = await getAuthClient();
     let getOptions = {
       auth: authClient,
@@ -198,7 +198,7 @@ module.exports = {
     const fullIdx = sheetConfig.log_full_idx;
     const insertIdx = sheetConfig.log_insert_idx;
 
-    botMessage.edit('시트 정보 불러오는 중... (2/3)');
+    botMessage.edit('시트 정보를 불러오는 중이라네... (2/3)');
     const logData = (await sheets.spreadsheets.values.get(getOptions)).data.values;
 
 
@@ -265,7 +265,7 @@ module.exports = {
     }
 
 
-    botMessage.edit('기록 입력 중... (3/3)');
+    botMessage.edit('기록 입력 중이라네... (3/3)');
     let setOptions = {
       auth: authClient,
       spreadsheetId: sheetConfig.spreadsheet_id,
@@ -285,7 +285,7 @@ module.exports = {
         !/^1:30$/.test(updatedData[0][fullIdx.battle_type])
       );
       if(isSample === false) {
-        botMessage.edit('추가 작업 중... (표본 제외) (4/4)');
+        botMessage.edit('추가 작업 중이라네... (표본 제외) (4/4)');
         setOptions.resource.values[0].fill(null);
         setOptions.resource.values[0][fullIdx.is_sample] = false;
         await sheets.spreadsheets.values.update(setOptions);

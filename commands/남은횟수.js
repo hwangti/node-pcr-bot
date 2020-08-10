@@ -14,7 +14,7 @@ module.exports = {
     const linked_id = config.linked_id;
 
     if(!sheetConfig.spreadsheet_id)
-      return message.channel.send('오류: 클랜 시트가 설정되지 않았습니다.');
+      return message.channel.send('조수 군! 먼저 클랜 시트를 설정해주게나.');
 
     // 클랜 배틀 몇 일차인지 확인
     const dateObject = new Date();
@@ -23,7 +23,7 @@ module.exports = {
     if(dateOffset <= 0) dateOffset = 1;
     if(dateOffset > config.clanbattle_duration_day) dateOffset = config.clanbattle_duration_day;
 
-    const botMessage = await message.channel.send('초기화 중... (1/2)');
+    const botMessage = await message.channel.send('초기화 중이라네... (1/2)');
     const authClient = await getAuthClient();
     let getOptions = {
       auth: authClient,
@@ -34,7 +34,7 @@ module.exports = {
     if(sheetConfig.split_date === true)
       getOptions.range = getOptions.range.replace('{offset}', dateOffset);
 
-    await botMessage.edit('시트 정보 불러오는 중... (2/2)');
+    await botMessage.edit('시트 정보를 불러오는 중이라네... (2/2)');
     const remainIdx = sheetConfig.remain_idx;
     const remainData = (await sheets.spreadsheets.values.get(getOptions)).data.values;
 
@@ -85,7 +85,7 @@ module.exports = {
     });
 
     if(mainCount + bonusCount === 0)
-      return botMessage.edit('모든 멤버가 타격을 완료했습니다.');
+      return botMessage.edit('모든 멤버가 타격을 완료했다네, 조수 군!');
 
     remainString =
       `** 🔹 남은 횟수: ${mainCount+bonusCount}** (` +

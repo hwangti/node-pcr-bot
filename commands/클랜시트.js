@@ -9,11 +9,11 @@ module.exports = {
     let sheetConfig = message.client.config.get(`${message.guild.id}_sheets`);
 
     if(!sheetConfig.spreadsheet_id)
-      return message.channel.send('오류: 클랜 시트가 설정되지 않았습니다.');
+      return message.channel.send('조수 군! 먼저 클랜 시트를 설정해주게나.');
 
     if(/설정/.test(args.join(' ')) === true)
       return message.channel.send(
-        '클랜 시트를 변경하려면 아래의 명령어를 실행하세요.\n' +
+        '클랜 시트 주소를 변경하려면 아래의 명령어를 입력하게나.\n' +
         `\`\`\`${config.prefix}설정 시트 <시트주소>\`\`\``);
 
     return message.channel.send({ embed: {

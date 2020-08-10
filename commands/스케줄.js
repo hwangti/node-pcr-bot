@@ -92,24 +92,24 @@ module.exports = {
       }
 
       // 나머지 문자열은 미 인식 처리
-      errorString += `오류: 인식할 수 없는 문자열입니다. \`${argument}\`\n`;
+      errorString += `조수 군! 무슨 말인지 모르겠다네. \`${argument}\`\n`;
     }
     if(memberId == null)
       memberId = message.author.id;
 
     // 발견된 오류 처리
     if(config.sheet_type !== 'MOMO')
-      errorString += '오류: 이 서버에서는 사용할 수 없는 명령어입니다.\n';
+      errorString += '조수 군! 이 서버에서는 사용할 수 없는 명령어라네.\n';
     if(!sheetConfig.spreadsheet_id)
-      errorString += '오류: 클랜 시트가 설정되지 않았습니다.\n';
+      errorString += '조수 군! 먼저 클랜 시트를 설정해주게나.\n';
     if(mode === null)
-      errorString += '오류: 작업이 지정되지 않았습니다. (`확인`, `완료`)\n';
+      errorString += '조수 군! 옵션을 지정해주게나. (`확인`, `완료`)\n';
     if(mode === SCHEDULE_MODE_CUSTOM && memo === '')
-      errorString += '오류: 변경할 내용을 입력하지 않았습니다.\n';
+      errorString += '조수 군! 변경할 내용을 입력해주게나.\n';
     if(mode === SCHEDULE_MODE_FINISH && partyString === null)
-      errorString += '오류: 군(1~3군) 또는 네임드가 지정되지 않았습니다. (예: `4넴`)\n';
+      errorString += '조수 군! 군(1~3군) 또는 네임드를 입력해주게나. (예: `4넴`)\n';
     if(linked_id[memberId] == null)
-      errorString += '오류: 별명이 등록된 멤버가 아닙니다.\n';
+      errorString += '조수 군! 별명이 등록된 멤버가 아니라네.\n';
 
     if(errorString.length > 0)
       return message.channel.send(errorString);
@@ -120,7 +120,7 @@ module.exports = {
     const processTotal = mode === SCHEDULE_MODE_CHECK ? 2 : 3;
 
     // 시트에서 스케줄표 불러오기
-    const botMessage = await message.channel.send(`초기화 중... (1/${processTotal})`);
+    const botMessage = await message.channel.send(`초기화 중이라네... (1/${processTotal})`);
     const authClient = await getAuthClient();
     let getOptions = {
       auth: authClient,
@@ -128,7 +128,7 @@ module.exports = {
       range: '★스케줄표★!B6:F35'
     };
 
-    botMessage.edit(`시트 정보 불러오는 중... (2/${processTotal})`);
+    botMessage.edit(`시트 정보를 불러오는 중이라네... (2/${processTotal})`);
     const scheduleData = (await sheets.spreadsheets.values.get(getOptions)).data.values;
 
     // @TODO const 처리 시작 (나중에 config 파일에 반영)
@@ -145,7 +145,7 @@ module.exports = {
     );
 
     if(findRowNum === -1)
-      return botMessage.edit(`오류: 시트에서 \`${sheetName}\`님을 찾을 수 없습니다.`);
+      return botMessage.edit(`조수 군! 시트에서 \`${sheetName}\` 군을 찾을 수 없었다네.`);
 
     /* 작업 처리 시작 */
     const embed = {
@@ -164,7 +164,7 @@ module.exports = {
       let partyString = '';
       for(let i=1; i<=3; i++)
         partyString += `**\`${i}군\`** - ${scheduleData[findRowNum][i]}\n`;
-      partyString += scheduleData[findRowNum][scheduleIdx.kmr_state] === 'TRUE' ? '\n키무라 찬스를 사용했습니다.' : '';
+      partyString += scheduleData[findRowNum][scheduleIdx.kmr_state] === 'TRUE' ? '\n키무라 찬스를 사용했다네.' : '';
 
       embed.fields.push({ name: '파티 목록', value: partyString });
       return botMessage.edit('', { embed: embed });
@@ -209,18 +209,18 @@ module.exports = {
 
         // 파티를 찾지 못한 경우
         if(partyPosition === 0)
-          return botMessage.edit(`오류: 스케줄표에서 ${named}넴 파티를 찾을 수 없습니다.`);
+          return botMessage.edit(`조수 군! 스케줄표에서 ${named}넴 파티를 찾을 수 없었다네.`);
 
         // 해당 네임드가 여러 개 있는 경우 어떤 파티인지 확인할 수 없음
         if(partyCount > 1)
-          return botMessage.edit(`오류: ${named}넴 파티가 모호합니다. 1군 2군 3군 등으로 입력해주세요.`);
+          return botMessage.edit(`조수 군! ${named}넴 파티가 모호하니 1군 2군 3군 등으로 입력해주게나.`);
       }
 
       // 중복 완료 처리 방지
       if(mode === SCHEDULE_MODE_FINISH) {
         if(scheduleData[findRowNum][partyPosition].includes('완'))
           return botMessage.edit(
-            '오류: 이미 완료 처리된 파티입니다.\n완료 처리된 파티는 `변경` 옵션으로 수정할 수 있습니다.\n' +
+            '조수 군! 이미 완료 처리된 파티라네.\n완료 처리된 파티는 `변경` 옵션으로 수정해주게나.\n' +
             `${partyPosition}군:\n\`\`\`yaml\n${scheduleData[findRowNum][partyPosition]}\`\`\``);
 
         memo = scheduleData[findRowNum][partyPosition].replace(
@@ -229,13 +229,13 @@ module.exports = {
         memo = scheduleData[findRowNum][partyPosition].replace(schedulePattern, memo);
       }
 
-      botMessage.edit(`스케줄표 완료 처리 중... (3/${processTotal})`);
+      botMessage.edit(`스케줄표 완료 처리 중이라네... (3/${processTotal})`);
 
       setOptions.resource.values[0][partyPosition] = memo;
       await sheets.spreadsheets.values.update(setOptions);
 
       return botMessage.edit(
-        `${getDecoratedName(displayName, sheetName)}님의 스케줄표 처리 완료:\n\`\`\`yaml\n` +
+        `${getDecoratedName(displayName, sheetName)} 군의 스케줄표 처리 완료:\n\`\`\`yaml\n` +
         `${scheduleData[findRowNum][partyPosition]} => ${memo}` +
         '```');
     } /* end of case */

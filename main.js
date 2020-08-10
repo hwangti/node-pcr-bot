@@ -62,7 +62,7 @@ client.once('ready', () => {
 
   initialConfig(client);
 
-  client.version = 'v1.5.0';
+  client.version = 'v1.5.1';
   client.updateTime = parseInt(fs.statSync(__filename).mtimeMs);
   client.user.setPresence({ activity: { name: `옴닉 ${client.version}` }, status: 'online' });
 });
@@ -91,29 +91,33 @@ client.on('guildCreate', async guild => {
     return;
   }
 
-  welcomeChannel.send('안녕하세요? **미스티★카스미** 봇을 초대해주셔서 고맙습니다.\n봇 초기 설정이 진행중입니다. 잠시만 기다려주세요.');
+  welcomeChannel.send(
+    '미스티, 시어리, 트루리! 매지컬 리본, 스파이럴!\n' +
+    '마법 탐정 미스티★카스미, 마법의 힘으로 수사 개시!\n' +
+    '초기 설정을 하는 중이니까 잠시만 기다려주게나! 조수 군!'
+  );
 
   // 설정 파일 복사
-  const message = await welcomeChannel.send('설정 파일 복사 중... (1/4)');
+  const message = await welcomeChannel.send('설정 파일 복사 중이라네... (1/4)');
   initialConfig(client);
 
   // 서버 주인을 봇 관리자로 설정
-  await message.edit('서버 주인을 봇 관리자로 설정 중... (2/4)');
+  await message.edit('서버 주인을 봇 관리자로 설정 중이라네... (2/4)');
   const config = client.config.get(`${guild.id}_config`);
   config.admin_user_ids.push(guild.owner.id);
 
   // 동작할 채널 설정
-  await message.edit('동작 채널 설정 중... (3/4)');
+  await message.edit('동작 채널 설정 중이라네... (3/4)');
   config.action_channel_ids.push(welcomeChannel.id);
 
   // 변경된 정보 설정 파일에 저장
-  await message.edit('설정 저장 중... (4/4)');
+  await message.edit('설정 저장 중이라네... (4/4)');
   global.fn.saveConfig(`${__dirname}/config/${guild.id}/config.json`, config);
 
   message.edit(
-    '봇 초기 설정이 완료되었습니다.\n' +
-    '예약이나 시트 관련 명령어를 사용하려면 각 멤버마다 별명을 등록해야 합니다.\n' +
-    '자세한 설명은 `!도움말` 또는 `!설명서` 를 참고하세요.'
+    '초기 설정을 완료했다네, 조수 군!\n' +
+    '예약이나 시트 관련 명령어를 사용하려면 각 멤버마다 별명을 등록해야 한다네!\n' +
+    '자세한 설명은 `!도움말` 또는 `!설명서` 를 참고해주게나!'
   );
 });
 
@@ -143,7 +147,7 @@ client.on('message', async message => {
 
   // 매개 변수가 입력되지 않았을 경우 처리
   if((command.hasArgument && (!command.hideCommand) && !args.length)) {
-    let text = '오류: 이 명령어는 매개 변수가 필요합니다.';
+    let text = '오류: 이 명령어는 매개 변수가 필요해, 조수 군!';
 
     if(command.usages)
       text +=
@@ -164,27 +168,27 @@ client.on('message', async message => {
 
   // 클랜원만 실행 가능한 명령어인지 확인
   if((flags & privileges) === 0 && (flags & 2) > 1)
-    return message.channel.send('오류: 명령어를 실행할 권한이 없습니다. (클랜원 이상)');
+    return message.channel.send('조수 군! 자네는 명령어를 실행할 권한이 없다네. (클랜원 이상)');
 
   // 관리자만 실행 가능한 명령어인지 확인
   if((flags & privileges) === 0 && (flags & 4) > 1)
-    return message.channel.send('오류: 명령어를 실행할 권한이 없습니다. (운영진 이상)');
+    return message.channel.send('조수 군! 자네는 명령어를 실행할 권한이 없다네. (운영진 이상)');
 
   // 개발자만 실행 가능한 명령어인지 확인
   if((flags & privileges) === 0 && (flags & 8) > 1)
     return; // 무응답
-    // return message.channel.send('오류: 이 명령어는 개발자만 실행 가능합니다.');
+    // return message.channel.send('조수 군! 자네는 명령어를 실행할 권한이 없다네. (개발자 전용)');
 
   // 명령어를 사용할 수 있는 채널인지 확인
   if(message.author.id !== auth.owner_id && message.channel.type === 'text' &&
     config.action_channel_ids.includes(message.channel.id) === false)
     return; // 무응답
-    // return message.channel.send('오류: 명령어를 사용할 수 있는 채널이 아닙니다.');
+    // return message.channel.send('조수 군! 이 채널에서는 명령어를 사용할 수 없다네.');
 
   // 명령어가 이미 실행중이면 알려줌
   // if(global.runCommand !== null)
   //   return message.channel
-  //     .send(`오류: 다른 명령어가 실행 중입니다. (\`${config.prefix}${global.runCommand}\`)`)
+  //     .send(`조수 군! 다른 명령어가 실행중이니 기다려주게나. (\`${config.prefix}${global.runCommand}\`)`)
   //     .then(msg => msg.delete({timeout: 10000}))
   //     .catch();
 
@@ -200,7 +204,7 @@ client.on('message', async message => {
 
     if(currentTime < expireTime) {
       const timeLeft = (expireTime - currentTime) / 1000;
-      return message.channel.send(`오류: 이 명령어는 ${timeLeft.toFixed(1)}초 뒤에 실행 가능합니다.`);
+      return message.channel.send(`조수 군! 이 명령어는 ${timeLeft.toFixed(1)}초 뒤에 실행 가능하다네.`);
     }
   }
 
@@ -213,7 +217,7 @@ client.on('message', async message => {
     new Error(command.execute(message, args)); // @TODO DEBUG ONLY
     ++config.command_count;
   } catch(error) {
-    message.channel.send(`해당 명령어를 실행하는 중에 오류가 발생했습니다.\n\`\`\`${error}\`\`\``);
+    message.channel.send(`조수 군, 명령어를 실행하는 중에 오류가 발생한 것 같다네...\n\`\`\`${error}\`\`\``);
     client.users.cache.get(auth.owner_id).send(`${dateFormat()} [ ERR] ${error}\n\`\`\`${error.stack}\`\`\``);
     console.error(`${dateFormat()} [ ERR] ${error}`);
   } finally {
