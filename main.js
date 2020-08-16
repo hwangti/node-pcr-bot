@@ -164,7 +164,7 @@ client.on('message', async message => {
 
   // 매개 변수가 입력되지 않았을 경우 처리
   if((command.hasArgument && (!command.hideCommand) && !args.length)) {
-    let text = '오류: 이 명령어는 매개 변수가 필요해, 조수 군!';
+    let text = '조수 군!, 이 명령어는 매개 변수가 필요해';
 
     if(command.usages)
       text +=

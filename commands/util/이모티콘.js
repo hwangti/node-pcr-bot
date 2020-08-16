@@ -1,9 +1,7 @@
 module.exports = {
   name: '이모티콘',
   category: 'util',
-  summary: 'Discord 이모티콘을 확대해서 보여줍니다',
-  description: ''
-  ,
+  summary: 'Discord 이모티콘을 확대해서 보여줍니다. (사용자 이미지만 해당)',
   aliases: ['ㄷ', 'e'],
   privileges: 1111,
 
