@@ -1,13 +1,14 @@
 const crypto = require('crypto');
 const fetch = require('node-fetch');
 const FormData = require('form-data');
-const units = require('../config/_units.json');
+const units = require(`${global.dirname}/config/_units.json`);
 
 const SITE_NOMAE = 'https://nomae.net/arenadb/';
 const SITE_PCRD  = 'https://www.pcrdfans.com/battle';
 
 module.exports = {
   name: '아레나',
+  category: 'priconne',
   summary: '아레나 DB에서 정보를 검색합니다.',
   description:
     '방어 대상 캐릭터를 순서에 관계없이 입력하면 됩니다. 정식 명칭, 별명 모두 사용 가능합니다.\n\n' +

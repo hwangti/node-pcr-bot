@@ -1,12 +1,16 @@
+const __BOT__VERSION__ = '1.6.0';
+
 // 인증 파일 로드
 const auth = require('./config/auth.json');
 global.auth = auth;
 
 // CommonJS 모듈 로드
 const fs = require('fs');
+const path = require('path');
 
 // 경로가 복잡한 모듈은 전역 변수로 지정
 const dateFormat = require('./modules/dateformat');
+global.dirname = __dirname;
 global.dateFormat = dateFormat;
 global.fn = require('./modules/functions.js');
 
@@ -18,11 +22,12 @@ client.config = new Discord.Collection();
 const cooltimes = new Discord.Collection();
 
 
-// 명령어 파일 읽어오기
-const commandFiles = fs.readdirSync(`${__dirname}/commands`).filter(file => file.endsWith('.js'));
-for(const file of commandFiles) {
-  const command = require(`./commands/${file}`);
-  client.commands.set(command.name, command);
+async function* getFiles(dir) {
+  const dirents = await fs.promises.readdir(dir, { withFileTypes: true });
+  for(const dirent of dirents) {
+    const res = path.resolve(dir, dirent.name);
+    dirent.isDirectory() ? yield* getFiles(res) : yield res;
+  }
 }
 
 function initialConfig(client) {
@@ -49,6 +54,18 @@ function initialConfig(client) {
   });
 }
 
+// 명령어 파일 읽어오기
+(async () => {
+  for await (const file of getFiles(`${__dirname}/commands`)) {
+    if(file.endsWith('.js') === false) continue;
+
+    console.log(dateFormat(), '[INFO] 명령어 로드:', file);
+
+    const command = require(file);
+    client.commands.set(command.name, command);
+  }
+})();
+
 // Discord 로그인
 client.login(process.env.pm_id ? auth.token : auth.token_debug);
 
@@ -62,7 +79,7 @@ client.once('ready', () => {
 
   initialConfig(client);
 
-  client.version = 'v1.5.1';
+  client.version = `v${__BOT__VERSION__}`;
   client.updateTime = parseInt(fs.statSync(__filename).mtimeMs);
   client.user.setPresence({ activity: { name: `옴닉 ${client.version}` }, status: 'online' });
 });

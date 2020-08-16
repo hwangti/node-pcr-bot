@@ -1,7 +1,8 @@
-const { getAuthClient, sheets } = require('../modules/spreadsheets.js');
+const { getAuthClient, sheets } = require(`${global.dirname}/modules/spreadsheets.js`);
 
 module.exports = {
   name: '삭제',
+  category: 'clanbattle',
   summary: '클랜 시트에 입력된 마지막 전투 기록을 삭제합니다.',
   aliases: ['delete'],
   cooltime: 4,

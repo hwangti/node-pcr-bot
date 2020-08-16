@@ -1,4 +1,4 @@
-const { getAuthClient, sheets } = require('../modules/spreadsheets.js');
+const { getAuthClient, sheets } = require(`${global.dirname}/modules/spreadsheets.js`);
 
 /* eslint-disable indent */
 const SCHEDULE_MODE_CHECK = 0;
@@ -10,6 +10,7 @@ const MEMO_PARSE_ING = 1;
 
 module.exports = {
   name: '스케줄', // 시트연동 Ver.
+  category: 'clanbattle',
   summary: '클랜 시트와 연동되는 스케줄표를 관리합니다.',
   description:
     '> `확인`: 스케줄표를 확인합니다.\n' +

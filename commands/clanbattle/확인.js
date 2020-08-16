@@ -1,7 +1,8 @@
-const { getAuthClient, sheets } = require('../modules/spreadsheets.js');
+const { getAuthClient, sheets } = require(`${global.dirname}/modules/spreadsheets.js`);
 
 module.exports = {
   name: '확인',
+  category: 'clanbattle',
   summary: '클랜 시트의 전투 기록을 확인합니다.',
   description:
     '> `날짜`: 조회할 날짜를 지정합니다. `26(일)`, `어제`, `오늘` 등으로 입력합니다.\n' +

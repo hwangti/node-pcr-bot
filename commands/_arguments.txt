@@ -1,4 +1,5 @@
 string name
+string category
 string summary
 string description
 

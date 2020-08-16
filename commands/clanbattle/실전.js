@@ -9,13 +9,24 @@ const BATTLE_MODE_DELETE = 6;
 
 module.exports = {
   name: '실전',
+  category: 'clanbattle',
   summary: '보스 참전 상태를 관리합니다.',
-  description: ''
+  description: '!손 --> !입장 or !실전 --> !대기 or !구조 --> !퇴장'
   ,
-  aliases: ['손', '입장', '실전', '구조', '대기', '퇴장'],
+  aliases: ['손', '입장', '실전', '대기', '구조', '퇴장'],
   usages: [
+    '손',
+    '실전 <@멘션=나|별명> [대리계정]',
+    '대기 <@멘션=나|별명> [대리계정] <딜량> [메모]',
+    '구조 <@멘션=나|별명> [대리계정] [메모]',
+    '퇴장 <@멘션=나|별명> [대리계정] <딜량>'
   ],
   samples: [
+    '손',
+    '',
+    '대기 535 3초 // 만 단위 입력 또는 실제딜량',
+    '구조 이리야 사망',
+    '퇴장 5522552'
   ],
   cooltime: 1, // @TODO
   privileges: 1110,
@@ -109,7 +120,7 @@ module.exports = {
         let tempString = '';
         // tempString += entry.state === BATTLE_MODE_ENTER ? '- ' : '';
         tempString += `<@!${entry.owner_id}>` + (entry.owner_id != entry.chess_id ? `(<@!${entry.chess_id}>)` : '');
-        tempString += entry.damage != null ? ' ' + entry.damage : '';
+        tempString += entry.damage != null && entry.state !== BATTLE_MODE_ENTER ? ' ' + entry.damage : '';
         tempString += entry.memo !== '' ? ` (${entry.memo})` : '';
         tempString += entry.state === BATTLE_MODE_PAUSE ? '\n' : ' ';
 
@@ -308,7 +319,7 @@ module.exports = {
     } // end of switch(mode)
 
     // 변경된 정보 설정 파일에 저장
-    global.fn.saveConfig(`${__dirname}/../config/${message.guild.id}/config.json`, config);
+    global.fn.saveConfig(`${global.dirname}/config/${message.guild.id}/config.json`, config);
   }
 };
 

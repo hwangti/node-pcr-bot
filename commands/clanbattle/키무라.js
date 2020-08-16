@@ -1,4 +1,4 @@
-const { getAuthClient, sheets } = require('../modules/spreadsheets.js');
+const { getAuthClient, sheets } = require(`${global.dirname}/modules/spreadsheets.js`);
 
 /* eslint-disable indent */
 const KMR_MODE_CHECK = 0;
@@ -9,6 +9,7 @@ const KMR_MODE_RESET = 12;
 
 module.exports = {
   name: '키무라', // 시트연동 Ver.
+  category: 'clanbattle',
   summary: '클랜 시트와 연동되는 키무라 찬스(1일 1회 강종 기능)를 관리합니다.',
   description:
     '> `사용`: 키무라 찬스를 사용할때 쓰는 옵션입니다.\n' +

@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const units = require('../config/_units.json');
+const units = require(`${global.dirname}/config/_units.json`);
 
 /* eslint-disable no-irregular-whitespace */
 const STAT_MODE_CALC = 'calc';
@@ -7,6 +7,7 @@ const STAT_MODE_DIFF = 'diff';
 
 module.exports = {
   name: '스탯',
+  category: 'priconne',
   summary: '캐릭터의 스테이터스를 확인 또는 비교합니다.',
   description:
     // '- `구분`: 계산 유형을 선택합니다. (`계산`, `비교`)\n' +

@@ -2,6 +2,7 @@ const fs = require('fs');
 
 module.exports = {
   name: 'bot',
+  category: 'system',
   summary: null,
   hasArgument: true,
   privileges: 1000,
@@ -32,12 +33,12 @@ module.exports = {
       break;
     }
     case 'save': {
-      const server = fs.readdirSync(`${__dirname}/../config`).filter(file => /^\d{18,}$/.test(file));
+      const server = fs.readdirSync(`${global.dirname}/config`).filter(file => /^\d{18,}$/.test(file));
       server.map(s => {
         const config = message.client.config.get(`${s}_config`);
         if(config == null) return;
 
-        global.fn.saveConfig(`${__dirname}/../config/${s}/config.json`, config);
+        global.fn.saveConfig(`${global.dirname}/config/${s}/config.json`, config);
         message.channel.send(`save complete: \`${s}\` (${message.client.guilds.cache.get(s)})`);
       });
       break;

@@ -2,6 +2,7 @@ const { statSync } = require('fs');
 
 module.exports = {
   name: '도움말',
+  category: 'help',
   summary: '모든 명령어 또는 특정 명령어에 대한 설명을 표시합니다.',
   aliases: ['명령어', '설명', '커맨드', '헬프', 'command', 'help'],
   usages: ['[명령어_이름]'],
@@ -12,22 +13,34 @@ module.exports = {
     const { commands } = message.client;
 
     // 명령어만 입력했다면
-    if(args.length === 0)
+    if(args.length === 0) {
+      const helpObject = {};
+      const category = ['help', 'system', 'priconne', 'clanbattle', 'game', 'util'];
+      const categoryName = ['도움말', '시스템', '프리코네', '클랜전', '게임', '유틸'];
+
+      commands.forEach(command => {
+        if(command.hideCommand) return;
+
+        if(!helpObject[command.category]) helpObject[command.category] = '';
+        helpObject[command.category] += `\`${prefix}${command.name}\` - ${command.summary}\n`;
+      });
+
+      let helpString = '';
+      for(let i=0, length=category.length; i<length; i++) {
+        helpString += `===== 🔹**\`${categoryName[i]}\`** 관련 명령어 🔹 =====\n`;
+        helpString += helpObject[category[i]] + '\n';
+      }
+
       return message.channel.send({ embed: {
         title: '명령어 목록',
         description:
-          commands.map(command => {
-            if(command.hideCommand) return '';
-            return `\`${prefix}${command.name}\` - ${command.summary}\n`;
-          }).join('') + '\n' +
+          helpString +
           `\`${prefix}도움말 [명령어_이름]\` 을 입력해서 자세한 설명을 볼 수 있다네, 조수 군!`
         ,
-        footer: {
-          text: '최종 업데이트'
-          // 'https://discordapp.com/assets/6debd47ed13483642cf09e832ed0bc1b.png'
-        },
+        footer: { text: '최종 업데이트' },
         timestamp: parseInt(statSync(__filename).mtimeMs)
       }});
+    }
 
     // 특정 명령어에 대한 설명 처리
     const name = args[0].toLowerCase();
@@ -42,9 +55,8 @@ module.exports = {
       title: `${prefix}${command.name}`,
       footer: {
         text: '최종 업데이트'
-        // 'https://discordapp.com/assets/6debd47ed13483642cf09e832ed0bc1b.png'
       },
-      timestamp: parseInt(statSync(`${__dirname}/${command.name}.js`).mtimeMs),
+      timestamp: parseInt(statSync(`${global.dirname}/commands/${command.category}/${command.name}.js`).mtimeMs),
       fields: []
     };
 

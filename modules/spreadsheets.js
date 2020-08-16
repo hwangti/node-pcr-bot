@@ -1,5 +1,5 @@
 const { google } = require('googleapis');
-const { client_email, private_key } = require('../config/auth.json');
+const { client_email, private_key } = require(`${global.dirname}/config/auth.json`);
 
 const sheets = google.sheets('v4');
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];

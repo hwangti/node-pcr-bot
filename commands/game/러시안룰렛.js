@@ -4,6 +4,7 @@ const RUSSIAN_ROULETTE_END = 3;
 
 module.exports = {
   name: '러시안룰렛',
+  category: 'game',
   summary: '러시안 룰렛 게임입니다.',
   description:
     '> `시작`: 러시안 룰렛 게임 방을 만듭니다.\n' +

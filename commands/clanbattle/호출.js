@@ -12,6 +12,7 @@ const MEMO_PARSE_ING = 1;
 
 module.exports = {
   name: '호출',
+  category: 'clanbattle',
   summary: '참전할 보스의 등록 및 삭제와 호출을 관리합니다.',
   description:
     '> `확인`: 호출 등록된 멤버 정보를 조회합니다. `네임드_정보`가 입력되지 않았다면 전체를 조회합니다.\n' +
@@ -315,7 +316,7 @@ module.exports = {
                     }
 
                     this.execute(message, ['확인', namedNumber]);
-                    global.fn.saveConfig(`${__dirname}/../config/${message.guild.id}/config.json`, config);
+                    global.fn.saveConfig(`${global.dirname}/config/${message.guild.id}/config.json`, config);
                   }).catch(() => {
                     message.channel.send('입력 시간이 지났으니 실행을 취소하겠네.');
                   });
@@ -353,7 +354,7 @@ module.exports = {
             for(const n in callState) delete callState[n];
             message.channel.send('호출 목록을 초기화했다네.');
 
-            global.fn.saveConfig(`${__dirname}/../config/${message.guild.id}/config.json`, config);
+            global.fn.saveConfig(`${global.dirname}//config/${message.guild.id}/config.json`, config);
           }).catch(() => {
             message.channel.send('입력 시간이 지났으니 실행을 취소하겠네.');
           });
@@ -362,6 +363,6 @@ module.exports = {
     } /* end of switch */
 
     // 변경된 정보 설정 파일에 저장
-    global.fn.saveConfig(`${__dirname}/../config/${message.guild.id}/config.json`, config);
+    global.fn.saveConfig(`${global.dirname}//config/${message.guild.id}/config.json`, config);
   }
 };

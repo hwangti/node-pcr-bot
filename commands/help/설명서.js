@@ -1,5 +1,6 @@
 module.exports = {
   name: '설명서',
+  category: 'help',
   summary: '봇 사용법이 적혀있는 구글 문서를 출력합니다.',
   aliases: ['설명서', '사용법'],
   privileges: 1111,

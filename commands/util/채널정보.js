@@ -1,6 +1,7 @@
 /* eslint-disable no-irregular-whitespace */
 module.exports = {
   name: '채널정보',
+  category: 'util',
   summary: '채널 정보와 생성된 시간을 표시합니다.',
   privileges: 1100,
 

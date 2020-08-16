@@ -2,6 +2,7 @@ const { inspect } = require('util');
 
 module.exports = {
   name: 'eval',
+  category: 'system',
   summary: null,
   privileges: 1000,
   hasArgument: true,

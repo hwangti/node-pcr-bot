@@ -955,9 +955,17 @@
     "unit_id": 1135,
     "unit_name": "미사토(여름)",
     "unit_kana": "ミサト（サマー）",
-    "sheet_name": "수나카",
+    "sheet_name": "수사토",
     "unit_alias": ["미사토(여름)", "ミサト（サマー）", "수사토"],
     "search_area_width": 697
+  },
+  "1136": {
+    "unit_id": 1136,
+    "unit_name": "쥰(여름)",
+    "unit_kana": "ジュン（サマー）",
+    "sheet_name": "수쥰",
+    "unit_alias": ["쥰(여름)", "ジュン（サマー）", "수듄", "수쥰"],
+    "search_area_width": 182
   },
   "1802": {
     "unit_id": 1802,

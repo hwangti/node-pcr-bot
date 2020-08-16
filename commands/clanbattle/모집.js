@@ -6,6 +6,7 @@ const RECRUIT_MODE_RESET = 4;
 
 module.exports = {
   name: '모집',
+  category: 'clanbattle',
   summary: '보스 참전 인원을 모집합니다.',
   description: ''
   ,
@@ -39,7 +40,7 @@ module.exports = {
     while((argument = args.shift()) !== undefined) {
       let match = null;
 
-      if(/^등록|리셋|변경|삭제|수정|설정|초기화|확인|현황$/.test(argument)) {
+      if(/^확인|현황|등록|설정|변경|수정|리셋|삭제||초기화$/.test(argument)) {
         mode =
           (['확인', '현황'].includes(argument)) ? RECRUIT_MODE_CHECK :
           (['등록', '설정'].includes(argument)) ? RECRUIT_MODE_SET :
@@ -96,15 +97,32 @@ module.exports = {
       this.execute(message, ['확인']);
       break;
     }
-    case RECRUIT_MODE_RESET:
-      delete bossState.boss_num;
-      delete bossState.remain_hp;
-      delete bossState.entries;
-      message.channel.send('모집 목록을 초기화 했다네.');
-      break;
+    case RECRUIT_MODE_RESET: {
+      return message.channel.send(
+        '경고: 모집 목록을 초기화하려고 하는건가, 조수 군?\n' +
+        '맞으면 10초 이내로 `ㅇㅇ` 를 입력하게나.'
+      ).then(() => {
+        const filter = m => message.author.id === m.author.id;
+
+        message.channel
+          .awaitMessages(filter, { time: 10000, max: 1, errors: ['time'] })
+          .then(async messages => {
+            if(['ㅇㅇ'].includes(messages.first().content.trim()) === false)
+              return message.channel.send('실행을 취소했다네.');
+
+            delete bossState.boss_num;
+            delete bossState.remain_hp;
+            delete bossState.entries;
+            global.fn.saveConfig(`${global.dirname}/config/${message.guild.id}/config.json`, config);
+            message.channel.send('모집 목록을 초기화 했다네.');
+          }).catch(() => {
+            message.channel.send('입력 시간이 지났으니 실행을 취소하겠네.');
+          });
+      });
     }
+    } // end of switch
 
     // 변경된 정보 설정 파일에 저장
-    global.fn.saveConfig(`${__dirname}/../config/${message.guild.id}/config.json`, config);
+    global.fn.saveConfig(`${global.dirname}/config/${message.guild.id}/config.json`, config);
   }
 };

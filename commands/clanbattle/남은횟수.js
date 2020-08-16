@@ -1,7 +1,8 @@
-const { getAuthClient, sheets } = require('../modules/spreadsheets.js');
+const { getAuthClient, sheets } = require(`${global.dirname}/modules/spreadsheets.js`);
 
 module.exports = {
   name: '남은횟수',
+  category: 'clanbattle',
   summary: '남은 타격 횟수를 확인합니다.',
   description: '시트에 입력된 전투 기록 기반으로 클랜원의 남은 타격 횟수를 확인할 수 있습니다.',
   aliases: ['remain'],

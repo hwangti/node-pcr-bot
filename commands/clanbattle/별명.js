@@ -6,6 +6,7 @@ const ALIAS_MODE_DELETE = 13;
 
 module.exports = {
   name: '별명',
+  category: 'clanbattle',
   summary: '봇과 클랜 시트에서 사용하는 별명을 관리합니다.',
   description:
     '> `확인`: 멤버(들)의 별명이나 사용 중인 별명을 확인합니다. `/all` 또는 `/모두`를 입력하면 별명을 등록한 멤버 전체를 보여줍니다.\n' +
@@ -231,7 +232,7 @@ module.exports = {
     } /* end of switch */
 
     // 변경된 정보 설정 파일에 저장
-    global.fn.saveConfig(`${__dirname}/../config/${message.guild.id}/config.json`, config);
+    global.fn.saveConfig(`${global.dirname}/config/${message.guild.id}/config.json`, config);
   }
 };
 

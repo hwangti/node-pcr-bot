@@ -1,5 +1,6 @@
 module.exports = {
   name: '클랜시트',
+  category: 'clanbattle',
   summary: '클랜시트를 출력합니다.',
   aliases: ['시트', '구글시트', '스프레드시트', 'sheet', 'spreadsheet'],
   privileges: 1110,

@@ -1,5 +1,6 @@
 module.exports = {
   name: '설정',
+  category: 'system',
   summary: '봇 설정을 관리합니다.',
   description:
     '> `확인`: 봇 설정을 모두 표시합니다.\n' +
@@ -72,11 +73,11 @@ module.exports = {
     case '로드':
     case 'load': {
       ['config', 'sheets', 'units'].map(file => {
-        delete require.cache[require.resolve(`../config/${message.guild.id}/${file}.json`)];
+        delete require.cache[require.resolve(`${global.dirname}/config/${message.guild.id}/${file}.json`)];
 
         message.client.config.set(
           `${message.guild.id}_${file}`,
-          require(`../config/${message.guild.id}/${file}.json`)
+          require(`${global.dirname}/config/${message.guild.id}/${file}.json`)
         );
       });
 
@@ -153,7 +154,6 @@ module.exports = {
         description:
           config.action_channel_ids.map(id => {
             const channel = message.guild.channels.cache.get(id);
-            // channel == null ? `\\<#${id}> (없는 채널)` : `<#${id}>`;
             return channel == null ? `\\<#${id}> (없는 채널)` : `<#${id}>`;
           }).join(' ')
       }});
@@ -308,7 +308,7 @@ module.exports = {
     } /* end of switch */
 
     // 변경된 정보 설정 파일에 저장
-    global.fn.saveConfig(`${__dirname}/../config/${message.guild.id}/config.json`, config);
-    global.fn.saveConfig(`${__dirname}/../config/${message.guild.id}/sheets.json`, sheetConfig);
+    global.fn.saveConfig(`${global.dirname}/config/${message.guild.id}/config.json`, config);
+    global.fn.saveConfig(`${global.dirname}/config/${message.guild.id}/sheets.json`, sheetConfig);
   } /* end of execute() */
 };

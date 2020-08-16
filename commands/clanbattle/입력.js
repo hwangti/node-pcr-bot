@@ -1,7 +1,8 @@
-const { getAuthClient, sheets } = require('../modules/spreadsheets.js');
+const { getAuthClient, sheets } = require(`${global.dirname}/modules/spreadsheets.js`);
 
 module.exports = {
   name: '입력',
+  category: 'clanbattle',
   summary: '클랜 시트에 전투 기록을 입력합니다.',
   description:
     '> `캐릭터`는 정식 명칭이나 줄임말(예: `수페코`, `치카(성탄)`)으로 입력 가능합니다.\n' +

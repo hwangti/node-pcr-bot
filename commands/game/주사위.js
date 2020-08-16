@@ -1,5 +1,6 @@
 module.exports = {
   name: '주사위',
+  category: 'game',
   summary: '임의의 숫자를 한 개 뽑습니다.',
   aliases: ['랜덤', 'dice', 'random'],
   usages: ['[최대_숫자=100]'],

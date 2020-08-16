@@ -1,5 +1,6 @@
 module.exports = {
   name: '리로드',
+  category: 'system',
   summary: '특정 명령어를 다시 불러옵니다.',
   aliases: ['reload'],
   usages: ['<명령어_이름>'],
@@ -17,9 +18,9 @@ module.exports = {
       return message.channel.send(`조수 군! \`${commandName}\` 명령어 또는 별칭이 없다네!`);
 
     try {
-      delete require.cache[require.resolve(`./${command.name}.js`)];
+      delete require.cache[require.resolve(`${global.dirname}/commands/${command.category}/${command.name}.js`)];
 
-      const newCommand = require(`./${command.name}.js`);
+      const newCommand = require(`${global.dirname}/commands/${command.category}/${command.name}.js`);
       message.client.commands.set(newCommand.name, newCommand);
     } catch(error) {
       console.log(error);
