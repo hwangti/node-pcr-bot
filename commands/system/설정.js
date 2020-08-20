@@ -37,7 +37,11 @@ module.exports = {
             name: '작동 채널 및 권한',
             value:
               '- 관리자: ' + config.admin_user_ids.map(id => `<@!${id}>`).join(' ') + '\n' +
-              '- 채　널: ' + config.action_channel_ids.map(id => `<#${id}>`).join(' ') + '\n' +
+              '- 채　널: ' +
+                config.action_channel_ids.map(id => {
+                  const channel = message.guild.channels.cache.get(id);
+                  return channel == null ? `\\<#${id}> (없는 채널)` : `<#${id}>`;
+                }).join(' ') + '\n' +
               '- 역　할: ' + config.action_roles_ids.map(id => `<@&${id}>`).join(' ')
           },
           {
