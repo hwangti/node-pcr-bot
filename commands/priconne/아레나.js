@@ -24,7 +24,7 @@ module.exports = {
   privileges: 1111,
 
   async execute(message, args) {
-    let server = SITE_PCRD;
+    let server = SITE_NOMAE;
     let chars = [];
 
     let argument = null;
@@ -80,60 +80,62 @@ module.exports = {
 
     switch(server) {
     case SITE_PCRD: {
-      const body = {
-        def: chars.map(value => value.id),
-        nonce: Math.random().toString(36).substring(2, 10) + Math.random().toString(36).substring(2, 10),
-        page: 1,
-        region: 1,
-        sort: 3,
-        ts: parseInt(String(+new Date()).substr(0, 10))
-      };
-      body._sign = crypto.createHash('md5').update(JSON.stringify(body) + 'e437591b87a9e7d10b7ad73465bbc0e9' + body.nonce).digest('hex');
+      return message.channel.send('조수 군! 기술적인 문제로 중국 아레나 DB는 지원하지 않아!');
+      // const body = {
+      //   def: chars.map(value => value.id),
+      //   nonce: Math.random().toString(36).substring(2, 10) + Math.random().toString(36).substring(2, 10),
+      //   page: 1,
+      //   region: 1,
+      //   sort: 1,
+      //   ts: parseInt(String(+new Date()).substr(0, 10))
+      // };
+      // // body._sign = crypto.createHash('md5').update(JSON.stringify(body) + 'e437591b87a9e7d10b7ad73465bbc0e9' + body.nonce).digest('hex');
+      // body._sign = '切噜~咧噜啰巴拉叮啰噼叮哔唎啪叮噜噼卟切卟切切卟巴卟卟叮叮切卟巴';
 
-      await fetch('https://api.pcrdfans.com/x/v1/search', {
-        headers: {
-          // 'authorization': '',
-          // 'content-type': 'application/json',
-          // 'sec-fetch-dest': 'empty',
-          // 'sec-fetch-mode': 'cors',
-          // 'sec-fetch-site': 'same-site',
-          // 'cookie': '__cfduid=dc8091adddd020d556c341891c3f6b7331592422103'
-        },
-        referrer: 'https://www.pcrdfans.com/battle',
-        referrerPolicy: 'no-referrer-when-downgrade',
-        body: JSON.stringify(body),
-        method: 'POST',
-        mode: 'cors'
-      })
-        .then(res => res.json())
-        .then(json => response = json)
-        .catch(err => {
-          hasError = true;
-          console.error(err);
-          return botMessage.edit(`조수 군, 명령어를 실행하는 중에 오류가 발생한 것 같다네...\n\`\`\`${err.name + ' ' + err.type}\`\`\``);
-        });
+      // await fetch('https://api.pcrdfans.com/x/v1/search', {
+      //   headers: {
+      //     'authorization': '',
+      //     'content-type': 'application/json',
+      //     'sec-fetch-dest': 'empty',
+      //     'sec-fetch-mode': 'cors',
+      //     'sec-fetch-site': 'same-site',
+      //     'cookie': '__cfduid=d2bccf1f194f7cdb34a40266a639208891597997249'
+      //   },
+      //   referrer: 'https://pcrdfans.com/battle',
+      //   referrerPolicy: 'no-referrer-when-downgrade',
+      //   body: JSON.stringify(body),
+      //   method: 'POST',
+      //   mode: 'cors'
+      // })
+      //   .then(res => res.json())
+      //   .then(json => response = json)
+      //   .catch(err => {
+      //     hasError = true;
+      //     console.error(err);
+      //     return botMessage.edit(`조수 군, 명령어를 실행하는 중에 오류가 발생한 것 같다네...\n\`\`\`${err.name + ' ' + err.type}\`\`\``);
+      //   });
 
-      if(hasError) return;
-      if(response.code !== 0)
-        return botMessage.edit(`조수 군! 서버에서 오류가 발생했다네.\n\`\`\`${response.message}\`\`\``);
-      if(response.data.result.length === 0)
-        return botMessage.edit('조수 군! 검색 결과가 없다고 하네.');
+      // if(hasError) return;
+      // if(response.code !== 0)
+      //   return botMessage.edit(`조수 군! 서버에서 오류가 발생했다네.\n\`\`\`${response.message}\`\`\``);
+      // if(response.data.result.length === 0)
+      //   return botMessage.edit('조수 군! 검색 결과가 없다고 하네.');
 
-      response.data.result.map(value => {
-        let embedName = '';
-        let embedValue = '';
+      // response.data.result.map(value => {
+      //   let embedName = '';
+      //   let embedValue = '';
 
-        value.atk.map(val => {
-          const unitId4 = String(val.id).substring(0, 4);
+      //   value.atk.map(val => {
+      //     const unitId4 = String(val.id).substring(0, 4);
 
-          embedName += (units[unitId4] == null ? val.id : units[unitId4].unit_name) + ' ';
-        });
+      //     embedName += (units[unitId4] == null ? val.id : units[unitId4].unit_name) + ' ';
+      //   });
 
-        embedValue = `🔺${value.up} 🔻${value.down} [${value.updated.substring(0, 10)}]`;
-        embed.fields.push({ name: embedName, value: embedValue });
-      });
+      //   embedValue = `🔺${value.up} 🔻${value.down} [${value.updated.substring(0, 10)}]`;
+      //   embed.fields.push({ name: embedName, value: embedValue });
+      // });
 
-      break;
+      // break;
     }
     case SITE_NOMAE: {
       const body = new FormData();

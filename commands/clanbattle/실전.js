@@ -1,11 +1,11 @@
 /* eslint-disable indent */
-const BATTLE_MODE_CHECK = 0;
-const BATTLE_MODE_HAND = 1;
-const BATTLE_MODE_ENTER = 2;
-const BATTLE_MODE_PAUSE = 3;
-const BATTLE_MODE_RESCUE = 4;
-const BATTLE_MODE_EXIT = 5;
-const BATTLE_MODE_DELETE = 6;
+const BATTLE_MODE_CHECK  = 'MODE_CHECK';
+const BATTLE_MODE_HAND   = 'MODE_HAND';
+const BATTLE_MODE_ENTER  = 'MODE_ENTER';
+const BATTLE_MODE_PAUSE  = 'MODE_PAUSE';
+const BATTLE_MODE_RESCUE = 'MODE_RESCUE';
+const BATTLE_MODE_EXIT   = 'MODE_EXIT';
+const BATTLE_MODE_DELETE = 'MODE_DELETE';
 
 module.exports = {
   name: '실전',
@@ -88,12 +88,15 @@ module.exports = {
     }
 
     // 엔트리가 없으면 자기 계정으로 할당
+    if(account.chess_id !== message.author.id && account.owner_id === null) account.owner_id = account.chess_id;
     if(account.owner_id === null) account.owner_id = message.author.id;
     if(account.chess_id === null) account.chess_id = message.author.id;
 
     // 발견된 오류 처리
+    if(config.sheet_type !== 'MOMO')
+      return message.channel.send('조수 군! 이 서버에서는 사용할 수 없는 명령어라네.\n');
     if(bossState.boss_num == null)
-        return message.channel.send('조수 군! 진행중인 모집 정보가 없다네.');
+      return message.channel.send('조수 군! 진행중인 모집 정보가 없어!');
 
     /* 매개 변수 처리 완료 */
 
@@ -103,7 +106,12 @@ module.exports = {
     case BATTLE_MODE_CHECK: {
       let tempArray = [];
       Object.entries(bossState.entries).forEach(value => tempArray.push(value[1]));
-      tempArray.sort((a, b) => b.damage - a.damage);
+      tempArray.sort((a, b) => {
+        const aa = a.damage < 10000 ? a * 10000 : a;
+        const bb = b.damage < 10000 ? b * 10000 : b;
+
+        return bb - aa;
+      });
 
       // copy from 모집.js RECRUIT_MODE_CHECK
       const match = bossState.boss_num.match(/^(([1-9][0-9]?)-)?([1-5])넴?$/);
@@ -118,9 +126,8 @@ module.exports = {
 
       tempArray.forEach(entry => {
         let tempString = '';
-        // tempString += entry.state === BATTLE_MODE_ENTER ? '- ' : '';
         tempString += `<@!${entry.owner_id}>` + (entry.owner_id != entry.chess_id ? `(<@!${entry.chess_id}>)` : '');
-        tempString += entry.damage != null && entry.state !== BATTLE_MODE_ENTER ? ' ' + entry.damage : '';
+        tempString += entry.damage != null && entry.state !== BATTLE_MODE_ENTER && entry.state !== BATTLE_MODE_EXIT ? ' ' + entry.damage : '';
         tempString += entry.memo !== '' ? ` (${entry.memo})` : '';
         tempString += entry.state === BATTLE_MODE_PAUSE ? '\n' : ' ';
 
@@ -138,9 +145,8 @@ module.exports = {
         (enterCount > 0 ?  `진행: ${enterString}\n` : '') +
         (rescueCount > 0 ? `구조: ${rescueString}\n` : '') +
         '\n' +
-        (exitCount > 0 ? `**🔹실전 완료 (퇴장) (${exitCount})**\n${exitString}\n` : '') +
-        '\n' +
-        (handCount > 0 ? `**🔹입장 대기 중 (${handCount})**\n${handString}\n` : '')
+        (exitCount > 0 ? `**🔹실전 완료 (퇴장) (${exitCount})**\n${exitString}\n\n` : '\n') +
+        (handCount > 0 ? `**🔹입장 대기 중 (${handCount})**\n${handString}\n\n` : '\n')
       ).trim();
 
       const embed = {
@@ -154,7 +160,7 @@ module.exports = {
         name:
           '참여자 목록 ' +
           `(${enterCount+pauseCount+rescueCount+exitCount}/${handCount+enterCount+pauseCount+rescueCount+exitCount})`,
-        value: embedString.trim() != '' ? embedString: '참여자 목록이 없다네.'
+        value: embedString.trim() != '' ? embedString: '(없음)'
       });
 
       return message.channel.send({ embed: embed });
@@ -162,13 +168,14 @@ module.exports = {
     case BATTLE_MODE_HAND: {
       if(Object.prototype.hasOwnProperty.call(bossState.entries, account.owner_id))
         return message.channel.send(
-          `조수 군! \`\`${verifiedName(bossState.entries[account.owner_id].chess_id, message)}\`\` 군이 대기중인 계정이라네.`
+          `조수 군! \`\`${verifiedName(bossState.entries[account.owner_id].chess_id, message)}\`\` 군이 대기중인 계정이야! ` +
+          `(${bossState.entries[account.owner_id].state})`
         );
 
       bossState.entries[account.owner_id] = account;
       bossState.entries[account.owner_id].state = BATTLE_MODE_HAND;
 
-      this.execute(message, ['확인']);
+      message.react('✅');
       break;
     }
     case BATTLE_MODE_ENTER: {
@@ -177,38 +184,41 @@ module.exports = {
         // 계정 사용자가 일치하지 않는 경우
         if(bossState.entries[account.owner_id].chess_id !== account.chess_id)
           return message.channel.send(
-            `조수 군! \`\`${verifiedName(bossState.entries[account.owner_id].chess_id, message)}\`\` 군이 실전중인 계정이라네.`
+            `조수 군! \`\`${verifiedName(bossState.entries[account.owner_id].chess_id, message)}\`\` 군이 실전중인 계정이야! ` +
+            `(${bossState.entries[account.owner_id].state})`
           );
 
         // 대기 모드라면 실전 모드로 변경
         if(bossState.entries[account.owner_id].state === BATTLE_MODE_HAND)
           bossState.entries[account.owner_id].state = BATTLE_MODE_ENTER;
         else
-          return message.channel.send('조수 군! 준비중인 계정이 아니라네.');
+          return message.channel.send('조수 군! 준비중인 계정이 아니야!');
       }
 
       // 계정 정보가 없는 경우
       bossState.entries[account.owner_id] = account;
       bossState.entries[account.owner_id].state = BATTLE_MODE_ENTER;
 
-      this.execute(message, ['확인']);
+      await message.guild.member(account.owner_id).roles.add('744835514003226654');
+      message.react('✅');
       break;
     }
     case BATTLE_MODE_PAUSE: {
       // 실전 정보가 없는 경우
       if(Object.prototype.hasOwnProperty.call(bossState.entries, account.owner_id) === false)
-        return message.channel.send('조수 군! 실전중인 계정이 아니라네.');
+        return message.channel.send('조수 군! 실전중인 계정이 아니야!');
 
       // 계정 사용자가 일치하지 않는 경우
       if(bossState.entries[account.owner_id].chess_id !== account.chess_id)
         return message.channel.send(
-          `조수 군! \`\`${verifiedName(bossState.entries[account.owner_id].chess_id, message)}\`\` 군이 실전중인 계정이라네.`
+          `조수 군! \`\`${verifiedName(bossState.entries[account.owner_id].chess_id, message)}\`\` 군이 실전중인 계정이야! ` +
+          `(${bossState.entries[account.owner_id].state})`
         );
 
       switch(bossState.entries[account.owner_id].state) {
       case BATTLE_MODE_ENTER: // 가장 일반적인 경우 (실전 모드에서 딜량 보고 후 퍼즈 모드)
         if(account.damage == null)
-          return message.channel.send('조수 군! 딜량 정보가 없다네.');
+          return message.channel.send('조수 군! 딜량 정보가 없어!');
 
         bossState.entries[account.owner_id].state  = BATTLE_MODE_PAUSE;
         bossState.entries[account.owner_id].damage = account.damage;
@@ -227,7 +237,7 @@ module.exports = {
         break;
 
       default:
-        return message.channel.send('조수 군! 실전중인 계정만 정보를 변경할 수 있다네');
+        return message.channel.send('조수 군! 실전중인 계정만 정보를 변경할 수 있어!');
       }
 
       this.execute(message, ['확인']);
@@ -236,12 +246,13 @@ module.exports = {
     case BATTLE_MODE_RESCUE: {
       // 실전 정보가 없는 경우
       if(Object.prototype.hasOwnProperty.call(bossState.entries, account.owner_id) === false)
-        return message.channel.send('조수 군! 실전중인 계정이 아니라네.');
+        return message.channel.send('조수 군! 실전중인 계정이 아니야!');
 
       // 계정 사용자가 일치하지 않는 경우
       if(bossState.entries[account.owner_id].chess_id !== account.chess_id)
         return message.channel.send(
-          `조수 군! \`\`${verifiedName(bossState.entries[account.owner_id].chess_id, message)}\`\` 군이 실전중인 계정이라네.`
+          `조수 군! \`\`${verifiedName(bossState.entries[account.owner_id].chess_id, message)}\`\` 군이 실전중인 계정이야! ` +
+          `(${bossState.entries[account.owner_id].state})`
         );
 
       switch(bossState.entries[account.owner_id].state) {
@@ -263,7 +274,7 @@ module.exports = {
         break;
 
       default:
-        return message.channel.send('조수 군! 실전중인 계정만 정보를 변경할 수 있다네.');
+        return message.channel.send('조수 군! 실전중인 계정만 정보를 변경할 수 있어!');
       }
 
       this.execute(message, ['확인']);
@@ -272,46 +283,67 @@ module.exports = {
     case BATTLE_MODE_EXIT: {
       // 실전 정보가 없는 경우
       if(Object.prototype.hasOwnProperty.call(bossState.entries, account.owner_id) === false)
-        return message.channel.send('조수 군! 실전중인 계정이 아니라네.');
+        return message.channel.send('조수 군! 실전중인 계정이 아니야!');
 
       // 계정 사용자가 일치하지 않는 경우
       if(bossState.entries[account.owner_id].chess_id !== account.chess_id)
         return message.channel.send(
-          `조수 군! \`\`${verifiedName(bossState.entries[account.owner_id].chess_id, message)}\`\`님이 실전중인 계정이라네.`
+          `조수 군! \`\`${verifiedName(bossState.entries[account.owner_id].chess_id, message)}\`\` 군이 실전중인 계정이야! ` +
+          `(${bossState.entries[account.owner_id].state})`
         );
 
       switch(bossState.entries[account.owner_id].state) {
       case BATTLE_MODE_PAUSE:
       case BATTLE_MODE_RESCUE:
         if(account.damage == null)
-          return message.channel.send('조수 군! 딜량 정보가 없다네.');
+          return message.channel.send('조수 군! 딜량 정보가 없어!');
 
-        bossState.remain_hp -= account.damage < 10000 ? account.damage * 10000 : account.damage;
+        if(account.damage < 10000)
+          return message.channel.send('조수 군! 퇴장할때는 딜량을 일의자리까지 정확히 입력해야 해.');
+
+        bossState.remain_hp -= account.damage;
         bossState.remain_hp = bossState.remain_hp < 0 ? 0 : bossState.remain_hp;
         bossState.entries[account.owner_id].state  = BATTLE_MODE_EXIT;
         bossState.entries[account.owner_id].damage  = account.damage;
         break;
 
       default:
-        return message.channel.send('조수 군! 실전중인 계정만 정보를 변경할 수 있다네.');
+        return message.channel.send('조수 군! 실전중인 계정만 정보를 변경할 수 있어!');
       }
 
+      const botMessage = await message.channel.send('퇴장 처리 중이야...');
+      await message.client.commands.get('입력').execute(message, [
+        linked_id[account.owner_id].primary != null ? linked_id[account.owner_id].primary : '',
+        String(bossState.entries[account.owner_id].damage), '/S'
+      ]);
+      botMessage.delete().then().catch(); // 퇴장 처리 중 메시지 삭제
+
+      await message.guild.member(account.owner_id).roles.remove('744835514003226654');
+      if(bossState.remain_hp <= 0) {
+        message.channel.send('<@&744835514003226654> 보스가 잡혔으니 나와도 돼!');
+
+        Object.entries(bossState.entries).forEach(value => {
+          message.guild.member(value[0]).roles.remove('744835514003226654');
+        });
+      }
       this.execute(message, ['확인']);
       break;
     }
     case BATTLE_MODE_DELETE: {
       // 실전 정보가 없는 경우
       if(Object.prototype.hasOwnProperty.call(bossState.entries, account.owner_id) === false)
-        return message.channel.send('조수 군! 실전중인 계정이 아니라네.');
+        return message.channel.send('조수 군! 실전중인 계정이 아니야!');
 
       // 계정 사용자가 일치하지 않는 경우
       if(bossState.entries[account.owner_id].chess_id !== account.chess_id)
         return message.channel.send(
-          `조수 군! \`\`${verifiedName(bossState.entries[account.owner_id].chess_id, message)}\`\` 군이 실전중인 계정이라네.`
+          `조수 군! \`\`${verifiedName(bossState.entries[account.owner_id].chess_id, message)}\`\` 군이 실전중인 계정이야! ` +
+          `(${bossState.entries[account.owner_id].state})`
         );
 
       // 계정 정보 삭제
       delete bossState.entries[account.owner_id];
+      await message.guild.member(account.owner_id).roles.remove('744835514003226654');
 
       this.execute(message, ['확인']);
       break;

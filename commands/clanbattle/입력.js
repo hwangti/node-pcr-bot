@@ -57,6 +57,7 @@ module.exports = {
     let argument = null;
     let charLength = 0;
     let dealLength = 0;
+    let isSilent = false;
     let errorString = '';
     // 전달된 매개 변수가 없을 때까지 실행
     while((argument = args.shift()) !== undefined) {
@@ -149,16 +150,22 @@ module.exports = {
         continue;
       }
 
+      // Silent 확인
+      if(/^\/S$/.test(argument)) {
+        isSilent = true;
+        continue;
+      }
+
       // 인식할 수 없는 문자열은 메모로 가정
       memo = (memo + ' ' + argument).trim();
     }
 
     if(dealLength === 0)
-      errorString += '조수 군! 딜량 정보가 없는 것 같다네.\n';
+      errorString += '조수 군! 딜량 정보가 없는 것 같아.\n';
     if(charLength > 0 && charLength !== dealLength)
-      errorString += '조수 군! 빠뜨린 딜량 정보가 있는 것 같다네.\n';
+      errorString += '조수 군! 빠뜨린 딜량 정보가 있는 것 같아.\n';
     if(charLength > 1 && sheetConfig.has_detail === false)
-      errorString += '조수 군! 상세 입력을 지원하지 않는 시트라네.\n';
+      errorString += '조수 군! 상세 입력을 지원하지 않는 시트야.\n';
 
     if(errorString.length > 0)
       return message.channel.send(errorString);
@@ -185,7 +192,15 @@ module.exports = {
     if(charLength === 0 && dealLength === 1)
       chars[0].sheetName = null;
 
-    const botMessage = await message.channel.send('초기화 중이라네... (1/3)');
+    const fullIdx = sheetConfig.log_full_idx;
+    const insertIdx = sheetConfig.log_insert_idx;
+
+    let totalStep = 3;
+    let currStep = 0;
+    if(sheetConfig.boss_hp_type == 'BEFORE' && insertIdx.is_kill != null) ++totalStep;
+    if(insertIdx.is_bonus != null) ++totalStep;
+
+    const botMessage = !isSilent ? await message.channel.send(`초기화 중이라네... (${++currStep}/${totalStep})`) : null;
     const authClient = await getAuthClient();
     let getOptions = {
       auth: authClient,
@@ -196,10 +211,7 @@ module.exports = {
     if(sheetConfig.split_date === true)
       getOptions.range = getOptions.range.replace('{offset}', dateOffset);
 
-    const fullIdx = sheetConfig.log_full_idx;
-    const insertIdx = sheetConfig.log_insert_idx;
-
-    botMessage.edit('시트 정보를 불러오는 중이라네... (2/3)');
+    if(!isSilent) botMessage.edit(`시트 정보를 불러오는 중이라네... (${++currStep}/${totalStep})`);
     const logData = (await sheets.spreadsheets.values.get(getOptions)).data.values;
 
 
@@ -208,7 +220,7 @@ module.exports = {
     const startRowNum = parseInt(getOptions.range.replace(rangePattern, '$3'));
     const lastRowNum = startRowNum +
       (logData != null ? logData.findIndex(row => row[insertIdx.nickname].length === 0) : 0);
-    // 206 라인 오류 (Cannot read property 'length' of undefined) => sheet.json의 log_range 범위 확인 바람
+    // 바로 윗 라인 오류 (Cannot read property 'length' of undefined) => sheet.json의 log_range 범위 확인 바람
 
     const insertRange = getOptions.range.replace(rangePattern, `$1!$2${lastRowNum}:$4${lastRowNum}`);
     const insertValues = [[]];
@@ -233,7 +245,7 @@ module.exports = {
 
     // 격파 체크 처리 (RIMA)
     if(sheetConfig.boss_hp_type == 'BEFORE' && insertIdx.is_kill != null) {
-      // await botMessage.edit('보스 격파 확인 중... (2/3)');
+      if(!isSilent) await botMessage.edit(`입력 데이터 검증 중이라네... (격파 확인) (${++currStep}/${totalStep})`);
       insertValues[0][insertIdx.is_kill] = false;
 
       // 보스의 남은 HP가 가한 대미지 이하라면 격파 처리
@@ -245,20 +257,20 @@ module.exports = {
 
     // 이월 체크 처리 (RIMA)
     if(insertIdx.is_bonus != null) {
-      // await botMessage.edit('이월 파티 확인 중... (2/3)');
+      if(!isSilent) await botMessage.edit(`입력 데이터 검증 중이라네... (이월 파티 확인) (${++currStep}/${totalStep})`);
 
       // 같은 조합이 있는지 찾고 있다면 이월 처리
-      const samePartyIdx = logData.findIndex(row => {
-        if(
-          global.dateFormat(dateObject, 'M. d') === row[insertIdx.date] &&
-          linked_id[memberId].primary === row[insertIdx.nickname] &&
-          chars[0].sheet_name === row[insertIdx.char_1] &&
-          chars[1].sheet_name === row[insertIdx.char_2] &&
-          chars[2].sheet_name === row[insertIdx.char_3] &&
-          chars[3].sheet_name === row[insertIdx.char_4] &&
-          chars[4].sheet_name === row[insertIdx.char_5]
-        )
-          return true;
+      let alreadyFind = false;
+      const samePartyIdx = logData.reverse().findIndex(row => {
+        if(alreadyFind) return false;
+
+        if(global.dateFormat(dateObject, sheetConfig.log_date_format) !== row[insertIdx.date])
+          return false;
+        if(linked_id[memberId].primary !== row[insertIdx.nickname])
+          return false;
+
+        alreadyFind = true;
+        return (row[insertIdx.is_kill] === 'TRUE') ? true : false;
       });
 
       if(samePartyIdx > -1)
@@ -266,7 +278,7 @@ module.exports = {
     }
 
 
-    botMessage.edit('기록 입력 중이라네... (3/3)');
+    if(!isSilent) botMessage.edit(`기록 입력 중이라네... (${++currStep}/${totalStep})`);
     let setOptions = {
       auth: authClient,
       spreadsheetId: sheetConfig.spreadsheet_id,
@@ -286,7 +298,7 @@ module.exports = {
         !/^1:30$/.test(updatedData[0][fullIdx.battle_type])
       );
       if(isSample === false) {
-        botMessage.edit('추가 작업 중이라네... (표본 제외) (4/4)');
+        if(!isSilent) botMessage.edit(`추가 작업 중이라네... (표본 제외) (${currStep}/${totalStep})`);
         setOptions.resource.values[0].fill(null);
         setOptions.resource.values[0][fullIdx.is_sample] = false;
         await sheets.spreadsheets.values.update(setOptions);
@@ -375,6 +387,8 @@ module.exports = {
     if(fullIdx.memo != null && updatedData[0][fullIdx.memo].length > 0)
       embed.fields.push({ name: '메모', value: updatedData[0][fullIdx.memo] });
 
-    return botMessage.edit('', { embed: embed });
+    if(!isSilent) return botMessage.edit('', { embed: embed });
+    message.react('✅');
+    return true;
   }
 };
