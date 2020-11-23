@@ -471,6 +471,14 @@
     "unit_alias": ["이노리", "イノリ"],
     "search_area_width": 197
   },
+  "1068": {
+    "unit_id": 1068,
+    "unit_name": "라비리스타",
+    "unit_kana": "ラビリスタ",
+    "sheet_name": "라비리스타",
+    "unit_alias": ["라비리스타", "라비", "ラビリスタ"],
+    "search_area_width": 560
+  },
   "1070": {
     "unit_id": 1070,
     "unit_name": "네네카",
@@ -753,10 +761,10 @@
   },
   "1109": {
     "unit_id": 1109,
-    "unit_name": "치엘",
+    "unit_name": "치에루",
     "unit_kana": "チエル",
-    "sheet_name": "치엘",
-    "unit_alias": ["치엘", "チエル", "치에루"],
+    "sheet_name": "치에루",
+    "unit_alias": ["치에루", "チエル", "체루", "치에룬", "치엘"],
     "search_area_width": 222
   },
   "1110": {
@@ -966,6 +974,62 @@
     "sheet_name": "수쥰",
     "unit_alias": ["쥰(여름)", "ジュン（サマー）", "수듄", "수쥰"],
     "search_area_width": 182
+  },
+  "1137": {
+    "unit_id": 1137,
+    "unit_name": "아카리(엔젤)",
+    "unit_kana": "アカリ（エンジェル）",
+    "sheet_name": "엔카리",
+    "unit_alias": ["아카리(엔젤)", "アカリ（エンジェル）", "엔카리"],
+    "search_area_width": 530
+  },
+  "1138": {
+    "unit_id": 1138,
+    "unit_name": "요리(엔젤)",
+    "unit_kana": "ヨリ（エンジェル）",
+    "sheet_name": "엔요리",
+    "unit_alias": ["요리(엔젤)", "ヨリ（エンジェル）", "엔요리"],
+    "search_area_width": 531
+  },
+  "1139": {
+    "unit_id": 1139,
+    "unit_name": "츠무기(할로윈)",
+    "unit_kana": "ツムギ（ハロウィン）",
+    "sheet_name": "할무기",
+    "unit_alias": ["츠무기(할로윈)", "ツムギ（ハロウィン）", "뱀무기", "할무기"],
+    "search_area_width": 152
+  },
+  "1140": {
+    "unit_id": 1140,
+    "unit_name": "레이(할로윈)",
+    "unit_kana": "レイ（ハロウィン）",
+    "sheet_name": "할레이",
+    "unit_alias": ["레이(할로윈)", "レイ（ハロウィン）", "할레이"],
+    "search_area_width": 375
+  },
+  "1141": {
+    "unit_id": 1141,
+    "unit_name": "마츠리(할로윈)",
+    "unit_kana": "マツリ（ハロウィン）",
+    "sheet_name": "할츠리",
+    "unit_alias": ["마츠리(할로윈)", "マツリ（ハロウィン）", "할츠리"],
+    "search_area_width": 186
+  },
+  "1142": {
+    "unit_id": 1142,
+    "unit_name": "모니카(매지컬)",
+    "unit_kana": "モニカ（マジカル）",
+    "sheet_name": "마니카",
+    "unit_alias": ["모니카(매지컬)", "モニカ（マジカル）", "마니카"],
+    "search_area_width": 528
+  },
+  "1143": {
+    "unit_id": 1143,
+    "unit_name": "토모(매지컬)",
+    "unit_kana": "トモ（マジカル）",
+    "sheet_name": "마토모",
+    "unit_alias": ["토모(매지컬)", "トモ（マジカル）", "마토모"],
+    "search_area_width": 402
   },
   "1802": {
     "unit_id": 1802,

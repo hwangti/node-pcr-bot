@@ -173,7 +173,8 @@ module.exports = {
       if(isNaN(parseInt(sBossNum))) sBossNum = 1;
       if(sRemainHp <= 0) {
         if(++sBossNum > 5) ++sRoundNum, sBossNum - 5;
-        const hp = [6000000, 8000000, 10000000, 12000000, 20000000];
+        const hp = sRoundNum >= 11 ?
+          [7000000, 9000000, 12000000, 14000000, 17000000] : [6000000, 8000000, 10000000, 12000000, 15000000];
         sRemainHp = hp[sBossNum-1];
       }
 

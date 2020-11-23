@@ -14,6 +14,8 @@ module.exports = {
 
     if(!sheetConfig.spreadsheet_id)
       return message.channel.send('조수 군! 먼저 클랜 시트를 설정해주게나.');
+    if(config.sheet_type === 'MOMO' && message.author.id !== global.auth.owner_id)
+      return message.channel.send({ embed: { image: { url: 'https://cdn.discordapp.com/emojis/699431055958212645.png?v=1' }}});
 
     // 클랜 배틀 몇 일차인지 확인
     const dateObject = new Date();

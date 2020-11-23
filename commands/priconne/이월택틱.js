@@ -12,6 +12,7 @@ module.exports = {
   usages: ['<이월시간> <택틱>'],
   samples: ['45 택틱내용'],
   privileges: 1111,
+  hasArgument: true,
 
   async execute(message, args) {
     if(args.length < 2)

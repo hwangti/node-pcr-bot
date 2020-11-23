@@ -295,7 +295,7 @@ module.exports = {
       const isSample = !(
         updatedData[0][fullIdx.battle_type].length > 0 &&
         /^이월/.test(updatedData[0][fullIdx.battle_type]) &&
-        !/^1:30$/.test(updatedData[0][fullIdx.battle_type])
+        !/^90초$/.test(updatedData[0][fullIdx.battle_type])
       );
       if(isSample === false) {
         if(!isSilent) botMessage.edit(`추가 작업 중이라네... (표본 제외) (${currStep}/${totalStep})`);

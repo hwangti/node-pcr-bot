@@ -52,7 +52,7 @@ module.exports = {
     while((argument = args.shift()) !== undefined) {
       let match = null;
 
-      if(/^확인|현황|손|입장|실전|구조|대기|퇴장|삭제$/.test(argument)) {
+      if(/^확인|현황|손|입장|실전|구조|대기|퇴장|삭제|취소$/.test(argument)) {
         mode =
           (['확인', '현황'].includes(argument)) ? BATTLE_MODE_CHECK :
           (['손'].includes(argument)) ? BATTLE_MODE_HAND :
@@ -60,7 +60,7 @@ module.exports = {
           (['구조'].includes(argument)) ? BATTLE_MODE_RESCUE :
           (['대기'].includes(argument)) ? BATTLE_MODE_PAUSE :
           (['퇴장'].includes(argument)) ? BATTLE_MODE_EXIT :
-          (['삭제'].includes(argument)) ? BATTLE_MODE_DELETE : BATTLE_MODE_ENTER;
+          (['삭제', '취소'].includes(argument)) ? BATTLE_MODE_DELETE : BATTLE_MODE_ENTER;
         continue;
       }
 
@@ -107,8 +107,8 @@ module.exports = {
       let tempArray = [];
       Object.entries(bossState.entries).forEach(value => tempArray.push(value[1]));
       tempArray.sort((a, b) => {
-        const aa = a.damage < 10000 ? a * 10000 : a;
-        const bb = b.damage < 10000 ? b * 10000 : b;
+        const aa = a.damage < 10000 ? a.damage * 10000 : a.damage;
+        const bb = b.damage < 10000 ? b.damage * 10000 : b.damage;
 
         return bb - aa;
       });
@@ -145,8 +145,8 @@ module.exports = {
         (enterCount > 0 ?  `진행: ${enterString}\n` : '') +
         (rescueCount > 0 ? `구조: ${rescueString}\n` : '') +
         '\n' +
-        (exitCount > 0 ? `**🔹실전 완료 (퇴장) (${exitCount})**\n${exitString}\n\n` : '\n') +
-        (handCount > 0 ? `**🔹입장 대기 중 (${handCount})**\n${handString}\n\n` : '\n')
+        (exitCount > 0 ? `**🔹실전 완료 (퇴장) (${exitCount})**\n${exitString}\n\n` : '') +
+        (handCount > 0 ? `**🔹입장 대기 중 (${handCount})**\n${handString}\n\n` : '')
       ).trim();
 
       const embed = {
@@ -293,6 +293,7 @@ module.exports = {
         );
 
       switch(bossState.entries[account.owner_id].state) {
+      case BATTLE_MODE_ENTER:
       case BATTLE_MODE_PAUSE:
       case BATTLE_MODE_RESCUE:
         if(account.damage == null)
@@ -314,7 +315,7 @@ module.exports = {
       const botMessage = await message.channel.send('퇴장 처리 중이야...');
       await message.client.commands.get('입력').execute(message, [
         linked_id[account.owner_id].primary != null ? linked_id[account.owner_id].primary : '',
-        String(bossState.entries[account.owner_id].damage), '/S'
+        String(bossState.entries[account.owner_id].damage) //, '/S'
       ]);
       botMessage.delete().then().catch(); // 퇴장 처리 중 메시지 삭제
 

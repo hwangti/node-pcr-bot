@@ -61,8 +61,8 @@ module.exports = {
             name: '봇 통계',
             value:
               '- 서버 (' + message.client.guilds.cache.size + '개), 멤버 (' + message.client.users.cache.size + '명)\n' +
-              '- 명령어 수: ' + config.command_count + '회\n' +
-              '- 채팅 수: ' + config.chat_count + '회'
+              '- 명령어 수: ' + global.fn.numberFormat(config.command_count) + '회\n' +
+              '- 채팅 수: ' + global.fn.numberFormat(config.chat_count) + '회'
           }
         ],
         footer: { text: '옴닉 ' + message.client.version },
