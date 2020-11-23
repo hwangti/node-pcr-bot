@@ -7,9 +7,9 @@
   "author": "HwangTi",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "^12.2.0",
+    "discord.js": "^12.4.1",
     "form-data": "^3.0.0",
-    "googleapis": "^58.0.0",
-    "node-fetch": "^2.6.0"
+    "googleapis": "^65.0.0",
+    "node-fetch": "^2.6.1"
   }
 }

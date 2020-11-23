@@ -1,4 +1,4 @@
-const __BOT__VERSION__ = '1.6.2';
+const __BOT__VERSION__ = '1.6.3';
 
 // 인증 파일 로드
 const auth = require('./config/auth.json');
