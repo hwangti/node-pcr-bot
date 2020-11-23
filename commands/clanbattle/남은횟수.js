@@ -60,8 +60,9 @@ module.exports = {
     let bonusCount = 0;
     remainArray.sort().map(value => {
       let sCount = 3 - (isNaN(parseInt(value[1])) ? 0 : parseInt(value[1]));
-      if(value[3] !== '' && config.sheet_type === 'MAHO') --sCount; // RIMA는 남은횟수에 이월 제외함
-      if(value[3] !== '' && config.sheet_type === 'RIMA') --sCount; // RIMA는 남은횟수에 이월 제외함
+      if(value[3] !== '' && config.sheet_type === 'MAHO') --sCount; // 남은횟수에 이월 제외함
+      if(value[3] !== '' && config.sheet_type === 'SUYA') --sCount;
+      if(value[3] !== '' && config.sheet_type === 'RIMA') --sCount;
 
       if(sCount !== 0 || value[3] !== '') {
         value[2] = value[2].replace(/TRUE|FALSE/, '');

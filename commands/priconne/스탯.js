@@ -53,7 +53,7 @@ module.exports = {
   async execute(message, args) {
     const config = message.client.config.get(`${message.guild.id}_config`);
 
-    let server = ['MAHO', 'NONE'].includes(config.sheet_type) ? 'jp' : 'kr';
+    let server = ['MAHO', 'SUYA', 'NONE'].includes(config.sheet_type) ? 'jp' : 'kr';
     let chars = [];
     const charObject = { id: null, rarity: null, level: null, spec: null, rank: null, unique: null, equip: null, love: null };
 

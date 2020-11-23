@@ -131,7 +131,7 @@ module.exports = {
         return message.channel.send('조수 군! 이미 게임이 진행중이라네.');
 
       if(roulette.members.includes(message.author.id))
-        return message.channel.send('조수 군! 조수 군은 이미 참여했다네.');
+        return message.channel.send('조수 군! 이미 참여했다네.');
 
       if(roulette.memberCount <= roulette.members.length)
         return message.channel.send('조수 군! 더 이상 참여할 수 없다네.');
@@ -171,7 +171,7 @@ module.exports = {
         await this.execute(message, ['GAME_START']);
 
         return message.channel.send('마지막 탄환이었지만 불발탄이었다구! 총알을 다시 장전하겠네', { embed: {
-          description: `<@!${roulette.members[roulette.memberIndex]}>님의 차례입니다.`
+          description: `<@!${roulette.members[roulette.memberIndex]}> 군의 차례라네.`
         }});
       }
 

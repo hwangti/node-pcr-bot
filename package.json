@@ -1,6 +1,6 @@
 {
   "name": "node-pcr-bot",
-  "version": "1.6.1",
+  "version": "1.6.3",
   "description": "Discord Bot in Priconne by NodeJS",
   "main": "main.js",
   "private": true,

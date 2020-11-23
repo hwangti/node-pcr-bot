@@ -107,7 +107,7 @@ module.exports = {
     case '관리자':
       if(['등록', '삭제'].includes(args[0]))
         return message.channel.send(
-          '관리자 등록/삭제 명령어는 다음과 같습니다.\n```\n' +
+          '관리자 등록/삭제 명령어는 다음과 같다네.\n```\n' +
           `${config.prefix}${this.name} 관리자등록 <@멘션>\n` +
           `${config.prefix}${this.name} 관리자삭제 <@멘션>` + '```\n'
         );
