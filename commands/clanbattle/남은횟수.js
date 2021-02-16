@@ -40,16 +40,17 @@ module.exports = {
     const remainData = (await sheets.spreadsheets.values.get(getOptions)).data.values;
 
     // 한 행에 여러명의 데이터가 들어간 경우 처리 (MAHO)
+    // const count = Math.ceil(length / (remainIdx.remain_time + 1)); // 루프 갯수
+    // const fixLength = Math.ceil(length / count);
     const length = remainData[0].length;
-    const count = Math.ceil(length / (remainIdx.remain_time + 1)); // 루프 갯수
-    const fixLength = Math.ceil(length / count);
+    const fixLength = length;
 
     let remainArray = [];
     remainData.map(value => {
       for(let i=0; i<length; i+=fixLength)
         remainArray.push([
-          value[i+remainIdx.nickname]  != null ? value[i+remainIdx.nickname]  : '',
-          value[i+remainIdx.attack]    != null ? value[i+remainIdx.attack]    : '',
+          value[i+remainIdx.nickname]    != null ? value[i+remainIdx.nickname]    : '',
+          value[i+remainIdx.attack]      != null ? value[i+remainIdx.attack]      : '',
           value[i+remainIdx.kill_boss]   != null ? value[i+remainIdx.kill_boss]   : '',
           value[i+remainIdx.remain_time] != null ? value[i+remainIdx.remain_time] : ''
         ]);
@@ -60,9 +61,8 @@ module.exports = {
     let bonusCount = 0;
     remainArray.sort().map(value => {
       let sCount = 3 - (isNaN(parseInt(value[1])) ? 0 : parseInt(value[1]));
-      if(value[3] !== '' && config.sheet_type === 'MAHO') --sCount; // 남은횟수에 이월 제외함
-      if(value[3] !== '' && config.sheet_type === 'SUYA') --sCount;
-      if(value[3] !== '' && config.sheet_type === 'RIMA') --sCount;
+      if(value[3] !== '' && config.sheet_type === 'MOMO') ; // do nothing
+      if(value[3] !== '') --sCount; // 남은횟수에 이월 제외함
 
       if(sCount !== 0 || value[3] !== '') {
         value[2] = value[2].replace(/TRUE|FALSE/, '');

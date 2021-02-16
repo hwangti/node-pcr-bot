@@ -57,7 +57,7 @@
   "log_deleted_idx": {
     "delete_range": [],
     "check_true_range": [],
-    "check_false_range": null
+    "check_false_range": []
   },
   "remain_range": "",
   "remain_idx": {

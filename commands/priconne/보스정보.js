@@ -26,7 +26,7 @@ module.exports = {
           "color": "#ea4335",
           "title": "1 보스 - 와이번",
           "thumbnail": {
-            "url": "https://pcr-momo.club/images/jpg/icon_unit_302100.jpg"
+            "url": "https://pcr.hwangti.kr/images/jpg/icon_unit_302100.jpg"
           },
           "description": "커다란 날개를 사용해 하늘을 나는 익룡.\n거대한 불덩이를 뿜어 침입자를 막는다.\n\n・전방 범위 내 적에게 물리 (중) 데미지.",
           "fields": [
@@ -54,7 +54,7 @@ module.exports = {
           "color": "#ea4335",
           "title": "1 보스 - 고블린 그레이트",
           "thumbnail": {
-            "url": "https://pcr-momo.club/images/jpg/icon_unit_305700.jpg"
+            "url": "https://pcr.hwangti.kr/images/jpg/icon_unit_305700.jpg"
           },
           "description": "호쾌하게 도끼를 휘두르는 숙련된 고블린 전사.\n어린 전사를 겨드랑이에 끼고, 영혼의 기술을 선보인다.\n\n・유니온 버스트는 자신의 물리 공격력 (중) 증가, 물리 방어력 (소) 감소.\n또한 눈앞의 캐릭터 하나에게 물리 (특대) 데미지.",
           "fields": [
@@ -88,7 +88,7 @@ module.exports = {
           "color": "#fbbc04",
           "title": "2 보스 - 와일드 그리핀",
           "thumbnail": {
-            "url": "https://pcr-momo.club/images/jpg/icon_unit_302000.jpg"
+            "url": "https://pcr.hwangti.kr/images/jpg/icon_unit_302000.jpg"
           },
           "description": "가혹한 환경에서 진화한 쁘띠 그리폰.\n회오리바람으로 사냥감을 끌어올려 하늘에서 사냥한다.\n\n・전방 범위 내 적에게 마법 (중) 데미지.",
           "fields": [
@@ -116,7 +116,7 @@ module.exports = {
           "color": "#fbbc04",
           "title": "2 보스 - 라이라이",
           "thumbnail": {
-            "url": "https://pcr-momo.club/images/jpg/icon_unit_304600.jpg"
+            "url": "https://pcr.hwangti.kr/images/jpg/icon_unit_304600.jpg"
           },
           "description": "먹구름을 부리며, 천진난만하게 날뛰는 천둥 소녀.\n방심하면 무자비한 뇌격을 맛보게 된다.\n\n・적 전체에 마법 (중) 데미지.\n・후방 범위 내 적에게 마법 (소) 데미지.",
           "fields": [
@@ -149,7 +149,7 @@ module.exports = {
           },
           "title": "3 보스 - 마담 프리즘",
           "thumbnail": {
-            "url": "https://pcr-momo.club/images/jpg/icon_unit_305900.jpg"
+            "url": "https://pcr.hwangti.kr/images/jpg/icon_unit_305900.jpg"
           },
           "description": "압도적인 매력을 뿜으며, 아름다운 외모와 극채색의 새.\n그 매력에 빠지면 아군을 공격하는 하인이 된다.\n\n・유니온 버스트는 유혹 상태에 빠진 캐릭터를 제외한 적 전체에 물리 (대)  데미지.\n・앞의 캐릭터 둘에게 마법 (소) 데미지와 유혹 상태에 빠뜨리고, 그 후 물리 공격력 및 마법 공격력 (대) 증가.",
           "fields": [
@@ -185,7 +185,7 @@ module.exports = {
           },
           "title": "4 보스 - 울프 헤딘",
           "thumbnail": {
-            "url": "https://pcr-momo.club/images/jpg/icon_unit_301501.jpg"
+            "url": "https://pcr.hwangti.kr/images/jpg/icon_unit_301501.jpg"
           },
           "description": "【물리】하울링으로 사냥감을 마비시켜 움직임이 멈췄을 때 발톱으로 공격한다.\n수많은 모험자의 앞길을 막아온 무자비한 잔학성을 띤 마계의 늑대.\n\n・전방 캐릭터 둘에 물리 (대) 데미지를 입힌다.\n・적 전체에 마법 (중) 데미지를 입히면서 전방 캐릭터 하나를 마비 상태에 빠뜨린다. 이 스킬의 상태 이상은 데미지를 무효화해도 부여된다.",
           "fields": [
@@ -222,7 +222,7 @@ module.exports = {
           },
           "title": "5 보스 - 메두사",
           "thumbnail": {
-            "url": "https://pcr-momo.club/images/jpg/icon_unit_301401.jpg"
+            "url": "https://pcr.hwangti.kr/images/jpg/icon_unit_301401.jpg"
           },
           "description": "【물리】끝없는 애증에 괴로워하는 처녀자리의 마성수.\n무서울 만큼의 질투와 거부가 모든 것을 돌로 바꾼다.\n\n・적 전체에 마법 (대) 데미지를 입히고 전방 범위 내 적을 석화 상태에 빠뜨린다. 이 스킬의 상태 이상은 데미지를 무효화해도 부여된다.\n・전방 범위 내 적에 물리 (대) 데미지를 입히면서 석화 상태의 적은 TP (대) 감소.\n・뒤에서 두 번째 적을 중심으로 좁은 반경에 마법 (소) 데미지를 입히며 중독 상태에 빠뜨린다.\n\n(3단계 한정)\n・뒤에서 두 번째 적을 중심으로 좁은 반경에 마법 (소) 데미지를 입히고 남은 HP가 적은 적을 석화 상태에 빠뜨린다.",
           "fields": [
@@ -258,7 +258,7 @@ module.exports = {
           },
           "title": "5 보스 - 트윈 피그즈",
           "thumbnail": {
-            "url": "https://pcr-momo.club/images/jpg/icon_unit_302600.jpg"
+            "url": "https://pcr.hwangti.kr/images/jpg/icon_unit_302600.jpg"
           },
           "description": "【물리】도적 행위를 하는 쌍둥이자리의 마성수.\n훌륭한 연계로 아지트의 침입자를 공격한다.\n\n・적 전체의 최대 HP에 따라 물리(대) 데미지를 입힌다.\n・후열 적에게 물리 (중) 데미지를 입히고 공격 속도 (소) 감소.\n・적 전체에 물리 (소) 데미지. 폭식 중에는 2개체 모두 물리/마법 방어력 (특대) 감소\n이후 자신의 TP 상승률과 치명타율을 (특대) 증가\n적 전체에 물리 (대) 대미지.",
           "fields": [

@@ -196,7 +196,7 @@ module.exports = {
     let response = null;
     let hasError = false;
 
-    await fetch('https://pcr-momo.club/calc.php?server=' + server + '&mode=' + mode + '&data=' + data)
+    await fetch('https://pcr.hwangti.kr/calc.php?server=' + server + '&mode=' + mode + '&data=' + data)
       .then(res => res.json())
       .then(json => response = json)
       .catch(err => {

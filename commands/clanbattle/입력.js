@@ -51,7 +51,7 @@ module.exports = {
 
     let chars = [];
     let dealSum = null;
-    let isSample = true; // 표본
+    let isSample = false; // 표본
     let memo = ''; // 메모
 
     let argument = null;
@@ -120,7 +120,7 @@ module.exports = {
       }
 
       // 캐릭터로 추정되는 문자열 처리
-      if(charLength < 5 && /^[()가-힣]+$/.test(argument)) {
+      if(charLength < 5 && config.sheet_type != 'C9' && /^[()가-힣]+$/.test(argument)) {
         let unitId = Object.keys(units).find(id => units[id].unit_alias.includes(argument));
 
         if(unitId == null) {
@@ -147,6 +147,12 @@ module.exports = {
       // 표본으로 추정되는 문자열 처리
       if(/^\/[01]$/.test(argument)) {
         isSample = !!parseInt(argument[1]);
+        continue;
+      }
+
+      // C9 전용, "마딜" 이라고 치면 체크박스 처리
+      if(config.sheet_type === 'C9' && argument === '마딜') {
+        isSample = true;
         continue;
       }
 
