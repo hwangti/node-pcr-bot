@@ -14,23 +14,16 @@ module.exports = {
     switch(argument) {
     case 'avatar': {
       const link = message.attachments.first().url;
-      message.client.user.setAvatar(link);
-      break;
+      return message.client.user.setAvatar(link);
     }
     case 'kill': {
       return process.exit(0);
     }
     case 'nickname': {
-      message.client.user.setUsername(argument);
-      break;
+      return message.client.user.setUsername(argument);
     }
     case 'ping': {
-      message.channel.send(`Time diff: ${Date.now() - message.createdTimestamp}ms`);
-      break;
-    }
-    case 'presence': {
-      message.client.user.setPresence({ activity: { name: `옴닉 ${message.client.version}` }, status: 'online' });
-      break;
+      return message.channel.send(`Time diff: ${Date.now() - message.createdTimestamp}ms`);
     }
     case 'save': {
       const server = fs.readdirSync(`${global.dirname}/config`).filter(file => /^\d{18,}$/.test(file));
@@ -42,6 +35,9 @@ module.exports = {
         message.channel.send(`save complete: \`${s}\` (${message.client.guilds.cache.get(s)})`);
       });
       break;
+    }
+    case 'uptime': {
+      return message.channel.send(`Uptime: ${process.uptime()}`);
     }
     }
   }

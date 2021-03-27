@@ -101,14 +101,14 @@ module.exports = {
     if(mode === KMR_MODE_RESET) {
       return botMessage.edit(
         `경고: 클랜원 전체의 ${chanceName}를 초기화하려고 하는건가, 조수 군?\n` +
-        '맞으면 10초 이내로 `/yes` 를 입력하게나.'
+        '맞으면 10초 이내로 `ㅇㅇ` 를 입력하게나.'
       ).then(() => {
         const filter = m => message.author.id === m.author.id;
 
         message.channel
           .awaitMessages(filter, { time: 10000, max: 1, errors: ['time'] })
           .then(async messages => {
-            if(messages.first().content.trim() !== '/yes')
+            if(messages.first().content.trim() !== 'ㅇㅇ')
               return message.channel.send('실행을 취소했다네.');
 
             const rangePattern = /^(.+)!([A-Z]+)(\d+):([A-Z]+)(\d+)+$/;

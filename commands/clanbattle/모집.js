@@ -58,9 +58,9 @@ module.exports = {
       }
 
       // 보스 HP 정보로 추정되는 문자열 처리
-      if((match = argument.match(/^([0-9]{3,8})만?$/)) !== null) {
+      if((match = argument.match(/^([0-9]{3,9})만?$/)) !== null) {
         remainHp = parseInt(match[0]);
-        if(remainHp <= 2000) remainHp *= 10000;
+        if(remainHp <= 11000) remainHp *= 10000;
         continue;
       }
 
@@ -70,12 +70,10 @@ module.exports = {
 
     // 발견된 오류 처리
     if(mode === RECRUIT_MODE_SET && namedNumber === null)
-      errorString += '조수 군! 네임드 정보를 말해주게나. (예: `24-4`)\n';
+      errorString += '조수 군! 네임드 정보를 말해주게나. (예: `4` 또는 `24-4`)\n';
     if(mode === RECRUIT_MODE_SET && remainHp === null)
       errorString += '조수 군! 잔여 보스 HP 정보를 말해주게나. (예: `1200` 또는 `2000만`)\n';
 
-    if(config.sheet_type !== 'MOMO')
-      return message.channel.send('조수 군! 이 서버에서는 사용할 수 없는 명령어라네.\n');
     if(errorString.length > 0)
       return message.channel.send(errorString);
     /* 매개 변수 처리 완료 */
@@ -84,6 +82,7 @@ module.exports = {
     // 모집 정보 설정
     switch(mode) {
     case RECRUIT_MODE_CHECK: {
+      message.content = config.prefix + '실전 확인';
       return message.client.commands.get('실전').execute(message, ['확인']);
     }
     case RECRUIT_MODE_SET: {
@@ -101,9 +100,9 @@ module.exports = {
                 return message.channel.send('실행을 취소했다네.');
 
               bossState = Object.assign(bossState, { boss_num: namedNumber, remain_hp: remainHp, entries: {} });
-              Object.entries(bossState.entries).forEach(value => {
-                message.guild.member(value[0]).roles.remove('744835514003226654');
-              });
+
+              message.content = `${config.prefix}호출 ${namedNumber}`;
+              await message.client.commands.get('호출').execute(message, ['/U', `${namedNumber}`]);
               this.execute(message, ['확인']);
             }).catch(() => {
               message.channel.send('입력 시간이 지났으니 실행을 취소하겠네.');
@@ -111,15 +110,15 @@ module.exports = {
         });
 
       bossState = Object.assign(bossState, { boss_num: namedNumber, remain_hp: remainHp, entries: {} });
-      Object.entries(bossState.entries).forEach(value => {
-          message.guild.member(value[0]).roles.remove('744835514003226654');
-        });
+
+      message.content = `${config.prefix}호출 ${namedNumber}`;
+      await message.client.commands.get('호출').execute(message, ['/U', `${namedNumber}`]);
       this.execute(message, ['확인']);
       break;
     }
     case RECRUIT_MODE_MODIFY: {
       if(!bossState.boss_num) // || !bossState.remain_hp)
-        return message.channel.send('조수 군! 모집부터 해야하네.');
+        return message.channel.send('조수 군! 모집부터 해야한다네.');
 
       if(namedNumber != null) bossState.boss_num = namedNumber;
       if(remainHp != null) bossState.remain_hp = remainHp;
@@ -144,13 +143,10 @@ module.exports = {
             delete bossState.remain_hp;
             delete bossState.entries;
             bossState.entries = {};
-            Object.entries(bossState.entries).forEach(value => {
-              message.guild.member(value[0]).roles.remove('744835514003226654');
-            });
+            delete message.client[`actualBattleMsgLastId_${message.guild.id}`];
             global.fn.saveConfig(`${global.dirname}/config/${message.guild.id}/config.json`, config);
             message.channel.send('모집 목록을 초기화 했다네.');
-          }).catch((error) => {
-            console.log(error);
+          }).catch(() => {
             message.channel.send('입력 시간이 지났으니 실행을 취소하겠네.');
           });
       });
@@ -162,28 +158,67 @@ module.exports = {
       let getOptions = {
         auth: authClient,
         spreadsheetId: sheetConfig.spreadsheet_id,
-        range: '기록!W2:Y2'
+        range: sheetConfig.boss_info_range
       };
       const schema = (await sheets.spreadsheets.values.get(getOptions)).data.values;
-      let sRoundNum = schema[0][0];
-      let sBossNum = (schema[0][1])[0];
-      let sRemainHp = schema[0][2];
+      let sRoundNum = parseInt(schema[0][sheetConfig.boss_info_idx.round]);
+      let sBossNum = schema[0][sheetConfig.boss_info_idx.boss];
+      let sRemainHp = parseInt(String(schema[0][sheetConfig.boss_info_idx.remain_hp]).replace(/,/g, ''));
+      if(config.sheet_type === 'RIMA') // 꼬아 시트는 두번째 줄에 체력이 있음
+        sRemainHp = parseInt(String(schema[1][sheetConfig.boss_info_idx.remain_hp]).replace(/,/g, ''));
 
-      if(isNaN(parseInt(sRoundNum))) sRoundNum = 1;
+      if(isNaN(sRoundNum)) sRoundNum = 1;
+      if(/^[1-5]$/.test(sBossNum)) {
+        sBossNum = parseInt(sBossNum);
+      } else {
+        sBossNum = String(sBossNum).replace(/ /g, '').trim();
+        const bossNames = [
+          ['팀', '미노타', '트윈', '키노스', '레온', '메두사', '메듀사', '글러튼', '톤', '레사스', '사지', '게티', '리오스', '페돈'],
+          ['베어', '스피릿', '사이클롭스', '사클', '무버', '무바', '타이탄', '티타노', '테리온', '트라이', '울프', '가고일', '센리', '옵시디언'],
+          ['니들', '오크', '라이덴', '레이스', '메가', '마담', '무슈', '드레이크', '왈큐레', '발키리', '시프'],
+          ['그리핀', '라이', '랜드'],
+          ['와이번', '고블린'],
+        ];
+        for(let i=0; i<5; i++) {
+          if(bossNames[i].some(name => sBossNum.indexOf(name) !== -1) === true) {
+            sBossNum = 5 - i;
+            break;
+          }
+        }
+      }
+
       if(isNaN(parseInt(sBossNum))) sBossNum = 1;
+      if(isNaN(sRemainHp)) sRemainHp = 1;
+
       if(sRemainHp <= 0) {
         if(++sBossNum > 5) ++sRoundNum, sBossNum - 5;
-        const hp = sRoundNum >= 11 ?
-          [7000000, 9000000, 12000000, 14000000, 17000000] : [6000000, 8000000, 10000000, 12000000, 15000000];
+        let hp = 0;
+        switch(true) {
+        case sRoundNum <= 10:
+          hp = [6000000, 8000000, 10000000, 12000000, 15000000];
+          break;
+
+        case config.server_type === 'KR' || sRoundNum <= 34:
+          hp = [7000000, 9000000, 13000000, 15000000, 20000000];
+          break;
+
+        case config.server_type === 'JP' && sRoundNum <= 44:
+          hp = [17000000, 18000000, 20000000, 21000000, 23000000];
+          break;
+
+        default:
+          hp = [85000000, 90000000, 95000000, 100000000, 110000000];
+        }
         sRemainHp = hp[sBossNum-1];
       }
 
       bossState.boss_num = `${sRoundNum}-${sBossNum}`;
       bossState.remain_hp = sRemainHp;
 
+      message.content = config.prefix + '실전 확인';
       message.client.commands.get('실전').execute(message, ['확인']);
       break;
-    }
+    } // end of case
     } // end of switch
 
     // 변경된 정보 설정 파일에 저장

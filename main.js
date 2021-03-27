@@ -1,4 +1,4 @@
-const __BOT__VERSION__ = '1.6.4';
+const __BOT__VERSION__ = '1.7.0';
 
 // 인증 파일 로드
 const auth = require('./config/auth.json');
@@ -81,7 +81,7 @@ client.once('ready', () => {
 
   client.version = `v${__BOT__VERSION__}`;
   client.updateTime = parseInt(fs.statSync(__filename).mtimeMs);
-  client.user.setPresence({ activity: { name: `옴닉 ${client.version}` }, status: 'online' });
+  client.user.setPresence({ activity: { name: `${client.version} - Initializing` }, status: 'online' });
 });
 
 // 서버 가입시 처리
@@ -109,7 +109,7 @@ client.on('guildCreate', async guild => {
   }
 
   welcomeChannel.send(
-    '미스티, 시어리, 트루리! 매지컬 리본, 스파이럴!\n' +
+    'Misty, Theory, Truly! 매지컬 리본, 스파이럴!\n' +
     '마법 탐정 미스티★카스미, 마법의 힘으로 수사 개시!\n' +
     '초기 설정을 하는 중이니까 잠시만 기다려주게나! 조수 군!'
   );
@@ -164,7 +164,7 @@ client.on('message', async message => {
 
   // 매개 변수가 입력되지 않았을 경우 처리
   if((command.hasArgument && (!command.hideCommand) && !args.length)) {
-    let text = '조수 군! 이 명령어는 매개 변수가 필요해';
+    let text = '조수 군! 이 명령어는 매개 변수가 필요하다네.';
 
     if(command.usages)
       text +=
@@ -243,7 +243,14 @@ client.on('message', async message => {
   }
 });
 
-// client.on('debug', info => console.debug(dateFormat(), '[DEBG]', info));
+client.on('debug', info => {
+  if(info.match('HeartbeatTimer') !== null)
+    client.user.setPresence({
+      activity: { name: `${client.version} - Uptime: ${global.fn.secondsToHuman(parseInt(process.uptime()))}` },
+      status: 'online'
+    });
+  // console.debug(dateFormat(), '[DEBG]', info);
+});
 client.on('warn', info => console.warn(dateFormat(), '[WARN]', info));
 client.on('error', error => {
   client.users.cache.get(auth.owner_id).send(`${dateFormat()} [cERR] ${error}\n\`\`\`${error.stack}\`\`\``);

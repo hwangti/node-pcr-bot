@@ -235,10 +235,10 @@ module.exports = {
       if(!(datetime instanceof Date) || isNaN(datetime.getTime()))
         return message.channel.send(
           '조수 군! 날짜 형식이 잘못되었다네.\n' +
-          '예: `2020-03-23 15:00:00` (JavaScript 날짜 형식)'
+          '예: `2020-03-23` (JavaScript 날짜 형식)'
         );
 
-      config.clanbattle_start_time = global.dateFormat(datetime);
+      config.clanbattle_start_time = global.dateFormat(datetime, 'yyyy-MM-dd');
 
       this.execute(message, ['시작일']);
       break;

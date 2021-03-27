@@ -1,5 +1,25 @@
+/* eslint-disable no-unused-vars */
 module.exports.numberFormat = number => {
   return (number || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
+
+module.exports.secondsToHuman = seconds => {
+  const levels = [
+    [Math.floor(seconds / 31536000), 'y'],
+    [Math.floor((seconds % 31536000) / 86400), 'd'],
+    [Math.floor(((seconds % 31536000) % 86400) / 3600), 'h'],
+    [Math.floor((((seconds % 31536000) % 86400) % 3600) / 60), 'm'],
+    [(((seconds % 31536000) % 86400) % 3600) % 60, 's'],
+  ];
+
+  let returntext = '';
+  for(let i=0, cnt=0, max=levels.length; i<max; i++) {
+    if(levels[i][0] === 0) continue;
+    returntext += levels[i][0] + levels[i][1] + ' ';
+    if(++cnt >= 2) break;
+  }
+
+  return returntext.trim();
 };
 
 module.exports.sortObject = obj => {
@@ -48,11 +68,7 @@ function printNicknames(memberId, message, linked_id, text) {
 }
 
 function getDecoratedName(displayName, primary) {
-  let string = '';
-  string += (displayName !== primary) ? `${displayName}(${primary})` : displayName;
-  string += '';
-
-  return string;
+  return (displayName !== primary) ? `${displayName}(${primary})` : displayName;
 }
 
 // function getDecoratedName(displayName, primary) {

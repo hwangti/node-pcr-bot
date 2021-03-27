@@ -76,7 +76,7 @@ module.exports = {
       }
 
       // 캐릭터딜량으로 추정되는 문자열 처리 (예: 카오리456405)
-      if(charLength < 5 && dealLength < 5 && (match = argument.match(/^([()가-힣]+)(\d{1,7})$/)) !== null) {
+      if(charLength < 5 && dealLength < 5 && (match = argument.match(/^([()가-힣]+)(\d{1,8})$/)) !== null) {
         let unitId = Object.keys(units).find(id => units[id].unit_alias.includes(match[1]));
         let damage = parseInt(match[2]);
 
@@ -120,7 +120,7 @@ module.exports = {
       }
 
       // 캐릭터로 추정되는 문자열 처리
-      if(charLength < 5 && config.sheet_type != 'C9' && /^[()가-힣]+$/.test(argument)) {
+      if(charLength < 5 && /^[()가-힣]+$/.test(argument)) {
         let unitId = Object.keys(units).find(id => units[id].unit_alias.includes(argument));
 
         if(unitId == null) {
@@ -147,12 +147,6 @@ module.exports = {
       // 표본으로 추정되는 문자열 처리
       if(/^\/[01]$/.test(argument)) {
         isSample = !!parseInt(argument[1]);
-        continue;
-      }
-
-      // C9 전용, "마딜" 이라고 치면 체크박스 처리
-      if(config.sheet_type === 'C9' && argument === '마딜') {
-        isSample = true;
         continue;
       }
 
@@ -231,23 +225,23 @@ module.exports = {
     const insertRange = getOptions.range.replace(rangePattern, `$1!$2${lastRowNum}:$4${lastRowNum}`);
     const insertValues = [[]];
 
-    if(insertIdx.date    != null) insertValues[0][insertIdx.date]    = global.dateFormat(dateObject, 'yyyy-MM-dd');
+    if(insertIdx.date      != null) insertValues[0][insertIdx.date]      = global.dateFormat(dateObject, 'yyyy-MM-dd');
     if(insertIdx.nickname  != null) insertValues[0][insertIdx.nickname]  = linked_id[memberId].primary;
-    if(insertIdx.char_1  != null) insertValues[0][insertIdx.char_1]  = chars[0].sheet_name;
-    if(insertIdx.char_2  != null) insertValues[0][insertIdx.char_2]  = chars[1].sheet_name;
-    if(insertIdx.char_3  != null) insertValues[0][insertIdx.char_3]  = chars[2].sheet_name;
-    if(insertIdx.char_4  != null) insertValues[0][insertIdx.char_4]  = chars[3].sheet_name;
-    if(insertIdx.char_5  != null) insertValues[0][insertIdx.char_5]  = chars[4].sheet_name;
-    if(insertIdx.deal_1  != null) insertValues[0][insertIdx.deal_1]  = chars[0].damage;
-    if(insertIdx.deal_2  != null) insertValues[0][insertIdx.deal_2]  = chars[1].damage;
-    if(insertIdx.deal_3  != null) insertValues[0][insertIdx.deal_3]  = chars[2].damage;
-    if(insertIdx.deal_4  != null) insertValues[0][insertIdx.deal_4]  = chars[3].damage;
-    if(insertIdx.deal_5  != null) insertValues[0][insertIdx.deal_5]  = chars[4].damage;
+    if(insertIdx.char_1    != null) insertValues[0][insertIdx.char_1]    = chars[0].sheet_name;
+    if(insertIdx.char_2    != null) insertValues[0][insertIdx.char_2]    = chars[1].sheet_name;
+    if(insertIdx.char_3    != null) insertValues[0][insertIdx.char_3]    = chars[2].sheet_name;
+    if(insertIdx.char_4    != null) insertValues[0][insertIdx.char_4]    = chars[3].sheet_name;
+    if(insertIdx.char_5    != null) insertValues[0][insertIdx.char_5]    = chars[4].sheet_name;
+    if(insertIdx.deal_1    != null) insertValues[0][insertIdx.deal_1]    = chars[0].damage;
+    if(insertIdx.deal_2    != null) insertValues[0][insertIdx.deal_2]    = chars[1].damage;
+    if(insertIdx.deal_3    != null) insertValues[0][insertIdx.deal_3]    = chars[2].damage;
+    if(insertIdx.deal_4    != null) insertValues[0][insertIdx.deal_4]    = chars[3].damage;
+    if(insertIdx.deal_5    != null) insertValues[0][insertIdx.deal_5]    = chars[4].damage;
     if(insertIdx.deal_sum  != null) insertValues[0][insertIdx.deal_sum]  = dealSum;
     if(insertIdx.is_kill   != null) insertValues[0][insertIdx.is_kill]   = undefined;
     if(insertIdx.is_bonus  != null) insertValues[0][insertIdx.is_bonus]  = undefined;
     if(insertIdx.is_sample != null) insertValues[0][insertIdx.is_sample] = isSample;
-    if(insertIdx.memo    != null) insertValues[0][insertIdx.memo]    = memo;
+    if(insertIdx.memo      != null) insertValues[0][insertIdx.memo]      = memo;
 
     // 격파 체크 처리 (RIMA)
     if(sheetConfig.boss_hp_type == 'BEFORE' && insertIdx.is_kill != null) {
@@ -394,7 +388,7 @@ module.exports = {
       embed.fields.push({ name: '메모', value: updatedData[0][fullIdx.memo] });
 
     if(!isSilent) return botMessage.edit('', { embed: embed });
-    message.react('✅');
-    return true;
+    // message.react('✅');
+    return embed;
   }
 };

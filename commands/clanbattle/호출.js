@@ -38,6 +38,7 @@ module.exports = {
     const linked_id = config.linked_id;
     const bossNames = config.boss_names;
     let callState = config.call_state;
+    let lastMsgId = message.client[`callLastId_${message.guild.id}`];
 
     /* 매개 변수 처리 시작 */
     let mode = null;
@@ -46,6 +47,7 @@ module.exports = {
     let entries = [];
 
     let argument = null;
+    let isUpdate = false;
     let entryIndex = -1;
     let memoPrefix = MEMO_PARSE_IDLE;
     let errorString = '';
@@ -73,7 +75,7 @@ module.exports = {
 
         // 네임드 정보로 추정되는 문자열 처리 (1 ... 5, 24-4 둘 다 처리)
         if((match = argument.match(/^(([1-9][0-9]?)-)?([1-5])넴?$/)) !== null) {
-          namedNumber = match[0];
+          namedNumber = match[3];
           continue;
         }
 
@@ -116,12 +118,18 @@ module.exports = {
           continue;
         }
       }
+
+      // 수정할 메시지인지 확인
+      if(/^\/U$/.test(argument)) {
+        isUpdate = true;
+        continue;
+      }
       /* 일반적인 처리 */
 
       // 메모 처리 (공백 있는 경우)
       if(
         memoPrefix === MEMO_PARSE_ING &&
-        ((match = argument.match(/^["']?([!%&()*+,\-.:;<=>?_~0-9A-Za-zㄱ-ㅎㅏ-ㅣ가-힣]+)["']?$/)) !== null)
+        ((match = argument.match(/^["']?([ !%&()*+,\-.:;<=>?_~0-9A-Za-zㄱ-ㅎㅏ-ㅣ가-힣]+)["']?$/)) !== null)
       ) {
         if(entries[entryIndex] == null) {
           entries.push({ id: '', memo: '' });
@@ -152,7 +160,7 @@ module.exports = {
       errorString += '조수 군! 네임드 정보를 입력해주게나. (예: `24-4`)\n';
 
     if(errorString.length > 0)
-      return message.channel.send(errorString);
+      return message.channel.send(errorString).then(m => m.delete({ timeout: 7500 })).catch();
     /* 매개 변수 처리 완료 */
 
 
@@ -162,7 +170,7 @@ module.exports = {
 
       for(const key in callState) {
         // 네임드 정보가 입력되었다면 해당 정보만 출력
-        if(namedNumber !== null && key !== namedNumber) continue;
+        // if(namedNumber !== null && key !== namedNumber) continue;
 
         // 등록된 멤버가 없으면 무시
         if(callState[key].length === 0) continue;
@@ -175,23 +183,108 @@ module.exports = {
         }).join(' ') + '\n';
       }
 
-      if(callString.length < 10)
-        return message.channel.send('호출 등록된 멤버가 없다네.');
-
-      return message.channel.send({ embed: {
+      const embed = {
         color: '#518FF5',
-        title: '호출 명단 확인',
-        description: callString
-      }});
+        title: '호출(예약) 명단 확인',
+        description: callString.length > 10 ? callString : '(없음)',
+        footer: { text: '설명: 1️⃣2️⃣3️⃣4️⃣5️⃣네임드등록 ❌삭제' }
+      };
+
+      // 메시지 전송 또는 수정
+      let botMessage = null;
+      let isSuccess = false;
+      if(isUpdate && lastMsgId) {
+        try {
+          botMessage = await message.client.channels.cache.get(lastMsgId[0]).messages.fetch(lastMsgId[1]);
+          botMessage.edit({ embed: embed });
+          isSuccess = true;
+        } catch(e) { /* do nothing */ }
+      }
+
+      if(isSuccess === false) {
+        if(lastMsgId) {
+          // 이전 메시지의 리액션이 있다면 모두 삭제
+          try {
+            botMessage = await message.client.channels.cache.get(lastMsgId[0]).messages.fetch(lastMsgId[1]);
+            botMessage.reactions.removeAll();
+          } catch(e) { /* do nothing */ }
+        }
+        botMessage = await message.channel.send({ embed: embed });
+        message.client[`callLastId_${message.guild.id}`] = [botMessage.channel.id, botMessage.id]; // 메시지 id 저장
+        const collector = botMessage.createReactionCollector(
+          reaction => emoji.includes(reaction.emoji.name), { time: 43200*1000 }
+        );
+
+        // 리액션 등록 (나중에 제거하기 쉽게 먼저)
+        const emoji = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '❌'];
+        // const emoji = ['1️⃣', '❌'];
+        emoji.forEach(emoji => botMessage.react(emoji));
+
+        collector.on('collect', async (reaction, user) => {
+          if(user.bot === true) return; // 봇 리액션 무시
+          message.author = user; // 리액션 정보로 해당 유저 설정
+
+          if(reaction.emoji.name === '❌') {
+            const prompt = await message.channel.send({ embed: {
+              footer: { text: '삭제할 네임드 번호를 입력하게. (10초 이내)\n해당 네임드 전부를 삭제하려면 /ALL 추가 입력.'}
+            }});
+
+            message.channel.awaitMessages(m => user.id === m.author.id, { max: 1, time: 20000, errors: ['time'] })
+              .then(answer => {
+                this.execute(message, ['삭제', '/U'].concat(answer.first().content.trim().split(/ +/g)));
+                prompt.delete().then().catch();
+                answer.first().delete().then().catch();
+              })
+              .catch(() => prompt.delete().then().catch());
+          } else {
+            const bossNum = emoji.findIndex(value => value === reaction.emoji.name);
+            const prompt = await message.channel.send({ embed: {
+              footer: { text: '메모가 있으면 입력하게. (20초 이내)\n없으면 ㄴㄴ 입력.'}
+            }});
+            // await prompt.react('☑️'); // checkbox
+
+            message.channel.awaitMessages(m => user.id === m.author.id, { max: 1, time: 20000, errors: ['time'] })
+              .then(answer => {
+                let ans = answer.first().content.trim();
+                ['sㄴ', 'ㄴㄴ'].includes(ans) ?
+                  this.execute(message,['등록', '/U', `${bossNum+1}`]) :
+                  this.execute(message,['등록', '/U', `${bossNum+1}`].concat('"' + answer.first().content.trim() + '"'));
+
+                prompt.delete().then().catch();
+                answer.first().delete().then().catch();
+              })
+              .catch(() => {
+                this.execute(message,['등록', '/U', `${bossNum+1}`]);
+                prompt.delete().then().catch();
+              });
+            // prompt.awaitReactions((r, u) => r.emoji.name === '☑️' && u.id === user.id, { max: 1, time: 21000, errors: ['time'] })
+            //   .then(() => {
+            //     this.execute(message, ['등록', '/U', `${bossNum+1}`]);
+            //     prompt.delete();
+            //   })
+            //   .catch(() => {
+            //     this.execute(message,['등록', '/U', `${bossNum+1}`]);
+            //     prompt.delete().then().catch();
+            //   });
+          }
+          reaction.users.remove(user.id).then().catch();
+        });
+        collector.on('end', collected => {
+          if(collected.length) collected.first().message.reactions.removeAll().then().catch();
+        });
+      }
+      return;
     }
     case CALL_MODE_CALL: {
-      if(namedNumber === null)
-        return message.channel.send('조수 군! 호출할 네임드 정보가 없다네. (예: `24-4`)');
+      if(namedNumber === null) {
+        if(isUpdate) return; // 모집하면서 호출하는 경우 명단이 없으면 무시
+        return message.channel.send('조수 군! 호출할 네임드 정보가 없다네. (예: `4` 또는 `24-4`)').then(m => m.delete({ timeout: 7500 })).catch();
+      }
 
-      if( Object.keys(callState).length === 0 ||
-        !callState[namedNumber] || callState[namedNumber].length === 0
-      )
-        return message.channel.send('조수 군! 호출할 명단이 없다네.');
+      if(Object.keys(callState).length === 0 || !callState[namedNumber] || callState[namedNumber].length === 0) {
+        if(isUpdate) return; // 모집하면서 호출하는 경우 명단이 없으면 무시
+        return message.channel.send('조수 군! 호출할 명단이 없다네.').then(m => m.delete({ timeout: 7500 })).catch();
+      }
 
       for(const key in callState) {
         // 특정 네임드 정보가 입력되었다면 그것만 출력하게끔 함
@@ -207,7 +300,7 @@ module.exports = {
         );
       }
 
-      return message.channel.send('조수 군! 호출할 명단이 없다네. (ERR 1)');
+      return message.channel.send('조수 군! 호출할 명단이 없다네. (ERR 1)').then(m => m.delete({ timeout: 7500 })).catch();
     }
     case CALL_MODE_ADD: {
       // 네임드 정보가 존재하지 않으면 등록
@@ -223,6 +316,11 @@ module.exports = {
         let isExists = false;
         for(const n in callState[namedNumber]) {
           if(entries[e].id === callState[namedNumber][n].id) {
+            // 등록되어 있지만 메모가 다른 경우
+            if(entries[e].memo !== callState[namedNumber][n].memo) {
+              callState[namedNumber][n].memo = entries[e].memo;
+              ++addCount;
+            }
             isExists = true;
             break;
           }
@@ -235,22 +333,21 @@ module.exports = {
       }
 
       if(addCount === 0)
-        return message.channel.send('조수 군! 이미 등록되어 있다네.');
+        return message.channel.send('조수 군! 이미 등록되어 있다네.').then(m => m.delete({ timeout: 7500 })).catch();
 
-      message.channel.send('등록 완료' +
-        (entries.length > 1 ? ` (${entries.length}명 중 ${addCount}명)` : ''));
-      this.execute(message, ['확인', namedNumber]);
+      // message.channel.send('등록 완료' +
+      //   (entries.length > 1 ? ` (${entries.length}명 중 ${addCount}명)` : ''));
       break;
     }
     case CALL_MODE_DELETE: {
       // 보스가 존재하지 않는 경우
       if(namedNumber in callState === false)
-        return message.channel.send('조수 군! 네임드 정보를 찾을 수 없다네.');
+        return message.channel.send('조수 군! 네임드 정보를 찾을 수 없다네.').then(m => m.delete({ timeout: 7500 })).catch();
 
       // 일괄 삭제 기능
       if(deleteAll === true) {
         delete callState[namedNumber];
-        message.channel.send(`일괄 삭제 완료: \`${namedNumber}\``);
+        message.channel.send(`일괄 삭제 완료: \`${namedNumber}\``).then(m => m.delete({ timeout: 7500 })).catch();
         break;
       }
 
@@ -274,20 +371,19 @@ module.exports = {
         delete callState[namedNumber];
 
       if(length === 0)
-        return message.channel.send('조수 군! 호출 명단에 등록되어 있지 않다네.');
+        return message.channel.send('조수 군! 호출 명단에 등록되어 있지 않다네.').then(m => m.delete({ timeout: 7500 })).catch();
 
-      message.channel.send('삭제 완료' +
-        (entries.length > 1 ? ` (${entries.length}명 중 ${length}명)` : ''));
-      this.execute(message, ['확인', namedNumber]);
+      // message.channel.send('삭제 완료' +
+      //   (entries.length > 1 ? ` (${entries.length}명 중 ${length}명)` : ''));
       break;
     }
     case CALL_MODE_MEMO: {
       // 보스가 존재하지 않는 경우
       if(namedNumber in callState === false)
-        return message.channel.send('조수 군! 네임드 정보를 찾을 수 없다네.');
+        return message.channel.send('조수 군! 네임드 정보를 찾을 수 없다네.').then(m => m.delete({ timeout: 7500 })).catch();
 
       if(entries.length > 1)
-        return message.channel.send('조수 군! 메모는 한 명씩 변경 가능하다네. (오조작 방지)');
+        return message.channel.send('조수 군! 메모는 한 명씩 변경 가능하다네. (오조작 방지)').then(m => m.delete({ timeout: 7500 })).catch();
 
       let modifyCount = 0;
       for(const e in entries) {
@@ -304,21 +400,21 @@ module.exports = {
                   .awaitMessages(filter, { time: 30000, max: 1, errors: ['time'] })
                   .then(async messages => {
                     if(['ㄴㄴ'].includes(messages.first().content.trim()))
-                      return message.channel.send('실행을 취소했다네.');
+                      return message.channel.send('실행을 취소했다네.').then(m => m.delete({ timeout: 7500 })).catch();
 
                     if(['ㅇㅇ'].includes(messages.first().content.trim())) {
                       callState[namedNumber][n].memo = '';
-                      message.channel.send('메모를 삭제했다네.');
+                      message.channel.send('메모를 삭제했다네.').then(m => m.delete({ timeout: 7500 })).catch();
                     } else {
                       callState[namedNumber][n].memo =
                         messages.first().content.replace(/[\n\r"#$'/@\\^|]/g, '').trim();
-                      message.channel.send('메모를 변경했다네.');
+                      message.channel.send('메모를 변경했다네.').then(m => m.delete({ timeout: 7500 })).catch();
                     }
 
-                    this.execute(message, ['확인', namedNumber]);
+                    this.execute(message, ['확인', '/U']);
                     global.fn.saveConfig(`${global.dirname}/config/${message.guild.id}/config.json`, config);
                   }).catch(() => {
-                    message.channel.send('입력 시간이 지났으니 실행을 취소하겠네.');
+                    message.channel.send('입력 시간이 지났으니 실행을 취소하겠네.').then(m => m.delete({ timeout: 7500 })).catch();
                   });
               });
             }
@@ -331,32 +427,31 @@ module.exports = {
       }
 
       if(modifyCount === 0)
-        return message.channel.send('조수 군! 호출 명단에 등록되어 있지 않다네.');
+        return message.channel.send('조수 군! 호출 명단에 등록되어 있지 않다네.').then(m => m.delete({ timeout: 7500 })).catch();
 
-      message.channel.send('메모 변경 완료' +
-        (entries.length > 1 ? ` (${entries.length}명 중 ${modifyCount}명)` : ''));
-      this.execute(message, ['확인', namedNumber]);
+      // message.channel.send('메모 변경 완료' +
+      //   (entries.length > 1 ? ` (${entries.length}명 중 ${modifyCount}명)` : ''));
       break;
     }
     case CALL_MODE_RESET: {
       return message.channel.send(
         '경고: 모든 호출 목록을 초기화하려고 하는건가, 조수 군?\n' +
-        '맞으면 10초 이내로 `/yes` 를 입력하게나. (10초 이내)'
+        '맞으면 10초 이내로 `ㅇㅇ` 를 입력하게나. (10초 이내)'
       ).then(() => {
         const filter = m => message.author.id === m.author.id;
 
         message.channel
           .awaitMessages(filter, { time: 10000, max: 1, errors: ['time'] })
           .then(async messages => {
-            if(messages.first().content.trim() !== '/yes')
-              return message.channel.send('실행을 취소했다네.');
+            if(messages.first().content.trim() !== 'ㅇㅇ')
+              return message.channel.send('실행을 취소했다네.').then(m => m.delete({ timeout: 7500 })).catch();
 
             for(const n in callState) delete callState[n];
-            message.channel.send('호출 목록을 초기화했다네.');
+            message.channel.send('호출 목록을 초기화했다네.').then(m => m.delete({ timeout: 7500 })).catch();
 
             global.fn.saveConfig(`${global.dirname}//config/${message.guild.id}/config.json`, config);
           }).catch(() => {
-            message.channel.send('입력 시간이 지났으니 실행을 취소하겠네.');
+            message.channel.send('입력 시간이 지났으니 실행을 취소하겠네.').then(m => m.delete({ timeout: 7500 })).catch();
           });
       });
     } /* end of case */
@@ -364,5 +459,6 @@ module.exports = {
 
     // 변경된 정보 설정 파일에 저장
     global.fn.saveConfig(`${global.dirname}//config/${message.guild.id}/config.json`, config);
+    isUpdate ? this.execute(message, ['확인', '/U']) : this.execute(message, ['확인']);
   }
 };

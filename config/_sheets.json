@@ -59,6 +59,12 @@
     "check_true_range": [],
     "check_false_range": []
   },
+  "boss_info_range": "",
+  "boss_info_idx": {
+    "round": null,
+    "boss": null,
+    "remain_hp": null
+  },
   "remain_range": "",
   "remain_idx": {
     "nickname": null,
